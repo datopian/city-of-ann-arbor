@@ -1,6 +1,8 @@
 FROM ckan/ckan-dev:2.11.0
 
 USER root
+RUN mkdir /srv/app/.local && chown ckan /srv/app/.local
+USER ckan
 
 # Install any extensions needed by your CKAN instance
 # - Make sure to add the plugins to CKAN__PLUGINS in the .env file
@@ -24,7 +26,7 @@ USER root
 # will also require gather_consumer and fetch_consumer processes running (please see https://github.com/ckan/ckanext-harvest)
 
 ### Scheming ###
-#RUN  pip3 install -e 'git+https://github.com/ckan/ckanext-scheming.git@master#egg=ckanext-scheming'
+RUN  pip3 install -e 'git+https://github.com/ckan/ckanext-scheming.git@master#egg=ckanext-scheming'
 
 ### Pages ###
 #RUN  pip3 install -e git+https://github.com/ckan/ckanext-pages.git#egg=ckanext-pages
@@ -60,3 +62,7 @@ RUN for d in $APP_DIR/patches/*; do \
             done ; \
         fi ; \
     done
+
+RUN ckan config-tool ${CKAN_INI} "scheming.dataset_schemas = ckanext.ann_arbor:ckan_dataset.yaml"
+RUN ckan config-tool ${CKAN_INI} "ckan.scheming.dataset_schemas = ckanext.ann_arbor:ckan_dataset.yaml"
+

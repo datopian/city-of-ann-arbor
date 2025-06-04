@@ -1,0 +1,14 @@
+# ann_arbor-js:
+#   filter: rjsmin
+#   output: ckanext-ann_arbor/%(version)s-ann_arbor.js
+#   contents:
+#     - js/ann_arbor.js
+#   extra:
+#     preload:
+#       - base/main
+
+# ann_arbor-css:
+#   filter: cssrewrite
+#   output: ckanext-ann_arbor/%(version)s-ann_arbor.css
+#   contents:
+#     - css/ann_arbor.css
