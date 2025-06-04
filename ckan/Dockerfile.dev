@@ -33,6 +33,9 @@ USER root
 #RUN  pip3 install -e git+https://github.com/ckan/ckanext-dcat.git@v0.0.6#egg=ckanext-dcat && \
 #     pip3 install -r https://raw.githubusercontent.com/ckan/ckanext-dcat/v0.0.6/requirements.txt
 
+## Oauth2
+RUN pip install -e git+https://github.com/datopian/ckanext-oauth2.git@f1251aba1138a8f3224f675aa9a1e588517f741c#egg=ckanext-oauth2
+
 # Clone the extension(s) your are writing for your own project in the `src` folder
 # to get them mounted in this image at runtime
 RUN pip install -r https://raw.githubusercontent.com/datopian/ckanext-s3filestore/ckan-2.10/requirements.txt && \
@@ -42,6 +45,9 @@ USER ckan
 
 # Copy custom initialization scripts
 COPY docker-entrypoint.d/* /docker-entrypoint.d/
+
+# Copy oauth2 config
+COPY setup/oauth2_config.yaml ${SRC_DIR}
 
 # Apply any patches needed to CKAN core or any of the built extensions (not the
 # runtime mounted ones)
