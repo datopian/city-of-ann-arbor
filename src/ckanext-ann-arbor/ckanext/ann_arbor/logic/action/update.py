@@ -26,3 +26,6 @@ def package_update(up_func, context, data_dict):
     if dashboard_thumbnail and not dashboard_thumbnail.startswith("http"):
         data_dict['dashboard_thumbnail'] = tk.h.url_for_static(
         'uploads/group/%s' % dashboard_thumbnail, qualified=True)
+    result = up_func(context, data_dict)
+
+    return result
