@@ -63,6 +63,3 @@ RUN for d in $APP_DIR/patches/*; do \
         fi ; \
     done
 
-RUN ckan config-tool ${CKAN_INI} "scheming.dataset_schemas = ckanext.ann_arbor:ckan_dataset.yaml"
-RUN ckan config-tool ${CKAN_INI} "ckan.scheming.dataset_schemas = ckanext.ann_arbor:ckan_dataset.yaml"
-
