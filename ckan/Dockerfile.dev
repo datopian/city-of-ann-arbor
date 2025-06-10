@@ -26,14 +26,14 @@ USER ckan
 # will also require gather_consumer and fetch_consumer processes running (please see https://github.com/ckan/ckanext-harvest)
 
 ### Scheming ###
-RUN  pip3 install -e 'git+https://github.com/ckan/ckanext-scheming.git@master#egg=ckanext-scheming'
+RUN pip3 install -e 'git+https://github.com/ckan/ckanext-scheming.git@master#egg=ckanext-scheming'
 
 ### Pages ###
 #RUN  pip3 install -e git+https://github.com/ckan/ckanext-pages.git#egg=ckanext-pages
 
 ### DCAT ###
-#RUN  pip3 install -e git+https://github.com/ckan/ckanext-dcat.git@v0.0.6#egg=ckanext-dcat && \
-#     pip3 install -r https://raw.githubusercontent.com/ckan/ckanext-dcat/v0.0.6/requirements.txt
+RUN pip install -e git+https://github.com/ckan/ckanext-dcat.git@dd3b1e8deaea92d8a789e3227882203a47ce650f#egg=ckanext-dcat && \
+    pip install -r https://raw.githubusercontent.com/ckan/ckanext-dcat/dd3b1e8deaea92d8a789e3227882203a47ce650f/requirements.txt
 
 ## Oauth2
 RUN pip install -e git+https://github.com/datopian/ckanext-oauth2.git@f1251aba1138a8f3224f675aa9a1e588517f741c#egg=ckanext-oauth2
@@ -62,7 +62,4 @@ RUN for d in $APP_DIR/patches/*; do \
             done ; \
         fi ; \
     done
-
-RUN ckan config-tool ${CKAN_INI} "scheming.dataset_schemas = ckanext.ann_arbor:ckan_dataset.yaml"
-RUN ckan config-tool ${CKAN_INI} "ckan.scheming.dataset_schemas = ckanext.ann_arbor:ckan_dataset.yaml"
 
