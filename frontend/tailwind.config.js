@@ -34,15 +34,12 @@ module.exports = {
         darkerbrown: "#964800",
         background: {
           DEFAULT: colors.white,
-          dark: colors.slate[900],
         },
         primary: {
           DEFAULT: colors.gray[700],
-          dark: colors.gray[300],
         },
         secondary: {
           DEFAULT: "",
-          dark: "",
         },
       },
 

@@ -26,7 +26,7 @@ export default function LighterThemeHeader() {
   return (
     <header className="bg-transparent ">
       <nav
-        className={`mx-auto py-5 flex custom-container justify-between  ${theme.styles.containerWide}`}
+        className={`mx-auto pt-5 pb-9 flex custom-container justify-between  ${theme.styles.containerWide}`}
         aria-label="Global"
       >
         <Brand />
