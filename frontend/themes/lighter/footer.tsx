@@ -1,4 +1,4 @@
-import PortalDefaultLogo from "@/components/_shared/PortalDefaultLogo";
+import Brand from "@/components/_shared/PortalDefaultLogo";
 import { useTheme } from "@/components/theme/theme-provider";
 import Image from "next/image";
 
@@ -180,7 +180,7 @@ const LighterThemeFooter: React.FC = () => {
       <div
         className={`custom-container flex flex-col flex-wrap py-6 mx-auto md:items-center lg:items-start md:flex-row md:flex-nowrap`}
       >
-        <PortalDefaultLogo />
+        <Brand />
       </div>
     </footer>
   );

@@ -1,4 +1,4 @@
-import PortalDefaultLogo from "@/components/_shared/PortalDefaultLogo";
+import Brand from "@/components/_shared/PortalDefaultLogo";
 import { useTheme } from "@/components/theme/theme-provider";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/20/solid";
@@ -11,7 +11,6 @@ export default function LighterThemeHeader() {
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { theme } = useTheme();
-  const portalLogo = process?.env?.NEXT_PUBLIC_PORTAL_LOGO;
 
   useEffect(() => {
     const handleRouteChange = () => {
@@ -27,59 +26,57 @@ export default function LighterThemeHeader() {
   return (
     <header className="bg-transparent ">
       <nav
-        className={`mx-auto py-4 flex custom-container items-center justify-between  ${theme.styles.containerWide}`}
+        className={`mx-auto py-5 flex custom-container justify-between  ${theme.styles.containerWide}`}
         aria-label="Global"
       >
-        <div className="flex items-center gap-x-12">
-          <span className="sr-only">Portal</span>
-          {portalLogo ? (
-            <Link href="/">
-              <Image src={portalLogo} alt="logo" height={55} width={55} />
+        <Brand />
+        <div className="hidden lg:flex lg:gap-x-12">
+          <div className="flex gap-x-9 mt-5 text-xl">
+            <Link
+              href="/search"
+              className={`${
+                router.pathname === "/search" ? "text-accent" : ""
+              }`}
+            >
+              Datasets
             </Link>
-          ) : (
-            <PortalDefaultLogo />
-          )}
-
-          <div className="hidden lg:flex lg:gap-x-12">
-            <div className="flex gap-x-8 align-center">
-              <Link
-                href="/search"
-                className={`font-semibold my-auto ${
-                  router.pathname === "/search" ? "text-accent" : ""
-                }`}
-              >
-                SEARCH
-              </Link>
-              <Link
-                href="/organizations"
-                className={`font-semibold my-auto ${
-                  router.pathname === "/organizations" ? "text-accent" : ""
-                }`}
-              >
-                ORGANIZATIONS
-              </Link>
-              <Link
-                href="/groups"
-                className={`font-semibold my-auto ${
-                  router.pathname === "/groups" ? "text-accent" : ""
-                }`}
-              >
-                GROUPS
-              </Link>
-            </div>
+            <Link
+              href="/organizations"
+              className={`${
+                router.pathname === "/organizations" ? "text-accent" : ""
+              }`}
+            >
+              Topics
+            </Link>
+            <Link
+              href="/groups"
+              className={`${
+                router.pathname === "/groups" ? "text-accent" : ""
+              }`}
+            >
+              Organizations
+            </Link>
+            <Link
+              href="/groups"
+              className={`${
+                router.pathname === "/groups" ? "text-accent" : ""
+              }`}
+            >
+              About AA
+            </Link>
           </div>
         </div>
-        <div className="flex lg:hidden">
-          <button
-            type="button"
-            className="inline-flex items-center justify-center rounded-md p-2.5 text-gray-700 bg-white"
-            onClick={() => setMobileMenuOpen(true)}
-          >
-            <span className="sr-only">Open main menu</span>
-            <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-          </button>
-        </div>
       </nav>
+      <div className="flex lg:hidden">
+        <button
+          type="button"
+          className="inline-flex items-center justify-center rounded-md p-2.5 text-gray-700 bg-white"
+          onClick={() => setMobileMenuOpen(true)}
+        >
+          <span className="sr-only">Open main menu</span>
+          <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+        </button>
+      </div>
       <Dialog
         as="div"
         className="lg:hidden"

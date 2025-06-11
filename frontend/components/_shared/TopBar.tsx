@@ -17,9 +17,9 @@ export default function Example() {
           <Link href="/">
             <img
               src="/images/logos/MainLogo.svg"
-              width="60px"
-              height="60px"
-              alt="Portal"
+              width="100px"
+              height="100px"
+              alt="City of Ann Arbor Logo"
             ></img>
           </Link>
           <div className="hidden lg:flex lg:gap-x-12">
@@ -63,9 +63,9 @@ export default function Example() {
             <Link href="/" className="-m-1.5 p-1.5">
               <img
                 src="/images/logos/MainLogo.svg"
-                width="60px"
-                height="60px"
-                alt="Portal"
+                width="100px"
+                height="100px"
+                alt="City of Ann Arbor Logo"
               ></img>
             </Link>
             <button

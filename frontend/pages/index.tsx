@@ -40,8 +40,8 @@ export default function Home({
   return (
     <>
       <Head>
-        <title>Open Data Portal Demo</title>
-        <meta name="description" content="Open Data Portal Demo" />
+        <title>City of Ann Arbor Open Data Portal</title>
+        <meta name="description" content="City of Ann Arbor Open Data Portal" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <HeroSectionLight stats={stats} />
