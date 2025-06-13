@@ -1,9 +1,13 @@
-import Image from "next/image";
 import Link from "next/link";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
+import { PopularDashboardCard } from "./PopularDashboardCard";
 
 export function PopularDashboards() {
   return (
-    <section className="flex flex-col items-center gap-y-11">
+    <section className="flex flex-col items-center gap-y-11 pb-44">
       <div className="text-center flex flex-col space-y-4">
         <h2 className="font-extrabold text-4xl">Popular dashboards</h2>
         <p className="max-w-[570px] text-[#534F5D] text-xl">
@@ -14,31 +18,31 @@ export function PopularDashboards() {
           <span className="underline">All dashboards</span> →
         </Link>
       </div>
-      <div>
-        <div className="border-[2px] border-[#D9D9D9] p-3 rounded-[5px] space-y-10">
-          <div className="aspect-video relative rounded-[5px] overflow-hidden">
-            <Image
-              src="/images/dashboard-mock-1.png"
-              alt="Dashboard 1"
-              fill={true}
-            />
-          </div>
+      <div className="w-full bg-gradient-to-t from-[#EBF5EC26] via-[#E2F1E4] via-20% to-[#FFFFFF] to-65%">
+        <div className="w-full px-24 pb-28 ">
+          <Swiper
+            spaceBetween={35}
+            slidesPerView={3}
+            modules={[Pagination]}
+            pagination={{ clickable: true, el: "#pagination" }}
+          >
+            <SwiperSlide>
+              <PopularDashboardCard />
+            </SwiperSlide>
+            <SwiperSlide>
+              <PopularDashboardCard />
+            </SwiperSlide>
 
-          <div className="space-y-3 px-2 max-w-lg">
-            <h3 className="font-bold text-3xl">
-              City Budget Expenditures by Department – FY2024
-            </h3>
-            <p className="text-[#6E6E6E] text-sm leading-[20px] line-clamp-4 text-ellipsis h-[6em]">
-              Detailed breakdown of city expenditures by department and program
-              for the fiscal year 2024. Includes general fund allocations,
-              capital improvements, and grant-funded initiatives.{" "}
-            </p>
-          </div>
+            <SwiperSlide>
+              <PopularDashboardCard />
+            </SwiperSlide>
 
-          <div className="px-2 pb-5">
-            <button className="bg-accent text-white font-bold px-3 py-2 rounded-[5px]">
-              Explore dashboard →
-            </button>
+            <SwiperSlide>
+              <PopularDashboardCard />
+            </SwiperSlide>
+          </Swiper>
+          <div className="flex justify-center mt-12">
+            <div id="pagination"></div>
           </div>
         </div>
       </div>

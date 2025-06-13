@@ -10,6 +10,9 @@
   --accent: hsl(182, 100%, 38%);
   --indicator-size: 3px;
   --text-active-color: black;
+  --swiper-pagination-color: #3F3F3F;
+  --swiper-pagination-bullet-inactive-color: #C7C7C7;
+  --swiper-pagination-bullet-inactive-opacity: 1;
 }
 
 a {
@@ -115,4 +118,10 @@ snap-tabs {
 .react-datepicker__month,
 .react-datepicker__month-text{
   margin:0!important;
+}
+
+// Swiper
+
+.swiper-pagination-bullets.swiper-pagination-horizontal {
+  width: auto !important;
 }
