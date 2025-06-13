@@ -1,12 +1,12 @@
 import type { InferGetServerSidePropsType } from "next";
 import Head from "next/head";
-import MainSection from "../components/home/mainSection/MainSection";
 import { searchDatasets } from "@/lib/queries/dataset";
 import { getAllGroups } from "@/lib/queries/groups";
 import { getAllOrganizations } from "@/lib/queries/orgs";
 import HeroSection from "@/components/home/heroSectionLight";
 import NavBar from "@/components/_shared/NavBar";
 import { PopularDashboards } from "@/components/home/PopularDashboards";
+import { RecentlyAdded } from "@/components/home/RecentlyAdded";
 
 export async function getServerSideProps() {
   const datasets = await searchDatasets({
@@ -52,6 +52,7 @@ export default function Home({
         <div className="absolute bottom-0 left-0 w-full h-[222px] bg-[url('/images/bg-image.jpg')] bg-contain"></div>
       </div>
       <PopularDashboards />
+      <RecentlyAdded />
     </div>
   );
 }

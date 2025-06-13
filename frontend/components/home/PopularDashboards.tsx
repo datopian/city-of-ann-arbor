@@ -7,7 +7,7 @@ import { PopularDashboardCard } from "./PopularDashboardCard";
 
 export function PopularDashboards() {
   return (
-    <section className="flex flex-col items-center gap-y-11 pb-44">
+    <section className="flex flex-col items-center gap-y-11">
       <div className="text-center flex flex-col space-y-4">
         <h2 className="font-extrabold text-4xl">Popular dashboards</h2>
         <p className="max-w-[570px] text-[#534F5D] text-xl">
