@@ -2,7 +2,7 @@ const colors = require("tailwindcss/colors");
 const Color = require("color");
 const defaultTheme = require("tailwindcss/defaultTheme");
 
-const themeColor = process.env.NEXT_PUBLIC_THEME_COLOR || "#4977AB";
+const themeColor = "#079A6D";
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -12,7 +12,18 @@ module.exports = {
     "./lib/**/*.{js,ts,jsx,tsx}",
     "./node_modules/react-tailwindcss-datepicker/dist/index.esm.{js,ts}",
   ],
-  safelist: ["bg-red-500", "text-3xl", "lg:text-4xl"],
+  safelist: [
+    "bg-red-500",
+    "text-3xl",
+    "lg:text-4xl",
+    "bg-groups-1",
+    "bg-groups-2",
+    "bg-groups-3",
+    "bg-groups-4",
+    "bg-groups-5",
+    "bg-groups-6",
+    "bg-groups-7",
+  ],
   theme: {
     extend: {
       colors: {
@@ -27,6 +38,15 @@ module.exports = {
           600: Color(themeColor).mix(Color("#000000"), 0.3).hex(), // 30% black, 70% theme color
           700: Color(themeColor).mix(Color("#000000"), 0.5).hex(), // 50% black, 50% theme color
           800: Color(themeColor).mix(Color("#000000"), 0.7).hex(), // 70% black, 30% theme color
+        },
+        groups: {
+          1: "#D9EFD2",
+          2: "#D9F4EA",
+          3: "#E0EEE1",
+          4: "#EDF6CC",
+          5: "#D2EAEF",
+          6: "#D7E6EE",
+          7: "#E6F8EF",
         },
         lightaccent: Color(themeColor).lighten(0.3).hex(), // Lighten by 20%
         darkaccent: Color(themeColor).darken(0.3).hex(), // Darken by 20%
