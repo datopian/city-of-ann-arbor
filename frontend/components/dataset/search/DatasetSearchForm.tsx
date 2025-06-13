@@ -1,9 +1,7 @@
 import {  useState } from "react";
-import { useTheme } from "@/components/theme/theme-provider";
 import { useSearchState } from "./SearchContext";
 
 export default function DatasetSearchForm() {
-  const { theme } = useTheme();
   const { setOptions, options: searchOptions, searchFacets } = useSearchState();
   const [q, setQ] = useState("");
   const handleSubmit = (e) => {
@@ -28,7 +26,7 @@ export default function DatasetSearchForm() {
         />
 
         <button
-          className={`font-bold border-b-[4px] border-accent text-white px-12 py-3 rounded-lg bg-accent hover:bg-cyan-500 duration-150 ${theme.styles.bgDark}`}
+          className={`font-bold border-b-[4px] border-accent text-white px-12 py-3 rounded-lg bg-accent hover:bg-cyan-500 duration-150`}
           type="submit"
         >
           SEARCH

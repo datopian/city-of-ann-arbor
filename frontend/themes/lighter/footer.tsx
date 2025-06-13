@@ -1,6 +1,4 @@
 import Brand from "@/components/_shared/PortalDefaultLogo";
-import { useTheme } from "@/components/theme/theme-provider";
-import Image from "next/image";
 
 interface IconProps {
   className: string;
@@ -8,7 +6,6 @@ interface IconProps {
 }
 
 const LighterThemeFooter: React.FC = () => {
-  const { theme } = useTheme();
   const navigation = {
     about: [
       { name: "About Us", href: "https://www.datopian.com/about/" },

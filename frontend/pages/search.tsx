@@ -7,7 +7,6 @@ import DatasetSearchFilters from "@/components/dataset/search/DatasetSearchFilte
 import ListOfDatasets from "@/components/dataset/search/ListOfDatasets";
 import { searchDatasets } from "@/lib/queries/dataset";
 import HeroSection from "@/components/_shared/HeroSection";
-import { useTheme } from "@/components/theme/theme-provider";
 import { SearchStateProvider } from "@/components/dataset/search/SearchContext";
 import { PackageSearchOptions } from "@portaljs/ckan";
 
@@ -40,9 +39,6 @@ export default function DatasetSearch({
   fallback,
   searchFacets,
 }: InferGetServerSidePropsType<typeof getServerSideProps>): JSX.Element {
-  const {
-    theme: { styles },
-  } = useTheme();
 
   return (
     <>
@@ -57,7 +53,7 @@ export default function DatasetSearch({
             <section
               className={`grid row-start-3 row-span-2 col-span-full pt-4 `}
             >
-              <div className={`custom-container bg-white ${styles.shadowMd}`}>
+              <div className={`custom-container bg-white`}>
                 <DatasetSearchForm />
               </div>
             </section>

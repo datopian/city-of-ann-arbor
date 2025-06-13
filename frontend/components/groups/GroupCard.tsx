@@ -2,7 +2,6 @@ import getConfig from "next/config";
 import Image from "next/image";
 import Link from "next/link";
 import { Group } from "@portaljs/ckan";
-import { useTheme } from "../theme/theme-provider";
 import { ArrowRightIcon } from "@heroicons/react/20/solid";
 
 type GroupCardProps = Pick<
@@ -16,12 +15,11 @@ export default function GroupCard({
   description,
   name,
 }: GroupCardProps) {
-  const { theme } = useTheme();
   const url = image_display_url ? new URL(image_display_url) : undefined;
   return (
     <Link
       href={`/groups/${name}`}
-      className={`bg-white hover:bg-accent-50 group border-b-[4px] border-white hover:border-accent p-8 col-span-3 rounded-lg block h-full text-accent  ${theme.styles.shadowSm}`}
+      className={`bg-white hover:bg-accent-50 group border-b-[4px] border-white hover:border-accent p-8 col-span-3 rounded-lg block h-full text-accent`}
     >
       <Image
         src={

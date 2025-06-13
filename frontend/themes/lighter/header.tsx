@@ -1,5 +1,4 @@
 import Brand from "@/components/_shared/PortalDefaultLogo";
-import { useTheme } from "@/components/theme/theme-provider";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/20/solid";
 import Image from "next/image";
@@ -7,10 +6,9 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-export default function LighterThemeHeader() {
+export default function NavBar() {
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { theme } = useTheme();
 
   useEffect(() => {
     const handleRouteChange = () => {
@@ -26,7 +24,7 @@ export default function LighterThemeHeader() {
   return (
     <header className="bg-transparent ">
       <nav
-        className={`mx-auto pt-5 pb-9 flex custom-container justify-between  ${theme.styles.containerWide}`}
+        className={`mx-auto pt-5 pb-9 px-7 flex justify-between `}
         aria-label="Global"
       >
         <Brand />

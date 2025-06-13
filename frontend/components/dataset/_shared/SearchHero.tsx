@@ -1,4 +1,3 @@
-import { useTheme } from "@/components/theme/theme-provider";
 import { Dispatch, SetStateAction } from "react";
 
 export default function SearchHero({
@@ -10,9 +9,6 @@ export default function SearchHero({
   searchValue: string;
   onChange: Dispatch<SetStateAction<string>>;
 }) {
-  const {
-    theme: { styles },
-  } = useTheme();
   return (
     <>
       <section className="row-start-1 row-span-3 col-span-full">
@@ -28,7 +24,7 @@ export default function SearchHero({
         </div>
       </section>
       <section className={`grid row-start-3 row-span-2 col-span-full pt-4 `}>
-        <div className={`custom-container bg-white ${styles.shadowMd}`}>
+        <div className={`custom-container bg-white`}>
           <div className="">
             <form className="min-h-[70px] flex flex-col lg:flex-row bg-white pr-5 py-3 rounded-xl">
               <input

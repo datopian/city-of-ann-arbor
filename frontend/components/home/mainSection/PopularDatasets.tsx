@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Dataset } from "@portaljs/ckan";
-import { useTheme } from "@/components/theme/theme-provider";
 import { getDatasetName } from "@/lib/utils";
 
 type DatasetLinkProps = Pick<Dataset, "title" | "metadata_modified">;
@@ -11,10 +10,9 @@ export default function PopularDatasets({
 }: {
   datasets: Array<Dataset>;
 }) {
-  const { theme } = useTheme();
   return (
     <div
-      className={`bg-white text-black p-8 rounded-lg  h-full ${theme.styles.shadowSm}`}
+      className={`bg-white text-black p-8 rounded-lg  h-full`}
     >
       <div>
         <div
