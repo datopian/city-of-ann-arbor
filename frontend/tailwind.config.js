@@ -61,6 +61,7 @@ module.exports = {
         secondary: {
           DEFAULT: "",
         },
+        primaryblue: { DEFAULT: "#0787AD" },
       },
 
       fontFamily: {

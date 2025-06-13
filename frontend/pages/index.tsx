@@ -5,7 +5,8 @@ import { searchDatasets } from "@/lib/queries/dataset";
 import { getAllGroups } from "@/lib/queries/groups";
 import { getAllOrganizations } from "@/lib/queries/orgs";
 import HeroSection from "@/components/home/heroSectionLight";
-import NavBar from "@/themes/lighter/header";
+import NavBar from "@/components/_shared/NavBar";
+import { PopularDashboards } from "@/components/home/PopularDashboards";
 
 export async function getServerSideProps() {
   const datasets = await searchDatasets({
@@ -39,7 +40,7 @@ export default function Home({
   stats,
 }: InferGetServerSidePropsType<typeof getServerSideProps>): JSX.Element {
   return (
-    <div>
+    <div className="space-y-24">
       <Head>
         <title>City of Ann Arbor Open Data Portal</title>
         <meta name="description" content="City of Ann Arbor Open Data Portal" />
@@ -50,7 +51,7 @@ export default function Home({
         <HeroSection />
         <div className="absolute bottom-0 left-0 w-full h-[222px] bg-[url('/images/bg-image.jpg')] bg-contain"></div>
       </div>
-      <MainSection groups={groups} datasets={datasets} />
+      <PopularDashboards />
     </div>
   );
 }
