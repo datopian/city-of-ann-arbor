@@ -7,6 +7,7 @@ import HeroSection from "@/components/home/heroSectionLight";
 import NavBar from "@/components/_shared/NavBar";
 import { PopularDashboards } from "@/components/home/PopularDashboards";
 import { RecentlyAdded } from "@/components/home/RecentlyAdded";
+import { Footer } from "@/components/_shared/Footer";
 
 export async function getServerSideProps() {
   const datasets = await searchDatasets({
@@ -52,7 +53,10 @@ export default function Home({
         <div className="absolute bottom-0 left-0 w-full h-[222px] bg-[url('/images/bg-image.jpg')] bg-contain"></div>
       </div>
       <PopularDashboards />
-      <RecentlyAdded />
+      <div className="space-y-2">
+        <RecentlyAdded />
+        <Footer />
+      </div>
     </div>
   );
 }
