@@ -23,6 +23,7 @@ module.exports = {
     "bg-groups-5",
     "bg-groups-6",
     "bg-groups-7",
+    "bg-groups-8",
   ],
   theme: {
     extend: {
@@ -47,6 +48,7 @@ module.exports = {
           5: "#D2EAEF",
           6: "#D7E6EE",
           7: "#E6F8EF",
+          8: "#DAF3F0",
         },
         lightaccent: Color(themeColor).lighten(0.3).hex(), // Lighten by 20%
         darkaccent: Color(themeColor).darken(0.3).hex(), // Darken by 20%

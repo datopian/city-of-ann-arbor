@@ -50,7 +50,7 @@ export default function Home({
       <div className="min-h-screen bg-gradient-to-b from-[#E2F1E4] to-[#FFFFFF] to-65%">
         <NavBar />
         <HeroSection />
-        <div className="absolute bottom-0 left-0 w-full h-[222px] bg-[url('/images/bg-image.jpg')] bg-contain"></div>
+        <div className="absolute bottom-0 left-0 w-full h-[222px] bg-[url('/images/bg-image.png')] bg-contain"></div>
       </div>
       <PopularDashboards />
       <div className="space-y-2">

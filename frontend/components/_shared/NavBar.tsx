@@ -24,7 +24,7 @@ export default function NavBar() {
   return (
     <header className="bg-transparent ">
       <nav
-        className={`mx-auto pt-5 pb-9 px-7 flex justify-between `}
+        className={`mx-auto pt-5 pb-9 px-9 flex justify-between `}
         aria-label="Global"
       >
         <Brand />
@@ -60,7 +60,15 @@ export default function NavBar() {
                 router.pathname === "/groups" ? "text-accent" : ""
               }`}
             >
-              About AA
+              <span className="flex items-center flex-nowrap gap-x-1">
+                About AA{" "}
+                <Image
+                  src="/images/icons/external-link.svg"
+                  alt="external link"
+                  width={13}
+                  height={13}
+                />
+              </span>
             </Link>
           </div>
         </div>
