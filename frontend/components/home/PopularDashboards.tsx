@@ -18,7 +18,7 @@ export function PopularDashboards() {
           Dive into our popular dashboards to see what’s happening in Ann Arbor
           - from traffic patterns to tree cover.
         </p>
-        <Link href="#" className="text-xl text-ann-arbor-primary-blue">
+        <Link href="#" className="text-xl text-ann-arbor-primary-blue transition-all hover:opacity-80">
           <span className="underline">All dashboards</span>{" "}
           <ArrowSmallRightIcon className="inline w-6" />
         </Link>

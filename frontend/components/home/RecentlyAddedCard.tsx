@@ -17,7 +17,7 @@ export function RecentlyAddedCard({ variant }: { variant: 0 | 1 | 2 | 3 | 4 | 5 
   });
 
   const button = tv({
-    base: "px-3 py-2 rounded-[5px] flex items-center",
+    base: "px-3 py-2 rounded-[5px] flex items-center transition-all hover:bg-opacity-80",
     variants: {
       colors: {
         0: "bg-[#B2CDAA] text-[#3F3F3F]",

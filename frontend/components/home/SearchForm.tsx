@@ -34,7 +34,7 @@ const SearchForm: React.FC = () => {
         />
         <button
           type="submit"
-          className={`text-lg rounded-[5px] font-bold px-3 py-3 md:px-8 md:py-3 leading-none lg:mt-0 text-white bg-ann-arbor-accent-green`}
+          className={`text-lg rounded-[5px] font-bold px-3 py-3 md:px-8 md:py-3 leading-none lg:mt-0 text-white bg-ann-arbor-accent-green transition-all hover:bg-ann-arbor-accent-green/90`}
         >
           Search
         </button>

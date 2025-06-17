@@ -24,7 +24,7 @@ export function PopularDashboardCard() {
       </div>
 
       <div className="px-2 pb-5">
-        <button className="bg-ann-arbor-accent-green text-white font-bold px-3 py-2 rounded-[5px] flex items-center">
+        <button className="bg-ann-arbor-accent-green transition-all hover:bg-opacity-90 text-white font-bold px-3 py-2 rounded-[5px] flex items-center">
           Explore dashboard
           <ArrowSmallRightIcon className="inline w-6" />
         </button>

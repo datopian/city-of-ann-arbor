@@ -50,7 +50,7 @@ export default function HeroSection() {
               <Link
                 key={g.color}
                 href="#"
-                className={`text-black text-xl px-5 py-2 rounded-[5px] bg-${g.color}`}
+                className={`text-black text-xl px-5 py-2 rounded-[5px] bg-${g.color} transition-all hover:bg-opacity-70`}
               >
                 {g.title}
               </Link>

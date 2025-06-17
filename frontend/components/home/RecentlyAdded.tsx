@@ -11,7 +11,7 @@ export function RecentlyAdded() {
           Explore recently added datasets and gain valuable insights into the
           city of Ann Arbor trends.
         </p>
-        <Link href="#" className="text-xl text-ann-arbor-primary-blue">
+        <Link href="#" className="text-xl text-ann-arbor-primary-blue transition-all hover:opacity-80">
           <span className="underline">All datasets</span>
           <ArrowSmallRightIcon className="inline w-6" />
         </Link>
