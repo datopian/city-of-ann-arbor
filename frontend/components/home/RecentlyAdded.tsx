@@ -1,3 +1,4 @@
+import { ArrowSmallRightIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
 import { RecentlyAddedCard } from "./RecentlyAddedCard";
 
@@ -11,16 +12,17 @@ export function RecentlyAdded() {
           city of Ann Arbor trends.
         </p>
         <Link href="#" className="text-xl text-primaryblue">
-          <span className="underline">All datasets</span> →
+          <span className="underline">All datasets</span>
+          <ArrowSmallRightIcon className="inline w-6" />
         </Link>
       </div>
       <div className="grid grid-cols-3 gap-2">
-        <RecentlyAddedCard variant={0}/>
-        <RecentlyAddedCard variant={1}/>
-        <RecentlyAddedCard variant={2}/>
-        <RecentlyAddedCard variant={3}/>
-        <RecentlyAddedCard variant={4}/>
-        <RecentlyAddedCard variant={5}/>
+        <RecentlyAddedCard variant={0} />
+        <RecentlyAddedCard variant={1} />
+        <RecentlyAddedCard variant={2} />
+        <RecentlyAddedCard variant={3} />
+        <RecentlyAddedCard variant={4} />
+        <RecentlyAddedCard variant={5} />
       </div>
     </section>
   );

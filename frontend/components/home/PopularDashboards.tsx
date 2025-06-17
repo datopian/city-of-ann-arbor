@@ -4,6 +4,10 @@ import { Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import { PopularDashboardCard } from "./PopularDashboardCard";
+import {
+  ArrowLongRightIcon,
+  ArrowSmallRightIcon,
+} from "@heroicons/react/20/solid";
 
 export function PopularDashboards() {
   return (
@@ -15,7 +19,8 @@ export function PopularDashboards() {
           - from traffic patterns to tree cover.
         </p>
         <Link href="#" className="text-xl text-primaryblue">
-          <span className="underline">All dashboards</span> →
+          <span className="underline">All dashboards</span>{" "}
+          <ArrowSmallRightIcon className="inline w-6" />
         </Link>
       </div>
       <div className="w-full bg-gradient-to-t from-[#EBF5EC26] via-[#E2F1E4] via-20% to-[#FFFFFF] to-65%">

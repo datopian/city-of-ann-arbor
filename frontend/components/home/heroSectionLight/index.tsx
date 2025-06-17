@@ -41,9 +41,8 @@ export default function HeroSection() {
     <div>
       <div className="custom-container mx-auto">
         <div className="flex flex-col lg:items-center gap-y-7">
-          <h1 className="lg:max-w-[478px] font-bold text-[40px] md:text-6xl flex flex-col text-center !leading-tight">
-            <span className="text-4xl">City of Ann Arbor</span> Open Data
-            Portal
+          <h1 className="lg:max-w-[478px] font-bold text-[40px] md:text-6xl flex flex-col text-center !leading-snug">
+            <span className="text-4xl">City of Ann Arbor</span> Open Data Portal
           </h1>
           <SearchForm />
           <div className="flex flex-row flex-wrap justify-center gap-x-2 gap-y-5 max-w-3xl">
