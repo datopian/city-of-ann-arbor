@@ -44,16 +44,20 @@ export default function NavBar() {
     <header
       className={`${
         !hasScrolled ? "bg-transparent" : "bg-white"
-      } fixed w-full z-50 transition-all`}
+      } fixed w-full z-20 transition-all`}
     >
       <nav
-        className={`mx-auto ${!hasScrolled ? "pb-9 pt-5" : "pb-2 pt-2"} px-9 flex flex-nowrap justify-between transition-all`}
+        className={`mx-auto ${
+          !hasScrolled ? "pb-9 pt-5" : "pb-2 pt-2"
+        } px-9 flex flex-nowrap justify-between transition-all`}
         aria-label="Global"
       >
         <Brand size={hasScrolled ? "sm" : "lg"} />
         <div className="hidden lg:flex lg:gap-x-12">
           <div
-            className={`flex gap-x-9 ${!hasScrolled ? "mt-5" : "items-center"} text-[19px] transition-all`}
+            className={`flex gap-x-9 ${
+              !hasScrolled ? "mt-5" : "items-center"
+            } text-[19px] transition-all`}
           >
             <Link
               href="/search"
@@ -97,33 +101,33 @@ export default function NavBar() {
             </Link>
           </div>
         </div>
+        <div className="flex lg:hidden flex-col items-center justify-center">
+          <button
+            type="button"
+            className="inline-flex items-center justify-center rounded-md p-2.5 text-gray-700 bg-white"
+            onClick={() => setMobileMenuOpen(true)}
+          >
+            <span className="sr-only">Open main menu</span>
+            <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+          </button>
+        </div>
       </nav>
-      <div className="flex lg:hidden">
-        <button
-          type="button"
-          className="inline-flex items-center justify-center rounded-md p-2.5 text-gray-700 bg-white"
-          onClick={() => setMobileMenuOpen(true)}
-        >
-          <span className="sr-only">Open main menu</span>
-          <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-        </button>
-      </div>
       <Dialog
         as="div"
         className="lg:hidden"
         open={mobileMenuOpen}
         onClose={setMobileMenuOpen}
       >
-        <div className="fixed inset-0 z-10" />
-        <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-4 py-4 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+        <div className="fixed inset-0 z-30" />
+        <Dialog.Panel className="fixed inset-y-0 right-0 z-30 w-full overflow-y-auto bg-white px-4 py-4 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
             <span className="sr-only">Datopian</span>
             <Link href="/" className="-m-1.5 p-1.5 inline-block md:hidden">
               <Image
-                src="/images/logos/logo.svg"
+                src="/images/logos/MainLogo.svg"
                 width={55}
                 height={55}
-                alt="Portal"
+                alt="City of Ann Arbor Logo"
               />
             </Link>
             <button
