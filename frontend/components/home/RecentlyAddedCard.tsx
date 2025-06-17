@@ -41,7 +41,7 @@ export function RecentlyAddedCard({ variant }: { variant: 0 | 1 | 2 | 3 | 4 | 5 
   return (
     <div className={container({ colors: variant })}>
       <div className="space-y-3">
-        <h3 className="font-bold text-3xl">
+        <h3 className="font-bold text-[28px]">
           City Budget Expenditures by Department – FY2024
         </h3>
         <p className="text-[#3F3F3F]">
