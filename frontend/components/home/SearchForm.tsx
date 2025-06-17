@@ -18,9 +18,9 @@ const SearchForm: React.FC = () => {
   return (
     <form
       onSubmit={(e) => handleSubmit(e)}
-      className="items-center bg-white border-[2px] border-[#D9D9D9] rounded-[10px] w-full max-w-[580px]"
+      className="items-center bg-white border-[2px] border-[#D9D9D9] rounded-[10px] w-full lg:max-w-[580px]"
     >
-      <div className="flex flex-row justify-between gap-4 p-2">
+      <div className="flex flex-row justify-between gap-4 p-1 lg:p-2">
         <input
           id="search-form-input"
           type="search"
@@ -30,11 +30,11 @@ const SearchForm: React.FC = () => {
           }}
           placeholder="Explore datasets..."
           aria-label="Explore datasets"
-          className={`w-3/4 py-3 px-4 md:py-3 md:px-4 leading-none placeholder-[#111D43] text-[19px]`}
+          className={`w-3/4 py-3 px-4 md:py-3 md:px-4 leading-none placeholder-[#111D43] text-sm lg:text-[19px]`}
         />
         <button
           type="submit"
-          className={`text-lg rounded-[5px] font-bold px-3 py-3 md:px-8 md:py-3 leading-none lg:mt-0 text-white bg-ann-arbor-accent-green transition-all hover:bg-ann-arbor-accent-green/90`}
+          className={`text-sm lg:text-lg rounded-[5px] font-bold px-3 py-3 md:px-8 md:py-3 leading-none lg:mt-0 text-white bg-ann-arbor-accent-green transition-all hover:bg-ann-arbor-accent-green/90`}
         >
           Search
         </button>

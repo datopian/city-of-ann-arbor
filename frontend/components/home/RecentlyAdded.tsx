@@ -16,7 +16,7 @@ export function RecentlyAdded() {
           <ArrowSmallRightIcon className="inline w-6" />
         </Link>
       </div>
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
         <RecentlyAddedCard variant={0} />
         <RecentlyAddedCard variant={1} />
         <RecentlyAddedCard variant={2} />

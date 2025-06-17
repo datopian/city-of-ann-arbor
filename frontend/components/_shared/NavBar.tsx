@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 
 export default function NavBar() {
   const router = useRouter();
+  const [hasScrolled, setHasScrolled] = useState<boolean>(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -21,15 +22,39 @@ export default function NavBar() {
     };
   }, [router.events]);
 
+  useEffect(() => {
+    const onScroll = (e) => {
+      const scrollPos = window.scrollY;
+
+      if (scrollPos < 10 && hasScrolled != false) {
+        setHasScrolled(false);
+      } else if (scrollPos >= 10 && hasScrolled != true) {
+        setHasScrolled(true);
+      }
+    };
+
+    document.addEventListener("scroll", onScroll);
+
+    return () => {
+      document.removeEventListener("scroll", onScroll);
+    };
+  }, [hasScrolled]);
+
   return (
-    <header className="bg-transparent">
+    <header
+      className={`${
+        !hasScrolled ? "bg-transparent" : "bg-white"
+      } fixed w-full z-50 transition-all`}
+    >
       <nav
-        className={`mx-auto pt-5 pb-9 px-9 flex justify-between `}
+        className={`mx-auto ${!hasScrolled ? "pb-9 pt-5" : "pb-2 pt-2"} px-9 flex flex-nowrap justify-between transition-all`}
         aria-label="Global"
       >
-        <Brand />
+        <Brand size={hasScrolled ? "sm" : "lg"} />
         <div className="hidden lg:flex lg:gap-x-12">
-          <div className="flex gap-x-9 mt-5 text-[19px]">
+          <div
+            className={`flex gap-x-9 ${!hasScrolled ? "mt-5" : "items-center"} text-[19px] transition-all`}
+          >
             <Link
               href="/search"
               className={`${

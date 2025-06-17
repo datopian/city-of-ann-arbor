@@ -3,7 +3,7 @@ import { tv } from "tailwind-variants";
 
 export function RecentlyAddedCard({ variant }: { variant: 0 | 1 | 2 | 3 | 4 | 5 }) {
   const container = tv({
-    base: "py-16 px-14 space-y-7 relative",
+    base: "py-8 px-7 lg:py-16 lg:px-14 space-y-7 relative",
     variants: {
       colors: {
         0: "bg-[#D9EFD2]/30",
@@ -57,7 +57,7 @@ export function RecentlyAddedCard({ variant }: { variant: 0 | 1 | 2 | 3 | 4 | 5 
           <ArrowSmallRightIcon className="inline w-6" />
         </button>
       </div>
-      <Leaf className="absolute right-0 bottom-0" color={leafColor[variant]} />
+      <Leaf className="absolute right-0 bottom-0 -z-10" color={leafColor[variant]} />
     </div>
   );
 }

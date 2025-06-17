@@ -1,14 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Brand() {
+export default function Brand({ size }: { size: "lg" | "sm" }) {
   return (
-    <Link href="/">
+    <Link
+      href="/"
+      className={`${
+        size == "lg" ? "w-[100px] h-[100px]" : "w-[50px] h-[50px]"
+      } relative transition-all`}
+    >
       <Image
         src="/images/logos/MainLogo.svg"
-        height={100}
         alt="City of Ann Arbor Logo"
-        width={100}
+        fill={true}
       />
     </Link>
   );

@@ -83,7 +83,7 @@ const socialMediaLinks = [
 export function Footer() {
   return (
     <footer className="bg-[#303A40]">
-      <div className="grid grid-cols-2 py-12 mx-16 text-white gap-x-28">
+      <div className="grid grid-cols-1 lg:grid-cols-2 py-12 lg:mx-16 text-white gap-x-28">
         <div className="p-6 flex flex-col space-y-10">
           <Image
             alt="Ann Arbor logo"
@@ -131,7 +131,7 @@ export function Footer() {
           </div>
         </div>
         <div className="flex flex-col p-6 gap-y-3">
-          <div className="grid grid-cols-2 gap-14">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-14">
             {navigation.map((n) => {
               return (
                 <div className="space-y-7">
