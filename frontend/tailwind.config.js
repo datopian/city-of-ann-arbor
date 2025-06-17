@@ -1,8 +1,3 @@
-const colors = require("tailwindcss/colors");
-const Color = require("color");
-const defaultTheme = require("tailwindcss/defaultTheme");
-
-const themeColor = "#079A6D";
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -16,54 +11,33 @@ module.exports = {
     "bg-red-500",
     "text-3xl",
     "lg:text-4xl",
-    "bg-groups-1",
-    "bg-groups-2",
-    "bg-groups-3",
-    "bg-groups-4",
-    "bg-groups-5",
-    "bg-groups-6",
-    "bg-groups-7",
-    "bg-groups-8",
+    "bg-ann-arbor-groups-1",
+    "bg-ann-arbor-groups-2",
+    "bg-ann-arbor-groups-3",
+    "bg-ann-arbor-groups-4",
+    "bg-ann-arbor-groups-5",
+    "bg-ann-arbor-groups-6",
+    "bg-ann-arbor-groups-7",
+    "bg-ann-arbor-groups-8",
   ],
   theme: {
     extend: {
       colors: {
-        accent: {
-          DEFAULT: themeColor,
-          50: Color(themeColor).mix(Color("#ffffff"), 0.95).hex(), // 90% white, 10% theme color
-          100: Color(themeColor).mix(Color("#ffffff"), 0.9).hex(), // 90% white, 10% theme color
-          200: Color(themeColor).mix(Color("#ffffff"), 0.7).hex(), // 70% white, 30% theme color
-          300: Color(themeColor).mix(Color("#ffffff"), 0.5).hex(), // 50% white, 50% theme color
-          400: Color(themeColor).mix(Color("#ffffff"), 0.3).hex(), // 30% white, 70% theme color
-          500: themeColor, // Base color
-          600: Color(themeColor).mix(Color("#000000"), 0.3).hex(), // 30% black, 70% theme color
-          700: Color(themeColor).mix(Color("#000000"), 0.5).hex(), // 50% black, 50% theme color
-          800: Color(themeColor).mix(Color("#000000"), 0.7).hex(), // 70% black, 30% theme color
+        "ann-arbor": {
+          "accent-green": "#079A6D",
+          "primary-blue": "#0787AD",
+          "primary-gray": "#534F5D",
+          groups: {
+            1: "#D9EFD2",
+            2: "#D9F4EA",
+            3: "#E0EEE1",
+            4: "#EDF6CC",
+            5: "#D2EAEF",
+            6: "#D7E6EE",
+            7: "#E6F8EF",
+            8: "#DAF3F0",
+          },
         },
-        groups: {
-          1: "#D9EFD2",
-          2: "#D9F4EA",
-          3: "#E0EEE1",
-          4: "#EDF6CC",
-          5: "#D2EAEF",
-          6: "#D7E6EE",
-          7: "#E6F8EF",
-          8: "#DAF3F0",
-        },
-        lightaccent: Color(themeColor).lighten(0.3).hex(), // Lighten by 20%
-        darkaccent: Color(themeColor).darken(0.3).hex(), // Darken by 20%
-        darkbrown: "#A75001",
-        darkerbrown: "#964800",
-        background: {
-          DEFAULT: colors.white,
-        },
-        primary: {
-          DEFAULT: colors.gray[700],
-        },
-        secondary: {
-          DEFAULT: "",
-        },
-        primaryblue: { DEFAULT: "#0787AD" },
       },
       boxShadow: {
         blogImg: "inset 0 0 0 50vw rgba(0,28,49,0.76)",

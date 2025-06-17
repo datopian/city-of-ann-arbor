@@ -36,46 +36,54 @@ const navigation = [
   },
 ];
 
-const socialMedia = [
+const socialMediaLinks = [
   {
     image_url: "/images/icons/facebook-circle-white.svg",
     href: "https://www.facebook.com/TheCityOfAnnArbor/",
+    alt: "Facebook",
   },
 
   {
     image_url: "/images/icons/x-circle-white.svg",
     href: "https://twitter.com/a2gov",
+    alt: "X",
   },
   {
     image_url: "/images/icons/instagram-circle-white.svg",
     href: "https://www.instagram.com/thecityofannarborgovernment/",
+    alt: "Instagram",
   },
   {
     image_url: "/images/icons/linkedin-circle-white.svg",
     href: "https://www.linkedin.com/company/city-of-ann-arbor",
+    alt: "Linkedin",
   },
   {
     image_url: "/images/icons/a2-open-city-hall-circle-white.svg",
     href: "https://www.opentownhall.com/p/116",
+    alt: "Open Town Hall",
   },
   {
     image_url: "/images/icons/public-engagement-hub-circle-white.svg",
     href: "https://engage.a2gov.org/",
+    alt: "Engage",
   },
   {
     image_url: "/images/icons/youtube-circle-white.svg",
     href: "https://www.youtube.com/user/ctnannarbor",
+    alt: "YouTube",
   },
   {
     image_url: "/images/icons/nextdoor-circle-white.svg",
     href: "https://nextdoor.com/agency-detail/mi/ann-arbor/city-of-ann-arbor-1/",
+    alt: "Next Door",
   },
 ];
 
 export function Footer() {
   return (
     <footer className="bg-[#303A40]">
-      <div className="grid grid-cols-2 py-12 mx-16 text-white">
+      <div className="grid grid-cols-2 py-12 mx-16 text-white gap-x-28">
         <div className="p-6 flex flex-col space-y-10">
           <Image
             alt="Ann Arbor logo"
@@ -104,16 +112,14 @@ export function Footer() {
               </a>
             </div>
             <div className="space-y-5">
-              <p className="text-lg font-semibold">
-                Get Updates from the City
-              </p>
+              <p className="text-lg font-semibold">Get Updates from the City</p>
               <div className="flex flex-row gap-7">
-                {socialMedia.map((sm) => {
+                {socialMediaLinks.map((sm) => {
                   return (
                     <Link key={sm.href} href={sm.href} target="_blank">
                       <Image
                         src={sm.image_url}
-                        alt="Social Media Link" //TODO: improve this
+                        alt={sm.alt}
                         width={30}
                         height={30}
                       />
@@ -149,7 +155,7 @@ export function Footer() {
               <Link
                 href="http://portaljs.com"
                 target={"_blank"}
-                className="underline text-[#079A6D] font-semibold"
+                className="underline text-ann-arbor-accent-green font-semibold"
               >
                 PortalJS
               </Link>{" "}

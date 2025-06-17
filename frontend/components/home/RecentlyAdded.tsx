@@ -7,11 +7,11 @@ export function RecentlyAdded() {
     <section className="flex flex-col items-center gap-y-11">
       <div className="text-center flex flex-col space-y-4">
         <h2 className="font-extrabold text-4xl">Recently added</h2>
-        <p className="max-w-[570px] text-[#534F5D] text-xl">
+        <p className="max-w-[570px] text-ann-arbor-primary-gray text-xl">
           Explore recently added datasets and gain valuable insights into the
           city of Ann Arbor trends.
         </p>
-        <Link href="#" className="text-xl text-primaryblue">
+        <Link href="#" className="text-xl text-ann-arbor-primary-blue">
           <span className="underline">All datasets</span>
           <ArrowSmallRightIcon className="inline w-6" />
         </Link>

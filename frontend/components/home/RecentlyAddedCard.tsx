@@ -1,3 +1,4 @@
+import { ArrowSmallRightIcon } from "@heroicons/react/20/solid";
 import { tv } from "tailwind-variants";
 
 export function RecentlyAddedCard({ variant }: { variant: 0 | 1 | 2 | 3 | 4 | 5 }) {
@@ -5,7 +6,7 @@ export function RecentlyAddedCard({ variant }: { variant: 0 | 1 | 2 | 3 | 4 | 5 
     base: "py-16 px-14 space-y-7 relative",
     variants: {
       colors: {
-        0: "bg-groups-1/30",
+        0: "bg-[#D9EFD2]/30",
         1: "bg-[#ECFCF6]/50",
         2: "bg-[#ECF8FF]/50",
         3: "bg-[#EDF6CC]/25",
@@ -16,7 +17,7 @@ export function RecentlyAddedCard({ variant }: { variant: 0 | 1 | 2 | 3 | 4 | 5 
   });
 
   const button = tv({
-    base: "px-3 py-2 rounded-[5px]",
+    base: "px-3 py-2 rounded-[5px] flex items-center",
     variants: {
       colors: {
         0: "bg-[#B2CDAA] text-[#3F3F3F]",
@@ -52,7 +53,8 @@ export function RecentlyAddedCard({ variant }: { variant: 0 | 1 | 2 | 3 | 4 | 5 
       </div>
       <div>
         <button className={button({ colors: variant })}>
-          Explore dataset →
+          Explore dataset
+          <ArrowSmallRightIcon className="inline w-6" />
         </button>
       </div>
       <Leaf className="absolute right-0 bottom-0" color={leafColor[variant]} />

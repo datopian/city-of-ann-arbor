@@ -29,7 +29,7 @@ export default function NavBar() {
       >
         <Brand />
         <div className="hidden lg:flex lg:gap-x-12">
-          <div className="flex gap-x-9 mt-5 text-xl">
+          <div className="flex gap-x-9 mt-5 text-[19px]">
             <Link
               href="/search"
               className={`${

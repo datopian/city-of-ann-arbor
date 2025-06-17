@@ -4,35 +4,35 @@ import SearchForm from "./SearchForm";
 const MOCKED_GROUPS = [
   {
     title: "Parks & Recreation",
-    color: "groups-1",
+    color: "ann-arbor-groups-1",
   },
   {
     title: "Elections",
-    color: "groups-2",
+    color: "ann-arbor-groups-2",
   },
   {
     title: "Police Department",
-    color: "groups-3",
+    color: "ann-arbor-groups-3",
   },
   {
     title: "Parking Services",
-    color: "groups-4",
+    color: "ann-arbor-groups-4",
   },
   {
     title: "Parks & Recreation",
-    color: "groups-5",
+    color: "ann-arbor-groups-5",
   },
   {
     title: "Elections",
-    color: "groups-6",
+    color: "ann-arbor-groups-6",
   },
   {
     title: "Police Department",
-    color: "groups-7",
+    color: "ann-arbor-groups-7",
   },
   {
     title: "+7 more",
-    color: "groups-8",
+    color: "ann-arbor-groups-8",
   },
 ];
 

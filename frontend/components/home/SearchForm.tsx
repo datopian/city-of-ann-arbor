@@ -30,11 +30,11 @@ const SearchForm: React.FC = () => {
           }}
           placeholder="Explore datasets..."
           aria-label="Explore datasets"
-          className={`w-3/4 py-3 px-4 md:py-3 md:px-4 leading-none placeholder-[#111D43] text-lg`}
+          className={`w-3/4 py-3 px-4 md:py-3 md:px-4 leading-none placeholder-[#111D43] text-[19px]`}
         />
         <button
           type="submit"
-          className={`text-lg rounded-[5px] font-bold px-3 py-3 md:px-8 md:py-3 leading-none lg:mt-0 text-white bg-accent`}
+          className={`text-lg rounded-[5px] font-bold px-3 py-3 md:px-8 md:py-3 leading-none lg:mt-0 text-white bg-ann-arbor-accent-green`}
         >
           Search
         </button>

@@ -1,3 +1,4 @@
+import { ArrowSmallRightIcon } from "@heroicons/react/20/solid";
 import Image from "next/image";
 
 export function PopularDashboardCard() {
@@ -23,8 +24,9 @@ export function PopularDashboardCard() {
       </div>
 
       <div className="px-2 pb-5">
-        <button className="bg-accent text-white font-bold px-3 py-2 rounded-[5px]">
-          Explore dashboard →
+        <button className="bg-ann-arbor-accent-green text-white font-bold px-3 py-2 rounded-[5px] flex items-center">
+          Explore dashboard
+          <ArrowSmallRightIcon className="inline w-6" />
         </button>
       </div>
     </div>
