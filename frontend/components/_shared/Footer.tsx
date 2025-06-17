@@ -75,7 +75,7 @@ const socialMedia = [
 export function Footer() {
   return (
     <footer className="bg-[#303A40]">
-      <div className="grid grid-cols-2 py-12 mx-14 text-white">
+      <div className="grid grid-cols-2 py-12 mx-16 text-white">
         <div className="p-6 flex flex-col space-y-10">
           <Image
             alt="Ann Arbor logo"
