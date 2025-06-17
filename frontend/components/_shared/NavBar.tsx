@@ -22,7 +22,7 @@ export default function NavBar() {
   }, [router.events]);
 
   return (
-    <header className="bg-transparent ">
+    <header className="bg-transparent">
       <nav
         className={`mx-auto pt-5 pb-9 px-9 flex justify-between `}
         aria-label="Global"

@@ -3,7 +3,7 @@ import Head from "next/head";
 import { searchDatasets } from "@/lib/queries/dataset";
 import { getAllGroups } from "@/lib/queries/groups";
 import { getAllOrganizations } from "@/lib/queries/orgs";
-import HeroSection from "@/components/home/heroSectionLight";
+import HeroSection from "@/components/home/Hero";
 import NavBar from "@/components/_shared/NavBar";
 import { PopularDashboards } from "@/components/home/PopularDashboards";
 import { RecentlyAdded } from "@/components/home/RecentlyAdded";
