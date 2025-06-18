@@ -19,12 +19,12 @@ def package_update(up_func, context, data_dict):
         pass
 
     upload = uploader.get_uploader('group')
-    upload.update_data_dict(data_dict, 'dashboard_thumbnail',
+    upload.update_data_dict(data_dict, 'image_url',
                             'image_upload', 'clear_upload')
     upload.upload(uploader.get_max_image_size())
-    dashboard_thumbnail = data_dict.get("dashboard_thumbnail", None)
+    dashboard_thumbnail = data_dict.get("image_url", None)
     if dashboard_thumbnail and not dashboard_thumbnail.startswith("http"):
-        data_dict['dashboard_thumbnail'] = tk.h.url_for_static(
+        data_dict['image_url'] = tk.h.url_for_static(
         'uploads/group/%s' % dashboard_thumbnail, qualified=True)
     result = up_func(context, data_dict)
 
