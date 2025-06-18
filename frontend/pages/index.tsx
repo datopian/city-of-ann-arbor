@@ -8,25 +8,27 @@ import NavBar from "@/components/_shared/NavBar";
 import { PopularDashboards } from "@/components/home/PopularDashboards";
 import { RecentlyAdded } from "@/components/home/RecentlyAdded";
 import { Footer } from "@/components/_shared/Footer";
+import { Dashboard } from "@/types/ckan";
 
 export async function getServerSideProps() {
-  const datasets = await searchDatasets({
+  const dashboards = await searchDatasets({
     offset: 0,
-    limit: 5,
+    limit: 9,
     tags: [],
     groups: [],
     orgs: [],
+    fq: "dashboard_url:[* TO *]",
   });
   const groups = await getAllGroups({ detailed: true });
   const orgs = await getAllOrganizations({ detailed: true });
   const stats = {
-    datasetCount: datasets.count,
+    datasetCount: dashboards.count,
     groupCount: groups.length,
     orgCount: orgs.length,
   };
   return {
     props: {
-      datasets: datasets.datasets,
+      dashboards: dashboards.datasets as Dashboard[],
       groups,
       orgs,
       stats,
@@ -35,7 +37,7 @@ export async function getServerSideProps() {
 }
 
 export default function Home({
-  datasets,
+  dashboards,
   groups,
   orgs,
   stats,
@@ -52,7 +54,7 @@ export default function Home({
         <HeroSection groups={groups} />
         <div className="lg:absolute lg:bottom-0 lg:left-0 w-full h-[222px] lg:bg-[url('/images/bg-image.png')] bg-contain"></div>
       </div>
-      <PopularDashboards />
+      <PopularDashboards dashboards={dashboards} />
       <div className="space-y-2">
         <RecentlyAdded />
         <Footer />

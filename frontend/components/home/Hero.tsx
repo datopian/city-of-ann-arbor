@@ -16,7 +16,7 @@ export default function HeroSection({ groups }: { groups: Group[] }) {
             {groups.slice(0, groups.length <= 8 ? 8 : 7).map((g, i) => (
               <Link
                 key={g.id}
-                href="#"
+                href={`#${g.name}`}
                 className={`text-black text-sm lg:text-xl px-3 lg:px-5 py-1 lg:py-2 rounded-[5px] bg-ann-arbor-groups-${
                   i + 1
                 } transition-all hover:bg-opacity-70`}

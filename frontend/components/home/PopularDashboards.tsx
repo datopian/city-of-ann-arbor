@@ -4,22 +4,22 @@ import { Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import { PopularDashboardCard } from "./PopularDashboardCard";
-import {
-  ArrowLongRightIcon,
-  ArrowSmallRightIcon,
-} from "@heroicons/react/20/solid";
+import { ArrowSmallRightIcon } from "@heroicons/react/20/solid";
+import { Dashboard } from "@/types/ckan";
 
-export function PopularDashboards() {
+export function PopularDashboards({ dashboards }: { dashboards: Dashboard[] }) {
   return (
     <section className="flex flex-col items-center gap-y-11">
       <div className="text-center flex flex-col lg:space-y-4">
-        <h2 className="font-extrabold text-2xl lg:text-4xl">Popular dashboards</h2>
+        <h2 className="font-extrabold text-2xl lg:text-4xl">
+          Popular dashboards
+        </h2>
         <p className="p-5 lg:p-0 max-w-[570px] text-ann-arbor-primary-gray text-xl">
           Dive into our popular dashboards to see what’s happening in Ann Arbor
           - from traffic patterns to tree cover.
         </p>
         <Link
-          href="#"
+          href="#dashboards"
           className="text-xl text-ann-arbor-primary-blue transition-all hover:opacity-80"
         >
           <span className="underline">All dashboards</span>{" "}
@@ -45,20 +45,13 @@ export function PopularDashboards() {
             modules={[Pagination]}
             pagination={{ clickable: true, el: "#pagination" }}
           >
-            <SwiperSlide>
-              <PopularDashboardCard />
-            </SwiperSlide>
-            <SwiperSlide>
-              <PopularDashboardCard />
-            </SwiperSlide>
-
-            <SwiperSlide>
-              <PopularDashboardCard />
-            </SwiperSlide>
-
-            <SwiperSlide>
-              <PopularDashboardCard />
-            </SwiperSlide>
+            {dashboards.map((d) => {
+              return (
+                <SwiperSlide key={`dashboard-${d.id}`}>
+                  <PopularDashboardCard dashboard={d} />
+                </SwiperSlide>
+              );
+            })}
           </Swiper>
           <div className="flex justify-center mt-12">
             <div id="pagination"></div>
