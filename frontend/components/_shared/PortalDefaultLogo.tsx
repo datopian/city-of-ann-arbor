@@ -1,14 +1,19 @@
+import Image from "next/image";
 import Link from "next/link";
 
-export default function PortalDefaultLogo() {
+export default function Brand({ size }: { size: "lg" | "sm" }) {
   return (
-    <Link href="/">
-      <div
-        className="leading-[16px] text-[16px] w-[50px] border-b-[4px] border-accent text-white bg-[var(--dark)] rounded flex items-center justify-center p-2  uppercase break-all"
-        style={{ height: 55 }}
-      >
-        Portal
-      </div>
+    <Link
+      href="/"
+      className={`${
+        size == "lg" ? "w-[100px] h-[100px]" : "w-[75px] h-[75px]"
+      } relative transition-all`}
+    >
+      <Image
+        src="/images/logos/MainLogo.svg"
+        alt="City of Ann Arbor Logo"
+        fill={true}
+      />
     </Link>
   );
 }

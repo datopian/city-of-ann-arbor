@@ -2,9 +2,11 @@
 
 /** @type {import('next').NextConfig} */
 const domains = [
-  "demo.dev.datopian.com",
-  "api.dev.cloud.portaljs",
-  "blob.datopian.com",
+  "ckan-dev",
+  "ckan.com",
+  "ckan.ann-arbor.dev.datopian.com",
+  "ckan.ann-arbor.prod.datopian.com",
+  "ckan.a2gov.org",
 ];
 const nextConfig = {
   reactStrictMode: true,

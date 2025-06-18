@@ -69,7 +69,7 @@ dataset_fields:
   display_snippet: email.html
   display_email_name_field: maintainer
 
-- field_name: dashboard_thumbnail
+- field_name: image_url
   label: Dashboard Thumbnail
   form_placeholder: http://example.com/my-image.jpg
   preset: organization_url_upload
