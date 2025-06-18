@@ -43,12 +43,12 @@ export default function NavBar() {
   return (
     <header
       className={`${
-        !hasScrolled ? "bg-transparent" : "bg-white"
+        !hasScrolled ? "bg-transparent" : "bg-white drop-shadow"
       } fixed w-full z-20 transition-all`}
     >
       <nav
         className={`mx-auto ${
-          !hasScrolled ? "pb-9 pt-5" : "pb-2 pt-2"
+          !hasScrolled ? "pb-9 pt-5" : "pb-5 pt-5"
         } px-9 flex flex-nowrap justify-between transition-all`}
         aria-label="Global"
       >

@@ -45,7 +45,7 @@ export default function Home({
   datasets,
 }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element {
   return (
-    <div className="space-y-24">
+    <div className="">
       <Head>
         <title>City of Ann Arbor Open Data Portal</title>
         <meta name="description" content="City of Ann Arbor Open Data Portal" />
@@ -57,7 +57,7 @@ export default function Home({
         <div className="lg:absolute lg:bottom-0 lg:left-0 w-full h-[222px] lg:bg-[url('/images/bg-image.png')] bg-contain"></div>
       </div>
       <PopularDashboards dashboards={dashboards} />
-      <div className="space-y-2">
+      <div className="space-y-2 mt-4">
         <RecentlyAdded datasets={datasets} />
         <Footer />
       </div>

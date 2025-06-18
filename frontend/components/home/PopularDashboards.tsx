@@ -9,7 +9,7 @@ import { Dashboard } from "@/types/ckan";
 
 export function PopularDashboards({ dashboards }: { dashboards: Dashboard[] }) {
   return (
-    <section className="flex flex-col items-center gap-y-11">
+    <section className="mt-24 flex flex-col items-center gap-y-11">
       <div className="text-center flex flex-col lg:space-y-4">
         <h2 className="font-extrabold text-2xl lg:text-4xl">
           Popular dashboards
