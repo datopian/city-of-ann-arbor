@@ -91,7 +91,7 @@ export default function NavBar() {
             } text-[19px] transition-all`}
           >
             {links.map((link) => (
-              <div>
+              <div key={`navbar-link-${link.href}`}>
                 <Link
                   href={link.href}
                   className={`transition-all duration-100 ${

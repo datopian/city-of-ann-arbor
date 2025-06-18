@@ -10,7 +10,7 @@ export function PopularDashboardCard({ dashboard }: { dashboard: Dashboard }) {
           src={
             dashboard.image_url ?? "/images/dashboard-fallback.jpg"
           }
-          alt="Dashboard 1"
+          alt={`${dashboard.title} Dashboard Preview`}
           fill={true}
           className={"object-cover"}
         />
