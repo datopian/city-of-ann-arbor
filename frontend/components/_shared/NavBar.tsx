@@ -68,23 +68,24 @@ export default function NavBar() {
               Datasets
             </Link>
             <Link
-              href="/organizations"
+              href="/topics"
               className={`${
-                router.pathname === "/organizations" ? "text-accent" : ""
+                router.pathname === "/topics" ? "text-accent" : ""
               }`}
             >
               Topics
             </Link>
             <Link
-              href="/groups"
+              href="/organizations"
               className={`${
-                router.pathname === "/groups" ? "text-accent" : ""
+                router.pathname === "/organizations" ? "text-accent" : ""
               }`}
             >
               Organizations
             </Link>
             <Link
-              href="/groups"
+              href="#"
+              target={"_blank"}
               className={`${
                 router.pathname === "/groups" ? "text-accent" : ""
               }`}

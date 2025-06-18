@@ -49,7 +49,7 @@ export default function Home({
       </Head>
       <div className="lg:min-h-screen bg-gradient-to-b from-[#E2F1E4] to-[#FFFFFF] to-65%">
         <NavBar />
-        <HeroSection />
+        <HeroSection groups={groups} />
         <div className="lg:absolute lg:bottom-0 lg:left-0 w-full h-[222px] lg:bg-[url('/images/bg-image.png')] bg-contain"></div>
       </div>
       <PopularDashboards />
