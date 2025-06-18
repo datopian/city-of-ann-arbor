@@ -6,6 +6,37 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
+const links = [
+  {
+    href: "/search",
+    label: "Datasets",
+  },
+  {
+    href: "/topics",
+    label: "Topics",
+  },
+  {
+    href: "/organizations",
+    label: "Organizations",
+  },
+  {
+    href: "#external-link",
+    target: "_blank",
+    label: (
+      <>
+        About AA{" "}
+        <Image
+          src="/images/icons/external-link.svg"
+          alt="external link"
+          width={13}
+          height={13}
+          className="inline pb-1"
+        />
+      </>
+    ),
+  },
+];
+
 export default function NavBar() {
   const router = useRouter();
   const [hasScrolled, setHasScrolled] = useState<boolean>(false);
@@ -59,47 +90,18 @@ export default function NavBar() {
               !hasScrolled ? "mt-5" : "items-center"
             } text-[19px] transition-all`}
           >
-            <Link
-              href="/search"
-              className={`${
-                router.pathname === "/search" ? "text-accent" : ""
-              }`}
-            >
-              Datasets
-            </Link>
-            <Link
-              href="/topics"
-              className={`${
-                router.pathname === "/topics" ? "text-accent" : ""
-              }`}
-            >
-              Topics
-            </Link>
-            <Link
-              href="/organizations"
-              className={`${
-                router.pathname === "/organizations" ? "text-accent" : ""
-              }`}
-            >
-              Organizations
-            </Link>
-            <Link
-              href="#"
-              target={"_blank"}
-              className={`${
-                router.pathname === "/groups" ? "text-accent" : ""
-              }`}
-            >
-              <span className="flex items-center flex-nowrap gap-x-1">
-                About AA{" "}
-                <Image
-                  src="/images/icons/external-link.svg"
-                  alt="external link"
-                  width={13}
-                  height={13}
-                />
-              </span>
-            </Link>
+            {links.map((link) => (
+              <div>
+                <Link
+                  href={link.href}
+                  className={`transition-all duration-100 ${
+                    router.pathname === link.href ? "font-bold" : ""
+                  } hover:font-semibold hover:border-b-ann-arbor-accent-green hover:border-b-2`}
+                >
+                  {link.label}
+                </Link>
+              </div>
+            ))}
           </div>
         </div>
         <div className="flex lg:hidden flex-col items-center justify-center">
