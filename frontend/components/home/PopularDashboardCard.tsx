@@ -8,7 +8,7 @@ export function PopularDashboardCard({ dashboard }: { dashboard: Dashboard }) {
       <div className="aspect-video relative rounded-[5px] overflow-hidden">
         <Image
           src={
-            dashboard.dashboard_thumbnail ?? "/images/dashboard-fallback.jpg"
+            dashboard.image_url ?? "/images/dashboard-fallback.jpg"
           }
           alt="Dashboard 1"
           fill={true}
