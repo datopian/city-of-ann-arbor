@@ -11,7 +11,8 @@
     "start": "next start",
     "typecheck": "tsc --noEmit --incremental false",
     "lint": "eslint . --ext .ts,.tsx",
-    "lint:fix": "npm run lint --fix"
+    "lint:fix": "npm run lint --fix",
+    "cypress:open": "cypress open"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.1",
@@ -50,6 +51,7 @@
     "@types/react-dom": "18.0.6",
     "autoprefixer": "^10.4.9",
     "cross-env": "^7.0.3",
+    "cypress": "^14.5.0",
     "eslint": "8.20.0",
     "eslint-config-next": "12.2.3",
     "eslint-config-prettier": "^8.5.0",

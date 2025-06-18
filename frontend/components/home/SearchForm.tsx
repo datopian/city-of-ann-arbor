@@ -23,6 +23,7 @@ const SearchForm: React.FC = () => {
       <div className="flex flex-row justify-between gap-4 p-1 lg:p-[7px]">
         <input
           id="search-form-input"
+          data-cy="search-input"
           type="search"
           name="search"
           onChange={(e) => {
@@ -33,6 +34,7 @@ const SearchForm: React.FC = () => {
           className={`w-3/4 py-3 px-4 md:py-3 md:px-4 leading-none placeholder-[#111D43] text-sm lg:text-[19px] ring-0 outline-0`}
         />
         <button
+          data-cy="search-submit-button"
           type="submit"
           className={`text-sm lg:text-[19px] rounded-[5px] font-bold px-3 py-3 md:px-8 md:py-3 leading-none lg:mt-0 text-white bg-ann-arbor-accent-green transition-all hover:bg-ann-arbor-accent-green/90`}
         >
