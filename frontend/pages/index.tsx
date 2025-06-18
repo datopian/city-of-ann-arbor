@@ -1,8 +1,9 @@
-import type { InferGetServerSidePropsType } from "next";
+import type {
+  InferGetStaticPropsType,
+} from "next";
 import Head from "next/head";
 import { searchDatasets } from "@/lib/queries/dataset";
 import { getAllGroups } from "@/lib/queries/groups";
-import { getAllOrganizations } from "@/lib/queries/orgs";
 import HeroSection from "@/components/home/Hero";
 import NavBar from "@/components/_shared/NavBar";
 import { PopularDashboards } from "@/components/home/PopularDashboards";
@@ -10,7 +11,7 @@ import { RecentlyAdded } from "@/components/home/RecentlyAdded";
 import { Footer } from "@/components/_shared/Footer";
 import { Dashboard } from "@/types/ckan";
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const dashboards = await searchDatasets({
     offset: 0,
     limit: 9,
@@ -34,6 +35,7 @@ export async function getServerSideProps() {
       datasets: datasets.datasets,
       groups,
     },
+    revalidate: 60,
   };
 }
 
@@ -41,7 +43,7 @@ export default function Home({
   dashboards,
   groups,
   datasets,
-}: InferGetServerSidePropsType<typeof getServerSideProps>): JSX.Element {
+}: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element {
   return (
     <div className="space-y-24">
       <Head>
