@@ -1,8 +1,12 @@
+import { Dataset } from "@/types/ckan";
 import { ArrowSmallRightIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
-import { RecentlyAddedCard } from "./RecentlyAddedCard";
+import {
+  RecentlyAddedCard,
+  RecentlyAddedCardVariant,
+} from "./RecentlyAddedCard";
 
-export function RecentlyAdded() {
+export function RecentlyAdded({ datasets }: { datasets: Dataset[] }) {
   return (
     <section className="flex flex-col items-center gap-y-11">
       <div className="text-center flex flex-col space-y-4">
@@ -11,18 +15,24 @@ export function RecentlyAdded() {
           Explore recently added datasets and gain valuable insights into the
           city of Ann Arbor trends.
         </p>
-        <Link href="#" className="text-xl text-ann-arbor-primary-blue transition-all hover:opacity-80">
+        <Link
+          href="#"
+          className="text-xl text-ann-arbor-primary-blue transition-all hover:opacity-80"
+        >
           <span className="underline">All datasets</span>
           <ArrowSmallRightIcon className="inline w-6" />
         </Link>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
-        <RecentlyAddedCard variant={0} />
-        <RecentlyAddedCard variant={1} />
-        <RecentlyAddedCard variant={2} />
-        <RecentlyAddedCard variant={3} />
-        <RecentlyAddedCard variant={4} />
-        <RecentlyAddedCard variant={5} />
+        {datasets.map((d, i) => {
+          return (
+            <RecentlyAddedCard
+              key={`recently-added-dataset-${d.name}`}
+              dataset={d}
+              variant={i as RecentlyAddedCardVariant}
+            />
+          );
+        })}
       </div>
     </section>
   );

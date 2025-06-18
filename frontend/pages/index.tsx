@@ -19,19 +19,20 @@ export async function getServerSideProps() {
     orgs: [],
     fq: "dashboard_url:[* TO *]",
   });
+  const datasets = await searchDatasets({
+    offset: 0,
+    limit: 6,
+    tags: [],
+    groups: [],
+    orgs: [],
+    fq: "-dashboard_url:[* TO *]",
+  });
   const groups = await getAllGroups({ detailed: true });
-  const orgs = await getAllOrganizations({ detailed: true });
-  const stats = {
-    datasetCount: dashboards.count,
-    groupCount: groups.length,
-    orgCount: orgs.length,
-  };
   return {
     props: {
       dashboards: dashboards.datasets as Dashboard[],
+      datasets: datasets.datasets,
       groups,
-      orgs,
-      stats,
     },
   };
 }
@@ -39,8 +40,7 @@ export async function getServerSideProps() {
 export default function Home({
   dashboards,
   groups,
-  orgs,
-  stats,
+  datasets,
 }: InferGetServerSidePropsType<typeof getServerSideProps>): JSX.Element {
   return (
     <div className="space-y-24">
@@ -56,7 +56,7 @@ export default function Home({
       </div>
       <PopularDashboards dashboards={dashboards} />
       <div className="space-y-2">
-        <RecentlyAdded />
+        <RecentlyAdded datasets={datasets} />
         <Footer />
       </div>
     </div>

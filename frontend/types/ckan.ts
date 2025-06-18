@@ -4,3 +4,5 @@ export type Dashboard = CoreDataset & {
   dashboard_url: string;
   dashboard_thumbnail: string;
 };
+
+export type Dataset = CoreDataset & {}

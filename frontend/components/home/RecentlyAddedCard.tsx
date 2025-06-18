@@ -1,7 +1,16 @@
+import { Dataset } from "@/types/ckan";
 import { ArrowSmallRightIcon } from "@heroicons/react/20/solid";
 import { tv } from "tailwind-variants";
 
-export function RecentlyAddedCard({ variant }: { variant: 0 | 1 | 2 | 3 | 4 | 5 }) {
+export type RecentlyAddedCardVariant = 0 | 1 | 2 | 3 | 4 | 5;
+
+export function RecentlyAddedCard({
+  dataset,
+  variant,
+}: {
+  dataset: Dataset;
+  variant: RecentlyAddedCardVariant;
+}) {
   const container = tv({
     base: "py-8 px-7 lg:py-16 lg:px-14 space-y-7 relative",
     variants: {
@@ -17,7 +26,7 @@ export function RecentlyAddedCard({ variant }: { variant: 0 | 1 | 2 | 3 | 4 | 5 
   });
 
   const button = tv({
-    base: "px-3 py-2 rounded-[5px] flex items-center transition-all hover:bg-opacity-80",
+    base: "w-fit px-3 py-2 rounded-[5px] flex items-center transition-all hover:bg-opacity-80",
     variants: {
       colors: {
         0: "bg-[#B2CDAA] text-[#3F3F3F]",
@@ -42,22 +51,26 @@ export function RecentlyAddedCard({ variant }: { variant: 0 | 1 | 2 | 3 | 4 | 5 
   return (
     <div className={container({ colors: variant })}>
       <div className="space-y-3">
-        <h3 className="font-bold text-[28px]">
-          City Budget Expenditures by Department – FY2024
+        <h3 className="font-bold text-[28px] h-[5.25rem] line-clamp-2">
+          {dataset.title}
         </h3>
-        <p className="text-[#3F3F3F]">
-          Detailed breakdown of city expenditures by department and program for
-          the fiscal year 2024. Includes general fund allocations, capital
-          improvements, and grant-funded initiatives.
+        <p className="text-[#3F3F3F] h-[6rem] line-clamp-4">
+          {dataset.notes ? dataset.notes : <span className="italic">N/A</span>}
         </p>
       </div>
       <div>
-        <button className={button({ colors: variant })}>
+        <a
+          href={`#dataset-${dataset.name}`}
+          className={button({ colors: variant })}
+        >
           Explore dataset
           <ArrowSmallRightIcon className="inline w-6" />
-        </button>
+        </a>
       </div>
-      <Leaf className="absolute right-0 bottom-0 -z-10" color={leafColor[variant]} />
+      <Leaf
+        className="absolute right-0 bottom-0 -z-10"
+        color={leafColor[variant]}
+      />
     </div>
   );
 }

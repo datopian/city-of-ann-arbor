@@ -132,14 +132,18 @@ export function Footer() {
         </div>
         <div className="flex flex-col p-6 gap-y-3">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-14">
-            {navigation.map((n) => {
+            {navigation.map((n, ni) => {
               return (
-                <div className="space-y-7">
+                <div key={`footer-${n.title}`} className="space-y-7">
                   <p className="font-semibold text-lg">{n.title}</p>
                   <div className="flex flex-col space-y-4">
-                    {n.links.map((l) => {
+                    {n.links.map((l, li) => {
                       return (
-                        <a href={l.href} className="text-lg">
+                        <a
+                          key={`footer-link-${ni}-${li}`}
+                          href={l.href}
+                          className="text-lg"
+                        >
                           {l.title}
                         </a>
                       );
