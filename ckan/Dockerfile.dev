@@ -1,6 +1,8 @@
 FROM ckan/ckan-dev:2.11.0
 
 USER root
+RUN mkdir /srv/app/.local && chown ckan /srv/app/.local
+USER ckan
 
 # Install any extensions needed by your CKAN instance
 # - Make sure to add the plugins to CKAN__PLUGINS in the .env file
@@ -24,14 +26,17 @@ USER root
 # will also require gather_consumer and fetch_consumer processes running (please see https://github.com/ckan/ckanext-harvest)
 
 ### Scheming ###
-#RUN  pip3 install -e 'git+https://github.com/ckan/ckanext-scheming.git@master#egg=ckanext-scheming'
+RUN pip3 install -e 'git+https://github.com/ckan/ckanext-scheming.git@master#egg=ckanext-scheming'
 
 ### Pages ###
 #RUN  pip3 install -e git+https://github.com/ckan/ckanext-pages.git#egg=ckanext-pages
 
 ### DCAT ###
-#RUN  pip3 install -e git+https://github.com/ckan/ckanext-dcat.git@v0.0.6#egg=ckanext-dcat && \
-#     pip3 install -r https://raw.githubusercontent.com/ckan/ckanext-dcat/v0.0.6/requirements.txt
+RUN pip install -e git+https://github.com/ckan/ckanext-dcat.git@dd3b1e8deaea92d8a789e3227882203a47ce650f#egg=ckanext-dcat && \
+    pip install -r https://raw.githubusercontent.com/ckan/ckanext-dcat/dd3b1e8deaea92d8a789e3227882203a47ce650f/requirements.txt
+
+## Oauth2
+RUN pip install -e git+https://github.com/datopian/ckanext-oauth2.git@f1251aba1138a8f3224f675aa9a1e588517f741c#egg=ckanext-oauth2
 
 # Clone the extension(s) your are writing for your own project in the `src` folder
 # to get them mounted in this image at runtime
@@ -42,6 +47,9 @@ USER ckan
 
 # Copy custom initialization scripts
 COPY docker-entrypoint.d/* /docker-entrypoint.d/
+
+# Copy oauth2 config
+COPY setup/oauth2_config.yaml ${SRC_DIR}
 
 # Apply any patches needed to CKAN core or any of the built extensions (not the
 # runtime mounted ones)
@@ -54,3 +62,4 @@ RUN for d in $APP_DIR/patches/*; do \
             done ; \
         fi ; \
     done
+

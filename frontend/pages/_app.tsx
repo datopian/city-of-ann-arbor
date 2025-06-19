@@ -9,16 +9,17 @@ import SEO from "../next-seo.config";
 
 import Loader from "../components/_shared/Loader";
 
-import ThemeProvider from "../components/theme/theme-provider";
+import { Fira_Sans } from 'next/font/google'
+
+const FiraSans = Fira_Sans({ subsets: ["latin"], weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"] })
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const theme = pageProps.theme || "lighter";
   return (
-    <ThemeProvider themeName={theme}>
+    <main className={`${FiraSans.className}`}>
       <DefaultSeo {...SEO} />
       <Loader />
       <Component {...pageProps} />
-    </ThemeProvider>
+    </main>
   );
 }
 

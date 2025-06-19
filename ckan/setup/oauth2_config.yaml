@@ -1,0 +1,11 @@
+providers:
+  - name: microsoft
+    authorization_endpoint: https://login.microsoftonline.com/1ceb0918-fed0-40f4-97b0-df496f751515/oauth2/v2.0/authorize
+    token_endpoint:  https://login.microsoftonline.com/1ceb0918-fed0-40f4-97b0-df496f751515/oauth2/v2.0/token
+    profile_api_url: https://graph.microsoft.com/v1.0/me
+    client_id: a29887c0-7ba3-4cf9-9526-f356f57b1a07
+    client_secret: 87cf0266-15de-44e0-96b7-d2aa533c08d4
+    scope: profile openid User.Read email
+    profile_api_user_field: displayName
+    profile_api_fullname_field : displayName
+    profile_api_mail_field : userPrincipalName

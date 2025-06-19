@@ -1,0 +1,30 @@
+{
+  "cookiecutter": {
+    "project": "ckanext-ann-arbor",
+    "keywords": "CKAN",
+    "description": "Extension for the city of ann arbor open data portal",
+    "author": "Datopian",
+    "author_email": "support@datopian.com",
+    "github_user_name": "datopian",
+    "project_shortname": "ann_arbor",
+    "plugin_class_name": "AnnArborPlugin",
+    "include_examples": "0",
+    "ckan_version": "2.11",
+    "_source": "cli",
+    "_template": "/srv/app/src/ckan/contrib/cookiecutter/ckan_extension",
+    "_output_dir": "/srv/app/src_extensions",
+    "_repo_dir": "/srv/app/src/ckan/contrib/cookiecutter/ckan_extension"
+  },
+  "_cookiecutter": {
+    "project": "ckanext-ann-arbor",
+    "keywords": "CKAN",
+    "description": "Extension for the city of ann arbor open data portal",
+    "author": "Datopian",
+    "author_email": "support@datopian.com",
+    "github_user_name": "datopian",
+    "project_shortname": "ann_arbor",
+    "plugin_class_name": "AnnArborPlugin",
+    "include_examples": 0,
+    "ckan_version": "2.11"
+  }
+}
