@@ -7,14 +7,9 @@ describe("Homepage", () => {
 
   it("Navbar links point to expected pages", () => {
     cy.get("nav").within(() => {
-      cy.contains("Datasets").should("have.attr", "href", "/search");
+      cy.contains("Data").should("have.attr", "href", "/search");
       cy.contains("Topics").should("have.attr", "href", "/topics");
-      cy.contains("Organizations").should(
-        "have.attr",
-        "href",
-        "/organizations"
-      );
-      cy.contains("About AA").should("have.attr", "href", "/#external-link"); // TODO: update this once we have the link
+      cy.contains("a2gov").should("have.attr", "href", "/#external-link"); // TODO: update this once we have the link
     });
   });
 
