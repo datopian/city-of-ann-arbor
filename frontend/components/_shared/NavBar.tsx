@@ -9,22 +9,18 @@ import { useEffect, useState } from "react";
 const links = [
   {
     href: "/search",
-    label: "Datasets",
+    label: "Data",
   },
   {
     href: "/topics",
     label: "Topics",
   },
   {
-    href: "/organizations",
-    label: "Organizations",
-  },
-  {
     href: "#external-link",
     target: "_blank",
     label: (
       <>
-        About AA{" "}
+        a2gov{" "}
         <Image
           src="/images/icons/external-link.svg"
           alt="external link"
