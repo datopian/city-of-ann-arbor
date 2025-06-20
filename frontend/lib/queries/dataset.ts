@@ -10,15 +10,21 @@ import CkanRequest, { CkanResponse } from "@portaljs/ckan-api-client-js";
 const DMS = process.env.NEXT_PUBLIC_CKAN_URL;
 const mainOrg = process.env.NEXT_PUBLIC_ORG;
 
+interface FacetItem {
+  name: string;
+  count: number;
+  display_name: string;
+}
+
+interface Facet {
+  title: string;
+  items: FacetItem[];
+}
+
 export async function searchDatasets(options: PackageSearchOptions) {
   const baseAction = `package_search`;
 
-  const facetFields = [
-    "groups",
-    "organization",
-    "res_format",
-    //"tags",
-  ]
+  const facetFields = ["groups", "organization", "res_format", "tags"]
     .map((f) => `"${f}"`)
     .join(",");
 
@@ -71,10 +77,18 @@ export async function searchDatasets(options: PackageSearchOptions) {
     "&"
   )}&facet.field=[${facetFields}]&facet.limit=9999`;
 
-  const res = await CkanRequest.get<CkanResponse<{ results: Dataset[], count: number }>>(
-    action,
-    { ckanUrl: DMS }
-  );
+  const res = await CkanRequest.get<
+    CkanResponse<{
+      results: Dataset[];
+      count: number;
+      search_facets: {
+        organization: Facet;
+        groups: Facet;
+        res_format: Facet;
+        tags: Facet;
+      };
+    }>
+  >(action, { ckanUrl: DMS });
 
   return { ...res.result, datasets: res.result.results };
 }
