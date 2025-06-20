@@ -5,6 +5,7 @@ import Layout from "@/components/_shared/Layout";
 import DatasetSearchForm from "@/components/dataset/search/DatasetSearchForm";
 import DatasetSearchFilters from "@/components/dataset/search/DatasetSearchFilters";
 import ListOfDatasets from "@/components/dataset/search/ListOfDatasets";
+import SearchDatasetCard from "@/components/dataset/search/SearchDatasetCard";
 import { searchDatasets } from "@/lib/queries/dataset";
 import HeroSection from "@/components/_shared/HeroSection";
 import { SearchStateProvider } from "@/components/dataset/search/SearchContext";
@@ -18,14 +19,8 @@ import { useQuery } from "@tanstack/react-query";
 import {
   Filter,
   ChevronDown,
-  ChevronUp,
-  Calendar,
-  BarChart3,
-  Database,
   Search,
   ExternalLink,
-  RefreshCw,
-  Tag,
   X,
   Facebook,
   Twitter,
@@ -42,10 +37,11 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import Image from "next/image";
 
 export async function getServerSideProps() {
@@ -131,14 +127,6 @@ export default function DatasetSearch({
     setValue("limit", 10); // Reset to first page on new search
     setValue("offset", 0);
     // Query will refetch due to formData change
-  };
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    });
   };
 
   const topics = searchFacets?.groups?.items || [];
@@ -273,270 +261,200 @@ export default function DatasetSearch({
         <meta name="description" content="City of Ann Arbor Open Data Portal" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="lg:min-h-screen bg-gradient-to-b from-[#E2F1E4] to-[#FFFFFF] to-25%">
+      <div className="lg:min-h-screen bg-gradient-to-b from-[#E2F1E4] to-[#FFFFFF] to-10%">
         <NavBar />
         <SearchHero />
-      </div>
-      <div className="space-y-2 mt-4">
-        {/* Main Content */}
-        <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            {/* Sidebar Filters */}
-            <aside className="lg:col-span-1 lg:sticky lg:top-28 self-start">
-              {" "}
-              {/* Sticky position with top offset */}
-              <div className="bg-white rounded-lg p-6 border border-gray-200 max-h-[calc(100vh-8.5rem)] overflow-y-auto">
+        <div className="space-y-2 mt-4">
+          {/* Main Content */}
+          <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+              {/* Sidebar Filters */}
+              <aside className="lg:col-span-1 lg:sticky lg:top-28 self-start">
                 {" "}
-                {/* Scrollable inner content */}
-                <div className="flex items-center gap-2 mb-4">
-                  <Filter className="w-5 h-5 text-gray-600" />
-                  <h2 className="text-xl font-semibold text-gray-800">
-                    Filters
-                  </h2>
-                </div>
-                {activeFilters.length > 0 && (
-                  <div className="mb-6">
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="font-semibold text-gray-700">
-                        Active filters
-                      </h3>
-                      <button
-                        onClick={clearAllFilters}
-                        className="text-sm text-teal-600 hover:text-teal-800 font-medium"
-                      >
-                        Clear all
-                      </button>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {activeFilters.map((filter) => (
-                        <Badge
-                          key={filter.label}
-                          variant="secondary"
-                          className="bg-gray-200 text-gray-700 hover:bg-gray-300 py-1 px-2 text-xs"
-                        >
-                          {filter.label}
-                          <button
-                            onClick={() =>
-                              removeFilter(
-                                filter.type as keyof SearchFormData,
-                                filter.value
-                              )
-                            }
-                            className="ml-1.5"
-                          >
-                            <X className="w-3 h-3" />
-                          </button>
-                        </Badge>
-                      ))}
-                    </div>
+                {/* Sticky position with top offset */}
+                <div className="bg-white rounded-lg p-6 max-h-[calc(100vh-8.5rem)] overflow-y-auto">
+                  {" "}
+                  {/* Scrollable inner content */}
+                  <div className="flex items-center gap-2 mb-4">
+                    <Filter className="w-5 h-5 text-gray-600" />
+                    <h2 className="text-xl font-semibold text-gray-800">
+                      Filters
+                    </h2>
                   </div>
-                )}
-                {[
-                  {
-                    title: `Topics ${
-                      formData.groups.length > 0
-                        ? `(${formData.topics.length})`
-                        : ""
-                    }`,
-                    isOpen: topicsOpen,
-                    setIsOpen: setTopicsOpen,
-                    items: topicsList,
-                    formName: "topics" as const,
-                  },
-                  {
-                    title: "Formats",
-                    isOpen: formatsOpen,
-                    setIsOpen: setFormatsOpen,
-                    items: formatsList,
-                    formName: "formats" as const,
-                  },
-                  {
-                    title: "Tags",
-                    isOpen: tagsOpen,
-                    setIsOpen: tagsOpen,
-                    items: tagsList,
-                    formName: "tags" as const,
-                  },
-                ].map((filterGroup) => (
-                  <Collapsible
-                    key={filterGroup.title}
-                    open={filterGroup.isOpen}
-                    onOpenChange={filterGroup.setIsOpen}
-                    className="border-t border-gray-200 py-4 first-of-type:border-t-0 first-of-type:pt-0 last-of-type:pb-0"
-                  >
-                    <CollapsibleTrigger className="flex items-center justify-between w-full text-left group">
-                      <span className="font-semibold text-gray-700 group-hover:text-teal-600">
-                        {filterGroup.title}
-                      </span>
-                      {filterGroup.isOpen ? (
-                        <ChevronUp className="w-5 h-5 text-gray-500 group-hover:text-teal-600" />
-                      ) : (
-                        <ChevronDown className="w-5 h-5 text-gray-500 group-hover:text-teal-600" />
-                      )}
-                    </CollapsibleTrigger>
-                    <CollapsibleContent className="space-y-2.5 mt-3">
-                      {filterGroup.items.map((item) => (
-                        <Controller
-                          key={item.name}
-                          name={filterGroup.formName}
-                          control={control}
-                          render={({ field }) => (
-                            <div className="flex items-center space-x-2.5">
-                              <Checkbox
-                                id={`${filterGroup.formName}-${item.name}`}
-                                checked={field.value.includes(item.name)}
-                                onCheckedChange={(checked) => {
-                                  const newValue = checked
-                                    ? [...field.value, item.name]
-                                    : field.value.filter(
-                                        (v: string) => v !== item.name
-                                      );
-                                  field.onChange(newValue);
-                                }}
-                                className="data-[state=checked]:bg-teal-600 data-[state=checked]:border-teal-600 focus:ring-teal-500"
-                              />
-                              <label
-                                htmlFor={`${filterGroup.formName}-${item.name}`}
-                                className="text-sm text-gray-600 hover:text-gray-900 cursor-pointer flex-grow"
-                              >
-                                {item.name}
-                              </label>
-                              <span className="text-xs text-gray-400">
-                                {item.count}
-                              </span>
-                            </div>
-                          )}
-                        />
-                      ))}
-                    </CollapsibleContent>
-                  </Collapsible>
-                ))}
-              </div>
-            </aside>
-
-            {/* Results */}
-            <main className="lg:col-span-3">
-              <div className="mb-4 flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-gray-800">
-                  {isLoading
-                    ? "Loading results..."
-                    : `${(data?.result.count || 0).toLocaleString()} results`}
-                </h2>
-                {/* Add sort dropdown here if needed */}
-              </div>
-
-              {isLoading && (
-                <div className="space-y-4">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Card key={i} className="animate-pulse border-gray-200">
-                      <CardContent className="p-4 sm:p-6">
-                        <div className="flex gap-4">
-                          <div className="w-8 h-8 bg-gray-200 rounded"></div>
-                          <div className="flex-1 space-y-2">
-                            <div className="h-5 bg-gray-200 rounded w-3/4"></div>
-                            <div className="h-3 bg-gray-200 rounded w-full"></div>
-                            <div className="h-3 bg-gray-200 rounded w-2/3"></div>
-                            <div className="flex gap-2 mt-2">
-                              <div className="h-5 w-12 bg-gray-200 rounded-full"></div>
-                              <div className="h-5 w-12 bg-gray-200 rounded-full"></div>
-                            </div>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              )}
-
-              {error && (
-                <Card className="border-red-300 bg-red-50">
-                  <CardContent className="p-6 text-center text-red-700">
-                    Error loading datasets: {error.message}. Please try again.
-                  </CardContent>
-                </Card>
-              )}
-
-              {data && data.result.results.length === 0 && !isLoading && (
-                <Card className="border-gray-200">
-                  <CardContent className="p-10 text-center text-gray-500">
-                    No datasets found matching your criteria.
-                  </CardContent>
-                </Card>
-              )}
-
-              {data && data.result.results.length > 0 && (
-                <div className="space-y-4">
-                  {data.result.results.map((dataset) => (
-                    <Card
-                      key={dataset.id}
-                      className="hover:shadow-lg transition-shadow duration-200 border border-gray-200"
-                    >
-                      <CardContent className="p-4 sm:p-6">
-                        <div className="flex flex-col sm:flex-row items-start gap-4">
-                          <div className="flex-shrink-0 w-10 h-10 bg-gray-100 rounded flex items-center justify-center mt-1">
-                            {getTypeIcon(dataset.type)}
-                          </div>
-                          <div className="flex-1">
-                            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-1">
-                              <h3 className="text-lg font-semibold text-gray-800 hover:text-teal-600 cursor-pointer leading-tight">
-                                {dataset.title}
-                              </h3>
-                              <Badge
-                                variant="outline"
-                                className={`text-xs font-medium ml-0 sm:ml-2 mt-1 sm:mt-0 ${getTypeBadgeClass(
-                                  dataset.type
-                                )}`}
-                              >
-                                {dataset.type.charAt(0).toUpperCase() +
-                                  dataset.type.slice(1)}
-                              </Badge>
-                            </div>
-                            <p className="text-sm text-gray-600 mb-3 line-clamp-2">
-                              {dataset.notes}
-                            </p>
-                            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-500 mb-3">
-                              <div className="flex items-center gap-1">
-                                <Calendar className="w-3.5 h-3.5" />
-                                Created: {formatDate(dataset.metadata_created)}
-                              </div>
-                              <div className="flex items-center gap-1">
-                                <RefreshCw className="w-3.5 h-3.5" />
-                                Updated: {formatDate(dataset.metadata_modified)}
-                              </div>
-                              {dataset.tags && dataset.tags.length > 0 && (
-                                <div className="flex items-center gap-1">
-                                  <Tag className="w-3.5 h-3.5" />
-                                  {dataset.tags
-                                    .slice(0, 3)
-                                    .map((tag) => tag.display_name)
-                                    .join(", ")}
-                                  {dataset.tags.length > 3 && "..."}
+                  {activeFilters.length > 0 && (
+                    <div className="mb-6">
+                      <div className="flex items-center justify-between mb-2">
+                        <h3 className="font-semibold text-gray-700">
+                          Active filters
+                        </h3>
+                        <button
+                          onClick={clearAllFilters}
+                          className="text-sm text-teal-600 hover:text-teal-800 font-medium"
+                        >
+                          Clear all
+                        </button>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {activeFilters.map((filter) => (
+                          <Badge
+                            key={filter.label}
+                            variant="secondary"
+                            className="bg-gray-200 text-gray-700 hover:bg-gray-300 py-1 px-2 text-xs"
+                          >
+                            {filter.label}
+                            <button
+                              onClick={() =>
+                                removeFilter(
+                                  filter.type as keyof SearchFormData,
+                                  filter.value
+                                )
+                              }
+                              className="ml-1.5"
+                            >
+                              <X className="w-3 h-3" />
+                            </button>
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  <Accordion type="multiple" className="w-full">
+                    {[
+                      {
+                        title: `Topics ${
+                          formData.groups.length > 0
+                            ? `(${formData.groups.length})`
+                            : ""
+                        }`,
+                        items: topics,
+                        formName: "groups" as const,
+                        value: "topics",
+                      },
+                      {
+                        title: "Formats",
+                        items: formats,
+                        formName: "formats" as const,
+                        value: "formats",
+                      },
+                      {
+                        title: "Tags",
+                        items: tags,
+                        formName: "tags" as const,
+                        value: "tags",
+                      },
+                    ].map((filterGroup) => (
+                      <AccordionItem
+                        key={filterGroup.value}
+                        value={filterGroup.value}
+                        className="border-t border-gray-200 first-of-type:border-t-0"
+                      >
+                        <AccordionTrigger className="font-semibold text-gray-700 hover:text-teal-600 hover:no-underline py-4">
+                          {filterGroup.title}
+                        </AccordionTrigger>
+                        <AccordionContent className="space-y-2.5 pb-4">
+                          {filterGroup.items.map((item) => (
+                            <Controller
+                              key={item.name}
+                              name={filterGroup.formName}
+                              control={control}
+                              render={({ field }) => (
+                                <div className="flex items-center space-x-2.5">
+                                  <Checkbox
+                                    id={`${filterGroup.formName}-${item.name}`}
+                                    checked={field.value.includes(item.name)}
+                                    onCheckedChange={(checked) => {
+                                      const newValue = checked
+                                        ? [...field.value, item.name]
+                                        : field.value.filter(
+                                            (v: string) => v !== item.name
+                                          );
+                                      field.onChange(newValue);
+                                    }}
+                                    className="data-[state=checked]:bg-teal-600 data-[state=checked]:border-teal-600 focus:ring-teal-500"
+                                  />
+                                  <label
+                                    htmlFor={`${filterGroup.formName}-${item.name}`}
+                                    className="text-sm text-gray-600 hover:text-gray-900 cursor-pointer flex-grow"
+                                  >
+                                    {item.name}
+                                  </label>
+                                  <span className="text-xs text-gray-400">
+                                    {item.count}
+                                  </span>
                                 </div>
                               )}
-                            </div>
-                            <div className="flex flex-wrap items-center gap-2">
-                              {dataset.resources.map((resource, index) => (
-                                <Badge
-                                  key={index}
-                                  variant="outline"
-                                  className="text-xs bg-green-50 border-green-200 text-green-700 hover:bg-green-100 cursor-pointer py-0.5 px-2"
-                                >
-                                  {resource.format}
-                                </Badge>
-                              ))}
+                            />
+                          ))}
+                        </AccordionContent>
+                      </AccordionItem>
+                    ))}
+                  </Accordion>
+                </div>
+              </aside>
+
+              {/* Results */}
+              <main className="lg:col-span-3">
+                <div className="mb-4 flex items-center justify-between">
+                  <h2 className="text-lg font-semibold text-gray-800">
+                    {isLoading
+                      ? "Loading results..."
+                      : `${(data?.count || 0).toLocaleString()} results`}
+                  </h2>
+                  {/* Add sort dropdown here if needed */}
+                </div>
+
+                {isLoading && (
+                  <div className="space-y-4">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <Card key={i} className="animate-pulse border-gray-200">
+                        <CardContent className="p-4 sm:p-6">
+                          <div className="flex gap-4">
+                            <div className="w-8 h-8 bg-gray-200 rounded"></div>
+                            <div className="flex-1 space-y-2">
+                              <div className="h-5 bg-gray-200 rounded w-3/4"></div>
+                              <div className="h-3 bg-gray-200 rounded w-full"></div>
+                              <div className="h-3 bg-gray-200 rounded w-2/3"></div>
+                              <div className="flex gap-2 mt-2">
+                                <div className="h-5 w-12 bg-gray-200 rounded-full"></div>
+                                <div className="h-5 w-12 bg-gray-200 rounded-full"></div>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              )}
-              {renderPagination()}
-            </main>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                )}
+
+                {error && (
+                  <Card className="border-red-300 bg-red-50">
+                    <CardContent className="p-6 text-center text-red-700">
+                      Error loading datasets: {error.message}. Please try again.
+                    </CardContent>
+                  </Card>
+                )}
+
+                {data && data.results.length === 0 && !isLoading && (
+                  <Card className="border-gray-200">
+                    <CardContent className="p-10 text-center text-gray-500">
+                      No datasets found matching your criteria.
+                    </CardContent>
+                  </Card>
+                )}
+
+                {data && data.results.length > 0 && (
+                  <div className="space-y-4">
+                    {data.results.map((dataset) => (
+                      <SearchDatasetCard key={dataset.id} dataset={dataset} />
+                    ))}
+                  </div>
+                )}
+                {renderPagination()}
+              </main>
+            </div>
           </div>
+          <Footer />
         </div>
-        <Footer />
       </div>
     </div>
   );
