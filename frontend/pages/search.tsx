@@ -266,13 +266,13 @@ export default function DatasetSearch({
         <SearchHero />
         <div className="space-y-2 mt-4">
           {/* Main Content */}
-          <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+          <div className="max-w-[1128px] mx-auto px-4 pb-8 flex-grow w-full">
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
               {/* Sidebar Filters */}
               <aside className="lg:col-span-1 lg:sticky lg:top-28 self-start">
                 {" "}
                 {/* Sticky position with top offset */}
-                <div className="bg-white rounded-lg p-6 max-h-[calc(100vh-8.5rem)] overflow-y-auto">
+                <div className="bg-white rounded-lg p-6 pt-0 pl-0 max-h-[calc(100vh-8.5rem)] overflow-y-auto">
                   {" "}
                   {/* Scrollable inner content */}
                   <div className="flex items-center gap-2 mb-4">
@@ -395,7 +395,7 @@ export default function DatasetSearch({
               {/* Results */}
               <main className="lg:col-span-3">
                 <div className="mb-4 flex items-center justify-between">
-                  <h2 className="text-lg font-semibold text-gray-800">
+                  <h2 className="pl-4 sm:pl-6 text-lg font-semibold text-gray-800">
                     {isLoading
                       ? "Loading results..."
                       : `${(data?.count || 0).toLocaleString()} results`}

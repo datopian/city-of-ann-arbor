@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.1",
-    "@heroicons/react": "^2.0.11",
+    "@heroicons/react": "^2.2.0",
     "@portaljs/ckan": "^0.1.0",
     "@portaljs/ckan-api-client-js": "^1.4.0",
     "@portaljs/components": "0.3.1",
