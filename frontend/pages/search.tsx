@@ -224,7 +224,7 @@ export default function DatasetSearch({
     <div
       className={`bg-white rounded-lg p-6 pt-4 pl-0 max-h-[calc(100vh-8.5rem)] overflow-y-auto ${className}`}
     >
-      <div className="flex items-center gap-2 mb-4 hidden lg:block">
+      <div className="items-center gap-2 mb-4 hidden lg:flex">
         <AdjustmentsHorizontalIcon className="w-5 h-5 text-gray-600" />
         <h2 className="text-xl font-medium text-gray-800">Filters</h2>
       </div>

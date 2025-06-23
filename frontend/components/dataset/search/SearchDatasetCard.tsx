@@ -9,6 +9,7 @@ import {
   HashtagIcon,
   TagIcon,
 } from "@heroicons/react/24/outline";
+import { Fragment } from "react";
 
 interface SearchDatasetCardProps {
   dataset: Dataset;
@@ -121,7 +122,9 @@ export default function SearchDatasetCard({ dataset }: SearchDatasetCardProps) {
             </div>
             <div className="flex flex-wrap items-center gap-2">
               {dataset.resources.map((resource, index) => (
-                <>{getFormatBadge(resource.format)}</>
+                <Fragment key={resource.id}>
+                  {getFormatBadge(resource.format)}
+                </Fragment>
               ))}
             </div>
           </div>
