@@ -6,7 +6,7 @@ export default function Brand({ size }: { size: "lg" | "sm" }) {
     <Link
       href="/"
       className={`${
-        size == "lg" ? "w-[100px] h-[100px]" : "w-[75px] h-[75px]"
+        size == "lg" ? "w-[100px] h-[100px]" : "w-[60px] h-[60px]"
       } relative transition-all`}
     >
       <Image

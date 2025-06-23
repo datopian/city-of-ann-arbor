@@ -9,22 +9,18 @@ import { useEffect, useState } from "react";
 const links = [
   {
     href: "/search",
-    label: "Datasets",
+    label: "Data",
   },
   {
     href: "/topics",
     label: "Topics",
   },
   {
-    href: "/organizations",
-    label: "Organizations",
-  },
-  {
     href: "#external-link",
     target: "_blank",
     label: (
       <>
-        About AA{" "}
+        a2gov{" "}
         <Image
           src="/images/icons/external-link.svg"
           alt="external link"
@@ -79,7 +75,7 @@ export default function NavBar() {
     >
       <nav
         className={`mx-auto ${
-          !hasScrolled ? "pb-9 pt-5" : "pb-4 pt-4"
+          !hasScrolled ? "pb-9 pt-5" : "pb-2 pt-2"
         } px-9 flex flex-nowrap justify-between transition-all`}
         aria-label="Global"
       >
