@@ -6,19 +6,28 @@ import {
 } from "./utils";
 import { Dataset, PackageSearchOptions } from "@/schemas/dataset.interface";
 import CkanRequest, { CkanResponse } from "@portaljs/ckan-api-client-js";
+import { match, P } from "ts-pattern";
 
 const DMS = process.env.NEXT_PUBLIC_CKAN_URL;
 const mainOrg = process.env.NEXT_PUBLIC_ORG;
 
-export async function searchDatasets(options: PackageSearchOptions) {
+interface FacetItem {
+  name: string;
+  count: number;
+  display_name: string;
+}
+
+interface Facet {
+  title: string;
+  items: FacetItem[];
+}
+
+export async function searchDatasets(
+  options: PackageSearchOptions & { type?: string[] }
+) {
   const baseAction = `package_search`;
 
-  const facetFields = [
-    "groups",
-    "organization",
-    "res_format",
-    //"tags",
-  ]
+  const facetFields = ["groups", "organization", "res_format", "tags"]
     .map((f) => `"${f}"`)
     .join(",");
 
@@ -27,6 +36,14 @@ export async function searchDatasets(options: PackageSearchOptions) {
   if (options?.query) {
     queryParams.push(`q=${options.query}`);
   }
+
+  //@ts-ignore
+  const type = match(options?.type)
+    .with(["dataset"], (v) => `-dashboard_url:[* TO *]`)
+    .with(["dashboard"], (v) => `dashboard_url:[* TO *]`)
+    .otherwise(() => "");
+
+  console.log("type", type);
 
   if (options?.offset) {
     queryParams.push(`start=${options.offset}`);
@@ -59,8 +76,16 @@ export async function searchDatasets(options: PackageSearchOptions) {
     fqListGroups.push(`res_format:(${joinTermsWithOr(options.resFormat)})`);
   }
 
+  if (options?.tags?.length) {
+    fqListGroups.push(`tags:(${joinTermsWithOr(options.tags)})`);
+  }
+
   if (fqListGroups?.length) {
     fqList.push(`+(${fqListGroups.join(" AND ")})`);
+  }
+
+  if (type !== "") {
+    fqList.push(type);
   }
 
   if (fqList?.length) {
@@ -71,10 +96,20 @@ export async function searchDatasets(options: PackageSearchOptions) {
     "&"
   )}&facet.field=[${facetFields}]&facet.limit=9999`;
 
-  const res = await CkanRequest.get<CkanResponse<{ results: Dataset[], count: number }>>(
-    action,
-    { ckanUrl: DMS }
-  );
+  console.log("URL", action);
+
+  const res = await CkanRequest.get<
+    CkanResponse<{
+      results: Dataset[];
+      count: number;
+      search_facets: {
+        organization: Facet;
+        groups: Facet;
+        res_format: Facet;
+        tags: Facet;
+      };
+    }>
+  >(action, { ckanUrl: DMS });
 
   return { ...res.result, datasets: res.result.results };
 }

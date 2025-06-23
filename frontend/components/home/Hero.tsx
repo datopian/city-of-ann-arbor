@@ -11,7 +11,9 @@ export default function HeroSection({ groups }: { groups: Group[] }) {
             <span className="text-lg lg:text-4xl">City of Ann Arbor</span> Open
             Data Portal
           </h1>
-          <SearchForm />
+          <div className="max-w-[580px] w-full">
+            <SearchForm />
+          </div>
           <div className="flex flex-row flex-wrap justify-center gap-x-1 gap-y-2 lg:gap-x-2 lg:gap-y-5 max-w-3xl">
             {groups.slice(0, groups.length <= 8 ? 8 : 7).map((g, i) => (
               <Link

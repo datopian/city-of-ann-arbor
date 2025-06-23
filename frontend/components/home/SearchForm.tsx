@@ -18,7 +18,7 @@ const SearchForm: React.FC = () => {
   return (
     <form
       onSubmit={(e) => handleSubmit(e)}
-      className="items-center bg-white border-[2px] border-[#D9D9D9] rounded-[10px] w-full lg:max-w-[580px]"
+      className="items-center bg-white border-[2px] border-[#D9D9D9] rounded-[10px] w-full w-full"
     >
       <div className="flex flex-row justify-between gap-4 p-1 lg:p-[7px]">
         <input
