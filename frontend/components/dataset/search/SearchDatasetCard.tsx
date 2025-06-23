@@ -83,13 +83,13 @@ export default function SearchDatasetCard({ dataset }: SearchDatasetCardProps) {
             {getTypeIcon(dataset.type)}
           </div>
           <div className="flex-1">
-            <div className="flex flex-col sm:flex-row sm:items-start gap-x-2 mb-1">
+            <div className="flex flex-col md:flex-row sm:items-start gap-x-2 mb-1">
               <h3 className="group-hover:text-teal-600 cursor-pointer leading-tight text-black text-2xl font-bold transition-colors duration-200">
                 {dataset.title}
               </h3>
               <Badge
                 variant="outline"
-                className={`text-[#3f3f3f] mt-1 text-sm font-normal border-0 ${getTypeBadgeClass(
+                className={`w-fit text-[#3f3f3f] mt-1 text-sm font-normal border-0 ${getTypeBadgeClass(
                   dataset.type
                 )}`}
               >

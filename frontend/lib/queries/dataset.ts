@@ -6,6 +6,7 @@ import {
 } from "./utils";
 import { Dataset, PackageSearchOptions } from "@/schemas/dataset.interface";
 import CkanRequest, { CkanResponse } from "@portaljs/ckan-api-client-js";
+import { match, P } from "ts-pattern";
 
 const DMS = process.env.NEXT_PUBLIC_CKAN_URL;
 const mainOrg = process.env.NEXT_PUBLIC_ORG;
@@ -21,7 +22,9 @@ interface Facet {
   items: FacetItem[];
 }
 
-export async function searchDatasets(options: PackageSearchOptions) {
+export async function searchDatasets(
+  options: PackageSearchOptions & { type?: string[] }
+) {
   const baseAction = `package_search`;
 
   const facetFields = ["groups", "organization", "res_format", "tags"]
@@ -33,6 +36,14 @@ export async function searchDatasets(options: PackageSearchOptions) {
   if (options?.query) {
     queryParams.push(`q=${options.query}`);
   }
+
+  //@ts-ignore
+  const type = match(options?.type)
+    .with(["dataset"], (v) => `-dashboard_url:[* TO *]`)
+    .with(["dashboard"], (v) => `dashboard_url:[* TO *]`)
+    .otherwise(() => "");
+
+  console.log("type", type);
 
   if (options?.offset) {
     queryParams.push(`start=${options.offset}`);
@@ -65,8 +76,16 @@ export async function searchDatasets(options: PackageSearchOptions) {
     fqListGroups.push(`res_format:(${joinTermsWithOr(options.resFormat)})`);
   }
 
+  if (options?.tags?.length) {
+    fqListGroups.push(`tags:(${joinTermsWithOr(options.tags)})`);
+  }
+
   if (fqListGroups?.length) {
     fqList.push(`+(${fqListGroups.join(" AND ")})`);
+  }
+
+  if (type !== "") {
+    fqList.push(type);
   }
 
   if (fqList?.length) {
@@ -76,6 +95,8 @@ export async function searchDatasets(options: PackageSearchOptions) {
   const action = `${baseAction}?${queryParams.join(
     "&"
   )}&facet.field=[${facetFields}]&facet.limit=9999`;
+
+  console.log("URL", action);
 
   const res = await CkanRequest.get<
     CkanResponse<{
