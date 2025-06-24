@@ -69,17 +69,19 @@ dataset_fields:
   display_snippet: email.html
   display_email_name_field: maintainer
 
-- field_name: image_url
-  label: Dashboard Thumbnail
-  form_placeholder: http://example.com/my-image.jpg
-  preset: organization_url_upload
-  display_snippet: image.html
-
 - field_name: dashboard_url
   label: Dashboard URL
   form_placeholder: http://example.com/dataset
   display_property: foaf:page
   display_snippet: link.html
+  validators: url_validator
+  help_text: "Leave empty to create a dataset. Provide a value to create a dashboard."
+
+- field_name: image_url
+  label: Dashboard Thumbnail
+  form_placeholder: http://example.com/my-image.jpg
+  preset: organization_url_upload
+  display_snippet: image.html
 
 resource_fields:
 
