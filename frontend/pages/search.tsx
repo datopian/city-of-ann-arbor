@@ -116,8 +116,8 @@ export function SearchHero({ query }: { query: string }) {
               </form>
             </div>
           </div>
-          <div className="lg:absolute lg:bottom-[-15px] lg:left-0 w-full lg:h-[240px] lg:bg-[url('/images/bg-image.png')] bg-contain"></div>
         </div>
+        <div className="lg:absolute lg:bottom-[-15px] lg:left-0 w-full lg:h-[240px] lg:bg-[url('/images/bg-image.png')] bg-contain"></div>
       </div>
     </div>
   );
