@@ -22,6 +22,9 @@ module.exports = {
     "bg-ann-arbor-groups-8",
     "bg-dataset-badge",
     "bg-dashboard-badge",
+    "accent-green",
+    "primary-blue",
+    "primary-gray",
   ],
   theme: {
     extend: {

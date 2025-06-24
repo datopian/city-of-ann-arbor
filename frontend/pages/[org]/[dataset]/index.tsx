@@ -1,18 +1,23 @@
 import { GetServerSideProps } from "next";
 import Head from "next/head";
-import DatasetInfo from "@/components/dataset/individualPage/DatasetInfo";
-import DatasetOverview from "@/components/dataset/individualPage/DatasetOverview";
-import DatasetNavCrumbs from "@/components/dataset/individualPage/NavCrumbs";
-import ResourcesList from "@/components/dataset/individualPage/ResourcesList";
-import ActivityStream from "@/components/_shared/ActivityStream";
-import Layout from "@/components/_shared/Layout";
 import { CKAN } from "@portaljs/ckan";
-import styles from "styles/DatasetInfo.module.scss";
-import { publicToPrivateDatasetName } from "@/lib/queries/utils";
 import { getDataset } from "@/lib/queries/dataset";
-import HeroSection from "@/components/_shared/HeroSection";
+import { Dataset } from "@/schemas/dataset.interface";
+import {
+  getTypeIcon,
+  getTypeBadgeClass,
+  getTypeIconBgColor,
+  getFormatBadge,
+  formatDate,
+} from "@/lib/uiUtils";
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+interface DatasetPageProps {
+  dataset: Dataset;
+}
+
+export const getServerSideProps: GetServerSideProps<DatasetPageProps> = async (
+  context
+) => {
   try {
     const ckan = new CKAN(process.env.NEXT_PUBLIC_CKAN_URL);
     const datasetName = context.params?.dataset as string;
@@ -106,15 +111,24 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 //  );
 //}
 import type React from "react";
-import { ChevronRight, Clock, RefreshCw, Tag, Download } from "lucide-react";
+import { Clock, Download } from "lucide-react";
+import { ArrowPathIcon, HashtagIcon } from "@heroicons/react/24/outline";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Image from "next/image";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 import NavBar from "@/components/_shared/NavBar";
 import { Footer } from "@/components/_shared/Footer";
+import { Fragment } from "react";
 
-export default function DataPortalPage() {
+export default function DatasetPage({ dataset }: DatasetPageProps) {
   return (
     <div className="">
       <Head>
@@ -126,7 +140,7 @@ export default function DataPortalPage() {
         <NavBar />
         <div className="lg:absolute lg:top-36 lg:left-0 w-full h-[222px] lg:bg-[url('/images/bg-image.png')] bg-contain"></div>
         <div className="lg:pt-36 relative z-10">
-          <MainContent />
+          <MainContent dataset={dataset} />
         </div>
       </div>
       <div className="space-y-2 mt-4">
@@ -136,13 +150,15 @@ export default function DataPortalPage() {
   );
 }
 
-function MainContent() {
+function MainContent({ dataset }: { dataset: Dataset }) {
   return (
     <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8 z-20">
-      <div className="flex w-full">
-        <div className="w-full bg-white p-6 sm:p-8 rounded-lg shadow-lg">
-          <Breadcrumbs />
-          <TitleSection />
+      <div className="flex flex-col gap-y-4 w-full">
+        <div className="w-full bg-white p-6 sm:p-8 lg:px-12 rounded-lg shadow-lg">
+          <Breadcrumbs dataset={dataset} />
+          <TitleSection dataset={dataset} />
+        </div>
+        <div className="bg-white">
           <TabsSection />
         </div>
       </div>
@@ -150,73 +166,91 @@ function MainContent() {
   );
 }
 
-function Breadcrumbs() {
+function Breadcrumbs({ dataset }: { dataset: Dataset }) {
   return (
-    <nav className="flex items-center text-sm text-city-purple-DEFAULT mb-4">
-      <a href="#" className="hover:underline">
-        Home
-      </a>
-      <ChevronRight size={16} className="mx-1" />
-      <a href="#" className="hover:underline">
-        Data
-      </a>
-      <ChevronRight size={16} className="mx-1" />
-      <span className="text-city-gray-DEFAULT">
-        City Budget Expenditures by Department – FY2024
-      </span>
-    </nav>
+    <Breadcrumb className="mb-4">
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink
+            href="/"
+            className="text-ann-arbor-primary-blue hover:underline"
+          >
+            Home
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbLink
+            href="/search"
+            className="text-ann-arbor-primary-blue hover:underline"
+          >
+            Data
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbPage className="text-ann-arbor-primary-blue">
+            {dataset.title || dataset.name}
+          </BreadcrumbPage>
+        </BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
   );
 }
 
-function TitleSection() {
+function TitleSection({ dataset }: { dataset: Dataset }) {
   return (
     <div className="mb-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-        <h1 className="text-3xl font-bold text-city-gray-text mb-2 sm:mb-0">
-          City Budget Expenditures by Department – FY2024
-        </h1>
-        <Badge
-          variant="outline"
-          className="bg-city-purple-DEFAULT/10 text-city-purple-dark border-city-purple-DEFAULT/30 py-1 px-3 w-fit"
-        >
-          dashboard
-        </Badge>
-      </div>
-      <p className="text-city-gray-DEFAULT mt-2 mb-4">
-        Detailed breakdown of city expenditures by department and program for
-        the fiscal year 2024. Includes general fund allocations, capital
-        improvements, and grant-funded initiatives.
-      </p>
-      <div className="flex flex-wrap items-center text-sm text-city-gray-DEFAULT gap-x-4 gap-y-2 mb-4">
-        <div className="flex items-center">
-          <Clock size={16} className="mr-1" /> Created 25 Mar 2020
+      <div className="flex flex-col sm:flex-row items-start gap-4">
+        <div className="flex-1">
+          <div className="flex flex-col md:flex-row sm:items-start gap-x-2 mb-1">
+            <h1 className="leading-tight text-black text-3xl font-bold">
+              {dataset.title || dataset.name}
+            </h1>
+            <Badge
+              variant="outline"
+              className={`w-fit text-[#3f3f3f] mt-1 text-sm font-normal border-0 ${getTypeBadgeClass(
+                dataset.type || "dataset"
+              )}`}
+            >
+              {dataset.type || "dataset"}
+            </Badge>
+          </div>
+          <p className="text-sm font-normal text-black mb-3 mt-2">
+            {dataset.notes}
+          </p>
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm font-normal text-black mb-3">
+            {dataset.metadata_created && (
+              <div className="flex items-center gap-1.5">
+                <Clock className="w-4 h-4 mb-0.5" />
+                Created {formatDate(dataset.metadata_created)}
+              </div>
+            )}
+            {dataset.metadata_modified && (
+              <div className="flex items-center gap-1">
+                <ArrowPathIcon className="w-4 h-4 mb-0.5" />
+                Updated {formatDate(dataset.metadata_modified)}
+              </div>
+            )}
+            {dataset.tags && dataset.tags.length > 0 && (
+              <div className="flex items-center gap-1">
+                <HashtagIcon className="w-4 h-4 mb-0.5" />
+                {dataset.tags
+                  .slice(0, 3)
+                  .map((tag) => tag.display_name)
+                  .join(", ")}
+                {dataset.tags.length > 3 && "..."}
+              </div>
+            )}
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            {dataset.resources.map((resource) => (
+              <Fragment key={resource.id}>
+                {getFormatBadge(resource.format)}
+              </Fragment>
+            ))}
+          </div>
         </div>
-        <div className="flex items-center">
-          <RefreshCw size={16} className="mr-1" /> Updated 22 Mar 2022
-        </div>
-        <div className="flex items-center">
-          <Tag size={16} className="mr-1" /> Tag 1, Tag 2, Tag 3
-        </div>
-      </div>
-      <div className="flex space-x-2">
-        <Badge
-          variant="secondary"
-          className="bg-city-green-light text-city-green-dark hover:bg-city-green-light/80 cursor-pointer py-1 px-3"
-        >
-          CSV
-        </Badge>
-        <Badge
-          variant="secondary"
-          className="bg-city-green-light text-city-green-dark hover:bg-city-green-light/80 cursor-pointer py-1 px-3"
-        >
-          PDF
-        </Badge>
-        <Badge
-          variant="secondary"
-          className="bg-city-green-light text-city-green-dark hover:bg-city-green-light/80 cursor-pointer py-1 px-3"
-        >
-          XLS
-        </Badge>
       </div>
     </div>
   );
@@ -227,22 +261,16 @@ function TabsSection() {
     <Tabs defaultValue="overview" className="w-full">
       <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 bg-city-gray-light p-1 rounded-md mb-0">
         <TabsTrigger
-          value="overview"
-          className="data-[state=active]:bg-white data-[state=active]:text-city-green-dark data-[state=active]:shadow-sm data-[state=active]:border-b-2 data-[state=active]:border-city-green-dark rounded-none"
-        >
-          Overview
-        </TabsTrigger>
-        <TabsTrigger
           value="resources"
           className="data-[state=active]:bg-white data-[state=active]:text-city-green-dark data-[state=active]:shadow-sm data-[state=active]:border-b-2 data-[state=active]:border-city-green-dark rounded-none"
         >
           Resources
         </TabsTrigger>
         <TabsTrigger
-          value="activity"
+          value="overview"
           className="data-[state=active]:bg-white data-[state=active]:text-city-green-dark data-[state=active]:shadow-sm data-[state=active]:border-b-2 data-[state=active]:border-city-green-dark rounded-none"
         >
-          Activity Stream
+          Overview
         </TabsTrigger>
         <TabsTrigger
           value="api"
@@ -252,24 +280,16 @@ function TabsSection() {
         </TabsTrigger>
       </TabsList>
       <TabsContent
-        value="overview"
-        className="bg-white p-6 border border-t-0 border-city-gray-light rounded-b-md"
-      >
-        <OverviewContent />
-      </TabsContent>
-      <TabsContent
         value="resources"
         className="bg-white p-6 border border-t-0 border-city-gray-light rounded-b-md"
       >
         <p className="text-city-gray-text">Resources content goes here.</p>
       </TabsContent>
       <TabsContent
-        value="activity"
-        className="bg-white p-6 border border-t-0 border-city-gray-light rounded-b-md"
+        value="overview"
+        className="bg-white p-12 border border-t-0 border-city-gray-light rounded-b-md"
       >
-        <p className="text-city-gray-text">
-          Activity Stream content goes here.
-        </p>
+        <OverviewContent />
       </TabsContent>
       <TabsContent
         value="api"
@@ -286,11 +306,9 @@ function TabsSection() {
 function OverviewContent() {
   const detailItem = (label: string, value: string | React.ReactNode) => (
     <div className="mb-4">
-      <h3 className="text-sm font-semibold text-city-gray-text mb-1">
-        {label}
-      </h3>
+      <h3 className="text-base font-medium mb-1">{label}</h3>
       {typeof value === "string" ? (
-        <p className="text-city-gray-DEFAULT text-sm">{value}</p>
+        <p className="text-gray-500 text-sm">{value}</p>
       ) : (
         value
       )}
@@ -299,28 +317,30 @@ function OverviewContent() {
 
   return (
     <div>
-      <div className="mb-6">
-        <h2 className="text-lg font-semibold text-city-gray-text mb-2">
+      <div className="mb-6 flex gap-x-2 items-center">
+        <h2 className="text-base font-normal text-ann-arbor-primary-blue mb-2">
           Export metadata in
         </h2>
-        <div className="flex space-x-4">
+        <div className="flex space-x-4 mb-2 text-base font-normal">
           <Button
             variant="link"
-            className="text-city-purple-DEFAULT p-0 h-auto hover:underline"
+            className="p-0 h-auto hover:underline font-normal"
           >
-            <Download size={16} className="mr-1" /> RDF
+            <Download size={16} className="text-ann-arbor-primary-blue" /> RDF
           </Button>
           <Button
             variant="link"
-            className="text-city-purple-DEFAULT p-0 h-auto hover:underline"
+            className="p-0 h-auto hover:underline font-normal"
           >
-            <Download size={16} className="mr-1" /> TTL
+            <Download size={16} className="text-ann-arbor-primary-blue" /> TTL
+            TTL
           </Button>
           <Button
             variant="link"
-            className="text-city-purple-DEFAULT p-0 h-auto hover:underline"
+            className="p-0 h-auto hover:underline font-normal"
           >
-            <Download size={16} className="mr-1" /> JSON-LD
+            <Download size={16} className="text-ann-arbor-primary-blue" />
+            JSON-LD
           </Button>
         </div>
       </div>
@@ -331,17 +351,15 @@ function OverviewContent() {
       )}
 
       <div className="mb-4">
-        <h3 className="text-sm font-semibold text-city-gray-text mb-1">
-          Sources
-        </h3>
+        <h3 className="text-base font-medium mb-1">Sources</h3>
         <ul className="list-disc list-inside text-sm">
           <li>
-            <a href="#" className="text-city-purple-DEFAULT hover:underline">
+            <a href="#" className="text-ann-arbor-primary-blue hover:underline">
               American Transport Outlook (ATO)
             </a>
           </li>
           <li>
-            <a href="#" className="text-city-purple-DEFAULT hover:underline">
+            <a href="#" className="text-ann-arbor-primary-blue hover:underline">
               Integrated Database of the American Energy System (JRC-IDEES)
             </a>
           </li>
@@ -358,7 +376,7 @@ function OverviewContent() {
         "License",
         <a
           href="#"
-          className="text-city-purple-DEFAULT hover:underline text-sm"
+          className="text-ann-arbor-primary-blue hover:underline text-sm"
         >
           Open Data Commons Attribution License
         </a>
