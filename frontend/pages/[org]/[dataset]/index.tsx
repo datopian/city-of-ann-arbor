@@ -111,7 +111,7 @@ export const getServerSideProps: GetServerSideProps<DatasetPageProps> = async (
 //  );
 //}
 import type React from "react";
-import { Clock, Download } from "lucide-react";
+import { Clock, Download, DownloadIcon } from "lucide-react";
 import { ArrowPathIcon, HashtagIcon } from "@heroicons/react/24/outline";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -127,6 +127,7 @@ import {
 import NavBar from "@/components/_shared/NavBar";
 import { Footer } from "@/components/_shared/Footer";
 import { Fragment } from "react";
+import Link from "next/link";
 
 export default function DatasetPage({ dataset }: DatasetPageProps) {
   return (
@@ -159,7 +160,7 @@ function MainContent({ dataset }: { dataset: Dataset }) {
           <TitleSection dataset={dataset} />
         </div>
         <div className="bg-white">
-          <TabsSection />
+          <TabsSection dataset={dataset} />
         </div>
       </div>
     </main>
@@ -256,7 +257,7 @@ function TitleSection({ dataset }: { dataset: Dataset }) {
   );
 }
 
-function TabsSection() {
+function TabsSection({ dataset }: { dataset: Dataset }) {
   return (
     <Tabs defaultValue="overview" className="w-full">
       <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 bg-city-gray-light p-1 rounded-md mb-0">
@@ -281,9 +282,9 @@ function TabsSection() {
       </TabsList>
       <TabsContent
         value="resources"
-        className="bg-white p-6 border border-t-0 border-city-gray-light rounded-b-md"
+        className="bg-white p-12 border border-t-0 border-city-gray-light rounded-b-md"
       >
-        <p className="text-city-gray-text">Resources content goes here.</p>
+        <ResourcesContent dataset={dataset} />
       </TabsContent>
       <TabsContent
         value="overview"
@@ -381,6 +382,118 @@ function OverviewContent() {
           Open Data Commons Attribution License
         </a>
       )}
+    </div>
+  );
+}
+
+function ResourcesContent({ dataset }: { dataset: Dataset }) {
+  const getFileIcon = (format: string) => {
+    const formatLower = format?.toLowerCase() || "";
+    const iconClass = "w-8 h-10 relative overflow-hidden";
+
+    switch (formatLower) {
+      case "xls":
+      case "xlsx":
+        return (
+          <div data-file-type="XLS" className={iconClass}>
+            <img src="/icons/xls.svg" alt="xls" />
+          </div>
+        );
+      case "csv":
+        return (
+          <div data-file-type="CSV" className={iconClass}>
+            <img src="/icons/csv.svg" alt="csv" />
+          </div>
+        );
+      case "xml":
+        return (
+          <div data-file-type="XML" className={iconClass}>
+            <img src="/icons/xml.svg" alt="xml" />
+          </div>
+        );
+      case "json":
+        return (
+          <div data-file-type="JSON" className={iconClass}>
+            <img src="/icons/json.svg" alt="json" />
+          </div>
+        );
+      default:
+        return (
+          <div data-file-type="FILE" className={iconClass}>
+            <div className="w-5 h-1.5 left-[7.82px] top-[28.46px] absolute bg-[#3f3f3f]" />
+            <div className="w-2.5 h-2.5 left-[24.14px] top-[9.06px] absolute bg-gradient-to-br from-black/20 to-black/0" />
+            <div className="w-2.5 h-2.5 left-[33.20px] top-[10px] absolute origin-top-left -rotate-180 bg-[#e5e5e5]" />
+          </div>
+        );
+    }
+  };
+
+  const formatFileSize = (bytes: number) => {
+    if (!bytes) return "";
+    const kb = bytes / 1024;
+    return `${Math.round(kb)} KB`;
+  };
+
+  const formatDate = (dateString: string) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+  };
+
+  if (!dataset.resources || dataset.resources.length === 0) {
+    return (
+      <div className="text-center py-8">
+        <p className="text-gray-500">
+          No resources available for this dataset.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-full">
+      <div className="mb-4">
+        <h3 className="text-[#3f3f3f] text-base font-semibold leading-tight">
+          {dataset.resources.length} resource
+          {dataset.resources.length !== 1 ? "s" : ""}
+        </h3>
+      </div>
+      <div className="flex flex-col gap-2">
+        {dataset.resources.map((resource, index) => (
+          <div
+            key={resource.id}
+            className={`pl-4 pr-6 py-4 rounded-[20px] hover:bg-ann-arbor-groups-5/20 outline outline-1 outline-offset-[-1px] outline-gray-200 inline-flex justify-start items-center gap-4 
+            `}
+          >
+            {getFileIcon(resource.format)}
+            <div className="flex-1 inline-flex flex-col justify-start items-start">
+              <div className="self-stretch justify-center text-[#111928] text-base font-medium leading-normal">
+                {resource.name || `Resource ${index + 1}`}
+              </div>
+              <div className="self-stretch justify-center text-gray-500 text-xs font-normal leading-tight">
+                {resource.last_modified &&
+                  `Updated ${formatDate(resource.last_modified)}`}
+                {resource.last_modified && resource.size && " | "}
+                {resource.size && formatFileSize(resource.size)}
+              </div>
+            </div>
+            <div className="flex items-center gap-x-4">
+              {resource.datastore_active && (
+                <Button className="bg-ann-arbor-accent-green text-white hover:bg-ann-arbor-accent-green/80">
+                  Preview
+                </Button>
+              )}
+              <Link href={`${resource.url}`}>
+                <DownloadIcon className="w-5 h-5" />
+              </Link>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

@@ -1,6 +1,4 @@
-import type {
-  InferGetStaticPropsType,
-} from "next";
+import type { InferGetStaticPropsType } from "next";
 import Head from "next/head";
 import { searchDatasets } from "@/lib/queries/dataset";
 import { getAllGroups } from "@/lib/queries/groups";
