@@ -196,22 +196,22 @@ function TitleSection({ dataset }: { dataset: Dataset }) {
 function TabsSection({ dataset }: { dataset: Dataset }) {
   return (
     <Tabs defaultValue="overview" className="bg-transparent drop-shadow-xl">
-      <TabsList className="flex justify-start bg-transparent rounded-md mb-0 p-0 border-b-0 h-auto overflow-x-scroll md:overflow-x-visible">
+      <TabsList className="flex justify-start bg-transparent rounded-none mb-0 p-0 border-b-0 h-auto overflow-x-scroll md:overflow-x-visible">
         <TabsTrigger
           value="resources"
-          className="font-normal text-base block py-4 px-12 data-[state=active]:border-b-0 data-[state=active]:font-bold data-[state=active]:bg-white data-[state=active]:text-ann-arbor-gray-600 data-[state=active]:shadow-none data-[state=active]:border-t-[3px] data-[state=active]:border-t-ann-arbor-accent-green rounded-none rounded-t-[10px]"
+          className="min-h-[60px] font-normal text-base block py-4 px-12 data-[state=active]:border-b-0 data-[state=active]:font-bold data-[state=active]:bg-white data-[state=active]:text-ann-arbor-gray-600 data-[state=active]:shadow-none data-[state=active]:border-t-[3px] data-[state=active]:border-t-ann-arbor-accent-green rounded-none rounded-t-[10px]"
         >
           Resources
         </TabsTrigger>
         <TabsTrigger
           value="overview"
-          className="font-normal text-base block py-4 px-12 data-[state=active]:border-b-0 data-[state=active]:font-bold data-[state=active]:bg-white data-[state=active]:text-ann-arbor-gray-600 data-[state=active]:shadow-none data-[state=active]:border-t-[3px] data-[state=active]:border-t-ann-arbor-accent-green rounded-none rounded-t-[10px]"
+          className="min-h-[60px] font-normal text-base block py-4 px-12 data-[state=active]:border-b-0 data-[state=active]:font-bold data-[state=active]:bg-white data-[state=active]:text-ann-arbor-gray-600 data-[state=active]:shadow-none data-[state=active]:border-t-[3px] data-[state=active]:border-t-ann-arbor-accent-green rounded-none rounded-t-[10px]"
         >
           Overview
         </TabsTrigger>
         <TabsTrigger
           value="api"
-          className="font-normal text-base block py-4 px-12 data-[state=active]:border-b-0 data-[state=active]:font-bold data-[state=active]:bg-white data-[state=active]:text-ann-arbor-gray-600 data-[state=active]:shadow-none data-[state=active]:border-t-[3px] data-[state=active]:border-t-ann-arbor-accent-green rounded-none rounded-t-[10px]"
+          className="min-h-[60px] font-normal text-base block py-4 px-12 data-[state=active]:border-b-0 data-[state=active]:font-bold data-[state=active]:bg-white data-[state=active]:text-ann-arbor-gray-600 data-[state=active]:shadow-none data-[state=active]:border-t-[3px] data-[state=active]:border-t-ann-arbor-accent-green rounded-none rounded-t-[10px]"
         >
           API Documentation
         </TabsTrigger>
