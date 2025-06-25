@@ -75,7 +75,7 @@ export default function DatasetPage({ dataset }: DatasetPageProps) {
       <div className="lg:min-h-screen bg-gradient-to-t from-[#E2F1E4] to-[#FFFFFF] to-65% pb-28">
         <NavBar />
         <div className="h-[156px] bg-gradient-to-b from-[#E2F1E4] to-[#FFFFFF] to-65%"></div>
-        <div className="lg:absolute lg:top-28 lg:left-0 w-full h-[236px] lg:bg-[url('/images/bg-image.png')] bg-contain"></div>
+        <div className="hidden lg:block lg:absolute lg:top-28 lg:left-0 w-full h-[236px] lg:bg-[url('/images/bg-image.png')] bg-contain"></div>
         <div className="lg:pt-3 relative z-10">
           <MainContent dataset={dataset} />
         </div>
@@ -196,7 +196,7 @@ function TitleSection({ dataset }: { dataset: Dataset }) {
 function TabsSection({ dataset }: { dataset: Dataset }) {
   return (
     <Tabs defaultValue="overview" className="bg-transparent drop-shadow-xl">
-      <TabsList className="flex justify-start bg-transparent rounded-md mb-0 p-0 border-b-0 h-auto">
+      <TabsList className="flex justify-start bg-transparent rounded-md mb-0 p-0 border-b-0 h-auto overflow-x-scroll md:overflow-x-visible">
         <TabsTrigger
           value="resources"
           className="font-normal text-base block py-4 px-12 data-[state=active]:border-b-0 data-[state=active]:font-bold data-[state=active]:bg-white data-[state=active]:text-ann-arbor-gray-600 data-[state=active]:shadow-none data-[state=active]:border-t-[3px] data-[state=active]:border-t-ann-arbor-accent-green rounded-none rounded-t-[10px]"
