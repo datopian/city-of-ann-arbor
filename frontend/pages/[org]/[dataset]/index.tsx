@@ -72,14 +72,15 @@ export default function DatasetPage({ dataset }: DatasetPageProps) {
         <meta name="description" content="City of Ann Arbor Open Data Portal" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="lg:min-h-screen bg-gradient-to-b from-[#E2F1E4] to-[#FFFFFF] to-10%">
+      <div className="lg:min-h-screen bg-gradient-to-t from-[#E2F1E4] to-[#FFFFFF] to-65% pb-28">
         <NavBar />
-        <div className="lg:absolute lg:top-36 lg:left-0 w-full h-[222px] lg:bg-[url('/images/bg-image.png')] bg-contain"></div>
-        <div className="lg:pt-36 relative z-10">
+        <div className="h-[156px] bg-gradient-to-b from-[#E2F1E4] to-[#FFFFFF] to-65%"></div>
+        <div className="lg:absolute lg:top-28 lg:left-0 w-full h-[236px] lg:bg-[url('/images/bg-image.png')] bg-contain"></div>
+        <div className="lg:pt-3 relative z-10">
           <MainContent dataset={dataset} />
         </div>
       </div>
-      <div className="space-y-2 mt-4">
+      <div>
         <Footer />
       </div>
     </div>
@@ -88,13 +89,13 @@ export default function DatasetPage({ dataset }: DatasetPageProps) {
 
 function MainContent({ dataset }: { dataset: Dataset }) {
   return (
-    <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8 z-20">
-      <div className="flex flex-col gap-y-4 w-full">
+    <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-0 z-20">
+      <div className="flex flex-col gap-y-5 w-full">
         <div className="w-full bg-white p-6 sm:p-8 lg:px-12 rounded-lg shadow-lg">
           <Breadcrumbs dataset={dataset} />
           <TitleSection dataset={dataset} />
         </div>
-        <div className="bg-white">
+        <div className="">
           <TabsSection dataset={dataset} />
         </div>
       </div>
@@ -194,42 +195,42 @@ function TitleSection({ dataset }: { dataset: Dataset }) {
 
 function TabsSection({ dataset }: { dataset: Dataset }) {
   return (
-    <Tabs defaultValue="overview" className="w-full">
-      <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 bg-city-gray-light p-1 rounded-md mb-0">
+    <Tabs defaultValue="overview" className="bg-transparent drop-shadow-xl">
+      <TabsList className="flex justify-start bg-transparent rounded-md mb-0 p-0 border-b-0 h-auto">
         <TabsTrigger
           value="resources"
-          className="data-[state=active]:bg-white data-[state=active]:text-city-green-dark data-[state=active]:shadow-sm data-[state=active]:border-b-2 data-[state=active]:border-city-green-dark rounded-none"
+          className="font-normal text-base block py-4 px-12 data-[state=active]:border-b-0 data-[state=active]:font-bold data-[state=active]:bg-white data-[state=active]:text-ann-arbor-gray-600 data-[state=active]:shadow-none data-[state=active]:border-t-[3px] data-[state=active]:border-t-ann-arbor-accent-green rounded-none rounded-t-[10px]"
         >
           Resources
         </TabsTrigger>
         <TabsTrigger
           value="overview"
-          className="data-[state=active]:bg-white data-[state=active]:text-city-green-dark data-[state=active]:shadow-sm data-[state=active]:border-b-2 data-[state=active]:border-city-green-dark rounded-none"
+          className="font-normal text-base block py-4 px-12 data-[state=active]:border-b-0 data-[state=active]:font-bold data-[state=active]:bg-white data-[state=active]:text-ann-arbor-gray-600 data-[state=active]:shadow-none data-[state=active]:border-t-[3px] data-[state=active]:border-t-ann-arbor-accent-green rounded-none rounded-t-[10px]"
         >
           Overview
         </TabsTrigger>
         <TabsTrigger
           value="api"
-          className="data-[state=active]:bg-white data-[state=active]:text-city-green-dark data-[state=active]:shadow-sm data-[state=active]:border-b-2 data-[state=active]:border-city-green-dark rounded-none"
+          className="font-normal text-base block py-4 px-12 data-[state=active]:border-b-0 data-[state=active]:font-bold data-[state=active]:bg-white data-[state=active]:text-ann-arbor-gray-600 data-[state=active]:shadow-none data-[state=active]:border-t-[3px] data-[state=active]:border-t-ann-arbor-accent-green rounded-none rounded-t-[10px]"
         >
           API Documentation
         </TabsTrigger>
       </TabsList>
       <TabsContent
         value="resources"
-        className="bg-white p-12 border border-t-0 border-city-gray-light rounded-b-md"
+        className="bg-white p-12 border-none rounded-b-[10px] mt-0"
       >
         <ResourcesContent dataset={dataset} />
       </TabsContent>
       <TabsContent
         value="overview"
-        className="bg-white p-12 border border-t-0 border-city-gray-light rounded-b-md"
+        className="bg-white p-12 border-none rounded-b-[10px] mt-0"
       >
         <OverviewContent />
       </TabsContent>
       <TabsContent
         value="api"
-        className="bg-white p-12 border border-t-0 border-city-gray-light rounded-b-md"
+        className="bg-white p-12 border-none rounded-b-[10px] mt-0"
       >
         <ApiCodeTabs
           url={process.env.NEXT_PUBLIC_CKAN_URL}
