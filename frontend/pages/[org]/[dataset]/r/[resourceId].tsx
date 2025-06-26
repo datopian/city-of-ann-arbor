@@ -6,6 +6,7 @@ import { CKAN } from "@portaljs/ckan";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { RiArrowLeftLine } from "react-icons/ri";
 import ResourcesBadges from "@/components/dataset/_shared/ResourcesBadges";
 import Head from "next/head";
@@ -25,7 +26,13 @@ import {
   ArrowDownTrayIcon,
   ArrowsPointingOutIcon,
 } from "@heroicons/react/24/outline";
-import { Clock, Download, DownloadIcon } from "lucide-react";
+import {
+  ChevronsLeft,
+  ChevronsRight,
+  Clock,
+  Download,
+  DownloadIcon,
+} from "lucide-react";
 import { ArrowPathIcon, HashtagIcon } from "@heroicons/react/24/outline";
 import { getFormatBadge, formatDate, formatSize } from "@/lib/uiUtils";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -159,6 +166,7 @@ function CurrentResource({ resource }: { resource: Resource }) {
         <div className="text-primary-black text-xs font-normal">
           {formatSize(resource.size)}
         </div>
+        <div className="text-primary-black text-xs font-normal">|</div>
         <div className="text-primary-black text-xs font-normal">
           120 columns
         </div>
@@ -179,6 +187,7 @@ function OtherResourceCard({ resource }: { resource: Resource }) {
           <div className="text-primary-black text-xs font-normal">
             {formatSize(resource.size)}
           </div>
+          <div className="text-primary-black text-xs font-normal">|</div>
           <div className="text-primary-black text-xs font-normal">
             120 columns
           </div>
@@ -195,28 +204,69 @@ function MainContent({
   resource: Resource;
   dataset: Dataset;
 }) {
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarCollapsed(!isSidebarCollapsed);
+  };
+
   return (
     <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-0 z-20">
       <div className="flex flex-col gap-y-5 w-full">
-        <div className="w-full gap-4 grid grid-cols-1 lg:grid-cols-6 xl:grid-cols-8">
-          <div className="col-span-1 lg:col-span-2 xl:col-span-2 bg-white rounded-lg shadow-lg ">
-            <h3 className="px-8 pt-8 pb-4 text-primary-black text-sm font-medium leading-tight">
-              {dataset.num_resources} resources
-            </h3>
+        <div className="w-full gap-4 grid grid-cols-1 lg:grid-cols-6 xl:grid-cols-8 relative">
+          {/* Sidebar */}
+          <div
+            className={`col-span-1 lg:col-span-2 xl:col-span-2 bg-white rounded-lg shadow-lg transition-all duration-300 ease-in-out ${
+              isSidebarCollapsed
+                ? "lg:absolute lg:-left-full lg:opacity-0 lg:pointer-events-none"
+                : "lg:relative lg:left-0 lg:opacity-100"
+            }`}
+          >
+            <div className="flex items-center w-full justify-between px-8 pt-8 pb-4">
+              <h3 className="text-primary-black text-sm font-medium leading-tight">
+                {dataset.num_resources} resources
+              </h3>
+              <button
+                onClick={toggleSidebar}
+                className="lg:block hidden hover:bg-gray-100 p-1 rounded transition-colors"
+                aria-label="Collapse sidebar"
+              >
+                <ChevronsLeft className="w-6 h-6 text-primary-black" />
+              </button>
+            </div>
             <CurrentResource resource={resource} />
             {dataset.resources
               .filter((r) => r.id !== resource.id)
               .map((r) => (
-                <OtherResourceCard resource={r} />
+                <OtherResourceCard key={r.id} resource={r} />
               ))}
           </div>
-          <div className="col-span-1 lg:col-span-4 xl:col-span-6 bg-white p-6 sm:p-8 lg:px-12 rounded-lg shadow-lg ">
+
+          {/* Main Content */}
+          <div
+            className={`col-span-1 bg-white p-6 sm:p-8 lg:px-12 rounded-lg shadow-lg transition-all duration-300 ease-in-out relative ${
+              isSidebarCollapsed
+                ? "lg:col-span-6 xl:col-span-8"
+                : "lg:col-span-4 xl:col-span-6"
+            }`}
+          >
+            {/* Floating Toggle Button */}
+            {isSidebarCollapsed && (
+              <button
+                onClick={toggleSidebar}
+                className="lg:flex hidden absolute top-6 -left-4 bg-white text-primary-black p-3 rounded-lg shadow-lg transition-colors z-10"
+                aria-label="Expand sidebar"
+              >
+                <ChevronsRight className="w-5 h-5" />
+              </button>
+            )}
+
             <Breadcrumbs resource={resource} dataset={dataset} />
             <div className="mb-6">
               <div className="flex flex-col sm:flex-row items-start gap-4">
                 <div className="flex-1">
                   <div className="pb-4">{getFormatBadge(resource.format)}</div>
-                  <div className="flex flex-col md:flex-row sm:items-start gap-x-2 mb-1">
+                  <div className="flex md:flex-row sm:items-start gap-x-2 mb-1">
                     <h1 className="leading-tight text-black text-3xl font-bold">
                       {resource.name}{" "}
                     </h1>
