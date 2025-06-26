@@ -10,6 +10,24 @@ import {
   getFormatBadge,
   formatDate,
 } from "@/lib/uiUtils";
+import type React from "react";
+import { Clock, Download, DownloadIcon } from "lucide-react";
+import { ArrowPathIcon, HashtagIcon } from "@heroicons/react/24/outline";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import NavBar from "@/components/_shared/NavBar";
+import { Footer } from "@/components/_shared/Footer";
+import { Fragment } from "react";
+import Link from "next/link";
 
 interface DatasetPageProps {
   dataset: Dataset;
@@ -44,25 +62,6 @@ export const getServerSideProps: GetServerSideProps<DatasetPageProps> = async (
     };
   }
 };
-
-import type React from "react";
-import { Clock, Download, DownloadIcon } from "lucide-react";
-import { ArrowPathIcon, HashtagIcon } from "@heroicons/react/24/outline";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import NavBar from "@/components/_shared/NavBar";
-import { Footer } from "@/components/_shared/Footer";
-import { Fragment } from "react";
-import Link from "next/link";
 
 export default function DatasetPage({ dataset }: DatasetPageProps) {
   return (
@@ -413,11 +412,16 @@ function ResourcesContent({ dataset }: { dataset: Dataset }) {
               </div>
             </div>
             <div className="flex items-center gap-x-4">
-              {resource.datastore_active && (
-                <Button className="bg-ann-arbor-accent-green text-white hover:bg-ann-arbor-accent-green/80">
+              <Button
+                asChild
+                className="bg-ann-arbor-accent-green text-white hover:bg-ann-arbor-accent-green/80"
+              >
+                <Link
+                  href={`/@${dataset.organization.name}/${dataset.name}/r/${resource.id}`}
+                >
                   Preview
-                </Button>
-              )}
+                </Link>
+              </Button>
               <Link href={`${resource.url}`}>
                 <DownloadIcon className="w-5 h-5" />
               </Link>

@@ -29,6 +29,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        "primary-black": "#3f3f3f",
         "ann-arbor": {
           "accent-green": "#079A6D",
           "primary-blue": "#0787AD",
