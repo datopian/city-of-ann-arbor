@@ -15,7 +15,6 @@ interface SearchDatasetCardProps {
 }
 
 export default function SearchDatasetCard({ dataset }: SearchDatasetCardProps) {
-    console.log(dataset)
   return (
     <Link href={`/${dataset.organization.name}/${dataset.name}`}>
       <Card className="group border-0 hover:border-1 shadow-none border-gray-200 cursor-pointer ">
