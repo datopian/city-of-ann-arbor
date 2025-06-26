@@ -1,9 +1,9 @@
-import { Dashboard } from "@/types/ckan";
+import { Dataset } from "@/types/ckan";
 import { ArrowSmallRightIcon } from "@heroicons/react/20/solid";
 import Image from "next/image";
 import Link from "next/link";
 
-export function PopularDashboardCard({ dashboard }: { dashboard: Dashboard }) {
+export function PopularDashboardCard({ dashboard }: { dashboard: Dataset }) {
   return (
     <div className="border-[2px] border-[#D9D9D9] p-3 rounded-[5px] space-y-10 bg-white">
       <div className="aspect-video relative rounded-[5px] overflow-hidden">

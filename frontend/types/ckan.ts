@@ -1,8 +1,7 @@
 import { type Dataset as CoreDataset } from "@portaljs/ckan";
 
-export type Dashboard = CoreDataset & {
+export type Dataset = CoreDataset & {
   dashboard_url: string;
   image_url: string;
+  dataset_type: "dashboard" | "dataset";
 };
-
-export type Dataset = CoreDataset & {}

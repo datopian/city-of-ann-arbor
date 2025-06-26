@@ -7,7 +7,7 @@ import NavBar from "@/components/_shared/NavBar";
 import { PopularDashboards } from "@/components/home/PopularDashboards";
 import { RecentlyAdded } from "@/components/home/RecentlyAdded";
 import { Footer } from "@/components/_shared/Footer";
-import { Dashboard } from "@/types/ckan";
+import { Dataset } from "@/types/ckan";
 
 export async function getStaticProps() {
   const dashboards = await searchDatasets({
@@ -29,8 +29,8 @@ export async function getStaticProps() {
   const groups = await getAllGroups({ detailed: true });
   return {
     props: {
-      dashboards: dashboards.datasets as Dashboard[],
-      datasets: datasets.datasets,
+      dashboards: dashboards.results as Dataset[],
+      datasets: datasets.results as Dataset[],
       groups,
     },
     revalidate: 60,

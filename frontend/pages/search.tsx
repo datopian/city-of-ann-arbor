@@ -1,9 +1,8 @@
 import type { InferGetServerSidePropsType } from "next";
 import Head from "next/head";
-import { SWRConfig, unstable_serialize } from "swr";
+import { unstable_serialize } from "swr";
 import SearchDatasetCard from "@/components/dataset/search/SearchDatasetCard";
 import { searchDatasets } from "@/lib/queries/dataset";
-import { PackageSearchOptions } from "@portaljs/ckan";
 import NavBar from "@/components/_shared/NavBar";
 import { Footer } from "@/components/_shared/Footer";
 import { FormEvent, useMemo, useState } from "react";
@@ -27,13 +26,11 @@ import {
 } from "@/components/ui/accordion";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import Image from "next/image";
 import {
   AdjustmentsHorizontalIcon,
   ArrowLeftIcon,
@@ -44,7 +41,16 @@ const ITEMS_PER_PAGE = 5;
 
 export async function getServerSideProps({ query }) {
   const q = query?.q;
-  const initialRequestOption: PackageSearchOptions = {
+  const datasetType = query?.type;
+  let datasetTypeQ = "";
+
+  if (datasetType == "dataset") {
+    datasetTypeQ = "-dashboard_url:['' TO *]";
+  } else if (datasetType == "dashboard") {
+    datasetTypeQ = "dashboard_url:['' TO *]";
+  }
+
+  const initialRequestOption = {
     query: q ?? "",
     offset: 0,
     limit: ITEMS_PER_PAGE,
@@ -52,6 +58,7 @@ export async function getServerSideProps({ query }) {
     groups: [],
     orgs: [],
     resFormat: [],
+    fq: datasetTypeQ,
   };
 
   const search_result = await searchDatasets(initialRequestOption);
@@ -66,6 +73,7 @@ export async function getServerSideProps({ query }) {
         ...search_result.search_facets,
       },
       query: initialRequestOption.query,
+      datasetType: datasetType ?? "",
     },
   };
 }
@@ -138,6 +146,7 @@ export default function DatasetSearch({
   fallback,
   searchFacets,
   query,
+  datasetType,
 }: InferGetServerSidePropsType<typeof getServerSideProps>): JSX.Element {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const form = useForm<SearchFormData>({
@@ -146,7 +155,7 @@ export default function DatasetSearch({
       groups: [],
       orgs: [],
       resFormat: [],
-      type: [],
+      type: datasetType ? [datasetType] : [],
       tags: [],
       offset: 0,
       limit: 5,
@@ -200,7 +209,7 @@ export default function DatasetSearch({
   ) => {
     if (type === "query") {
       setValue("query", "");
-    } else if (type === "groups" || type === "resFormat" || type === "tags") {
+    } else if (type === "groups" || type === "resFormat" || type === "tags" || type == "type") {
       setValue(
         type,
         formData[type].filter((item) => item !== value)
@@ -247,7 +256,7 @@ export default function DatasetSearch({
               <Badge
                 key={filter.label}
                 variant="secondary"
-                className="text-white py-1 px-2 text-base font-normal bg-[#5e98a4] border-0"
+                className="text-white py-1 px-2 text-base font-normal bg-[#5e98a4] hover:bg-[#5e98a4] hover:bg-opacity-90 border-0"
               >
                 {filter.label}
                 <button
