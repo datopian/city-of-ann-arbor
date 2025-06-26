@@ -1,6 +1,7 @@
 import { Dashboard } from "@/types/ckan";
 import { ArrowSmallRightIcon } from "@heroicons/react/20/solid";
 import Image from "next/image";
+import Link from "next/link";
 
 export function PopularDashboardCard({ dashboard }: { dashboard: Dashboard }) {
   return (
@@ -30,13 +31,13 @@ export function PopularDashboardCard({ dashboard }: { dashboard: Dashboard }) {
       </div>
 
       <div className="px-2 pb-5">
-        <a
-          href={`#dashboard-${dashboard.name}`}
+        <Link
+          href={`/${dashboard.organization.name}/${dashboard.name}`}
           className="w-fit bg-ann-arbor-accent-green transition-all hover:bg-opacity-90 text-white font-bold px-3 py-2 rounded-[5px] flex items-center"
         >
           Explore dashboard
           <ArrowSmallRightIcon className="inline w-6" />
-        </a>
+        </Link>
       </div>
     </div>
   );
