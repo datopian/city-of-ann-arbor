@@ -7,14 +7,21 @@ export function PopularDashboardCard({ dashboard }: { dashboard: Dashboard }) {
   return (
     <div className="border-[2px] border-[#D9D9D9] p-3 rounded-[5px] space-y-10 bg-white">
       <div className="aspect-video relative rounded-[5px] overflow-hidden">
-        <Image
-          src={
-            dashboard.image_url ?? "/images/dashboard-fallback.jpg"
-          }
-          alt={`${dashboard.title} Dashboard Preview`}
-          fill={true}
-          className={"object-cover"}
-        />
+        {dashboard.image_url ? (
+          <Image
+            src={dashboard.image_url}
+            alt={`${dashboard.title} Dashboard Preview`}
+            fill={true}
+            className={"object-cover"}
+          />
+        ) : (
+          <Image
+            src={"/images/dashboard-fallback.jpg"}
+            alt={`${dashboard.title} Dashboard Preview`}
+            fill={true}
+            className={"object-cover"}
+          />
+        )}
       </div>
 
       <div className="space-y-3 px-2">

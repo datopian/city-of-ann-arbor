@@ -75,7 +75,7 @@ export default function NavBar() {
     >
       <nav
         className={`mx-auto ${
-          !hasScrolled ? "pb-9 pt-5" : "pb-2 pt-2"
+          !hasScrolled ? "pb-9 pt-5" : "pb-3 pt-3"
         } px-9 flex flex-nowrap justify-between transition-all`}
         aria-label="Global"
       >
