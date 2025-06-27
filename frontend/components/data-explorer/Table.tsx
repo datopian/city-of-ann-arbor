@@ -45,6 +45,15 @@ import { Button } from "@/components/ui/button";
 import { Reference, usePopper } from "react-popper";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { DefaultTooltip } from "@/components/ui/tooltip";
+import {
+  Table as ShadcnTable,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Checkbox } from "../ui/checkbox";
 
 type TableProps = {
   table: TableType<any>;
@@ -145,7 +154,7 @@ export function ToggleColumns({ table }: { table: TableType<any> }) {
           <div className="px-4 pb-2">
             <div className="relative w-full rounded-md">
               <input
-                className="shadow-wri-small block w-full min-w-0 rounded-md border-0 px-3 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-b-2 focus:border-accent focus:bg-slate-100 focus:ring-0 focus:ring-offset-0 disabled:bg-gray-100 sm:text-sm"
+                className="shadow block w-full min-w-0 rounded-md border-0 px-3 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-b-2 focus:border-accent focus:bg-slate-100 focus:ring-0 focus:ring-offset-0 disabled:bg-gray-100 sm:text-sm"
                 onChange={(e) => setQ(e.target.value)}
                 value={q}
               />
@@ -191,7 +200,7 @@ export function ToggleColumns({ table }: { table: TableType<any> }) {
                     onChange: column.getToggleVisibilityHandler(),
                   }}
                   name={column.id}
-                  className="h-4 w-4 rounded border-gray-300 text-accent focus:ring-accent"
+                  className="data-[state=checked]:bg-teal-600 border-2 border-gray-300 bg-gray-300 data-[state=checked]:border-teal-600 focus:ring-teal-500"
                 />
               </div>
               <div className="ml-3 text-sm leading-6">
@@ -216,94 +225,79 @@ export function Table({ table, isLoading }: TableProps) {
   const numOfColumns = table.getAllColumns().length;
   return (
     <div className="flex max-w-full grow">
-      <table className="block shadow">
-        <thead className="bg-gray-100 text-left">
-          {table.getLeftHeaderGroups().map((hg) => (
-            <tr key={hg.id}>
-              {hg.headers.map((h) => (
-                <th
-                  key={h.id}
-                  className="min-w-[200px] py-8 pl-12 text-sm font-semibold text-gray-500"
-                >
-                  <Column h={h} />
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {table.getRowModel().rows.map((r) => (
-            <tr key={r.id} className="border-b border-b-slate-200">
-              {r.getLeftVisibleCells().map((c) => (
-                <td key={c.id} className="py-2 pl-12">
-                  <div className="flex min-h-[65px] items-center text-base">
-                    {" "}
-                    {flexRender(c.column.columnDef.cell, c.getContext())}
-                  </div>
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <ScrollArea>
-        <div className="shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
-          <table className="block divide-y divide-gray-300">
-            <thead className="bg-gray-100 text-left">
-              {table.getCenterHeaderGroups().map((hg) => (
-                <tr key={hg.id}>
-                  {hg.headers.map((h) => (
-                    <th
-                      key={h.id}
-                      className="min-w-[200px] py-8 pl-12 text-sm font-semibold text-gray-500"
-                    >
-                      <Column h={h} />
-                    </th>
-                  ))}
-                </tr>
-              ))}
-            </thead>
-            {isLoading && (
-              <tbody>
-                {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((r) => (
-                  <tr key={r} className="border-b border-b-slate-200">
-                    {Array.from(Array(numOfColumns).keys()).map((c) => (
-                      <td key={c} className="py-2 pl-12">
-                        <div className="flex min-h-[65px] items-center text-base">
-                          <span className="h-4 w-24 animate-pulse rounded-md bg-accent/20" />
-                        </div>
-                      </td>
-                    ))}
-                  </tr>
+      {table.getLeftHeaderGroups()[0].headers.length > 0 && (
+        <table>
+          <TableHeader>
+            {table.getLeftHeaderGroups().map((hg) => (
+              <TableRow key={hg.id}>
+                {hg.headers.map((h) => (
+                  <TableHead key={h.id}>
+                    <Column h={h} />
+                  </TableHead>
                 ))}
-              </tbody>
-            )}
-            <tbody>
-              {table.getRowModel().rows.map((r) => (
-                <tr key={r.id} className="border-b border-b-slate-200">
-                  {r.getCenterVisibleCells().map((c) => {
-                    if (c.getValue() === "" || c.getValue() === " ") {
-                      return (
-                        <td key={c.id} className="py-2 pl-12">
-                          <div className="flex min-h-[65px] items-center text-base">
-                            {c.column.columnDef.meta?.default ?? ""}
-                          </div>
-                        </td>
-                      );
-                    }
-                    return (
-                      <td key={c.id} className="py-2 pl-12">
-                        <div className="flex min-h-[65px] items-center text-base">
-                          {flexRender(c.column.columnDef.cell, c.getContext())}
-                        </div>
-                      </td>
-                    );
-                  })}
-                </tr>
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows.map((r) => (
+              <TableRow key={r.id}>
+                {r.getLeftVisibleCells().map((c) => (
+                  <TableCell key={c.id}>
+                    {flexRender(c.column.columnDef.cell, c.getContext())}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </table>
+      )}
+      <ScrollArea>
+        <ShadcnTable>
+          <TableHeader>
+            {table.getCenterHeaderGroups().map((hg) => (
+              <TableRow key={hg.id}>
+                {hg.headers.map((h) => (
+                  <TableHead key={h.id}>
+                    <Column h={h} />
+                  </TableHead>
+                ))}
+              </TableRow>
+            ))}
+          </TableHeader>
+          {isLoading && (
+            <TableBody>
+              {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((r) => (
+                <TableRow key={r}>
+                  {Array.from(Array(numOfColumns).keys()).map((c) => (
+                    <TableCell key={c}>
+                      <span className="h-4 w-24 animate-pulse rounded-md bg-accent/20" />
+                    </TableCell>
+                  ))}
+                </TableRow>
               ))}
-            </tbody>
-          </table>
-        </div>
+            </TableBody>
+          )}
+          <TableBody>
+            {table.getRowModel().rows.map((r) => (
+              <TableRow key={r.id}>
+                {r.getCenterVisibleCells().map((c) => {
+                  if (c.getValue() === "" || c.getValue() === " ") {
+                    return (
+                      <TableCell key={c.id}>
+                        {c.column.columnDef.meta?.default ?? ""}
+                      </TableCell>
+                    );
+                  }
+                  return (
+                    <TableCell key={c.id}>
+                      {flexRender(c.column.columnDef.cell, c.getContext())}
+                    </TableCell>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </TableBody>
+        </ShadcnTable>
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
     </div>
