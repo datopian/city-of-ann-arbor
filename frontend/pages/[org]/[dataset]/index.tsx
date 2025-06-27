@@ -189,15 +189,19 @@ function TitleSection({ dataset }: { dataset: Dataset }) {
 }
 
 function TabsSection({ dataset }: { dataset: Dataset }) {
+  const hideResources =
+    dataset.dataset_type == "dashboard" && !dataset.resources?.length;
   return (
     <Tabs defaultValue="overview" className="bg-transparent drop-shadow-xl">
       <TabsList className="flex justify-start bg-transparent rounded-none mb-0 p-0 border-b-0 h-auto overflow-x-scroll md:overflow-x-visible">
-        <TabsTrigger
-          value="resources"
-          className="min-h-[60px] font-normal text-base block py-4 px-12 data-[state=active]:border-b-0 data-[state=active]:font-bold data-[state=active]:bg-white data-[state=active]:text-ann-arbor-gray-600 data-[state=active]:shadow-none data-[state=active]:border-t-[3px] data-[state=active]:border-t-ann-arbor-accent-green rounded-none rounded-t-[10px]"
-        >
-          Resources
-        </TabsTrigger>
+        {!hideResources && (
+          <TabsTrigger
+            value="resources"
+            className="min-h-[60px] font-normal text-base block py-4 px-12 data-[state=active]:border-b-0 data-[state=active]:font-bold data-[state=active]:bg-white data-[state=active]:text-ann-arbor-gray-600 data-[state=active]:shadow-none data-[state=active]:border-t-[3px] data-[state=active]:border-t-ann-arbor-accent-green rounded-none rounded-t-[10px]"
+          >
+            Resources
+          </TabsTrigger>
+        )}
         <TabsTrigger
           value="overview"
           className="min-h-[60px] font-normal text-base block py-4 px-12 data-[state=active]:border-b-0 data-[state=active]:font-bold data-[state=active]:bg-white data-[state=active]:text-ann-arbor-gray-600 data-[state=active]:shadow-none data-[state=active]:border-t-[3px] data-[state=active]:border-t-ann-arbor-accent-green rounded-none rounded-t-[10px]"
@@ -249,6 +253,7 @@ function OverviewContent({ dataset }: { dataset: Dataset }) {
   );
 
   const extras = dataset.extras;
+  const ckanUrl = process.env.NEXT_PUBLIC_CKAN_URL;
 
   return (
     <div>
@@ -257,26 +262,34 @@ function OverviewContent({ dataset }: { dataset: Dataset }) {
           Export metadata in
         </h2>
         <div className="flex space-x-4 mb-2 text-base font-normal">
-          <Button
-            variant="link"
-            className="p-0 h-auto hover:underline font-normal"
+          <Link href={`${ckanUrl}/dataset/${dataset.name}.xml`} target="_blank">
+            <Button
+              variant="link"
+              className="p-0 h-auto hover:underline font-normal"
+            >
+              <Download size={16} className="text-ann-arbor-primary-blue" /> RDF
+            </Button>
+          </Link>
+          <Link href={`${ckanUrl}/dataset/${dataset.name}.ttl`} target="_blank">
+            <Button
+              variant="link"
+              className="p-0 h-auto hover:underline font-normal"
+            >
+              <Download size={16} className="text-ann-arbor-primary-blue" /> TTL
+            </Button>
+          </Link>
+          <Link
+            href={`${ckanUrl}/dataset/${dataset.name}.jsonld`}
+            target="_blank"
           >
-            <Download size={16} className="text-ann-arbor-primary-blue" /> RDF
-          </Button>
-          <Button
-            variant="link"
-            className="p-0 h-auto hover:underline font-normal"
-          >
-            <Download size={16} className="text-ann-arbor-primary-blue" /> TTL
-            TTL
-          </Button>
-          <Button
-            variant="link"
-            className="p-0 h-auto hover:underline font-normal"
-          >
-            <Download size={16} className="text-ann-arbor-primary-blue" />
-            JSON-LD
-          </Button>
+            <Button
+              variant="link"
+              className="p-0 h-auto hover:underline font-normal"
+            >
+              <Download size={16} className="text-ann-arbor-primary-blue" />
+              JSON-LD
+            </Button>
+          </Link>
         </div>
       </div>
 
@@ -301,7 +314,7 @@ function OverviewContent({ dataset }: { dataset: Dataset }) {
 
       {detailItem("Created date", formatDate(dataset.metadata_created))}
       {detailItem("Last updated date", formatDate(dataset.metadata_created))}
-      {extras.map((e) => (
+      {extras?.map((e) => (
         <div key={`extra-${e.key}`}>{detailItem(e.key, e.value)}</div>
       ))}
     </div>
