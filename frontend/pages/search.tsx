@@ -42,13 +42,6 @@ const ITEMS_PER_PAGE = 5;
 export async function getServerSideProps({ query }) {
   const q = query?.q;
   const datasetType = query?.type;
-  let datasetTypeQ = "";
-
-  if (datasetType == "dataset") {
-    datasetTypeQ = "-dashboard_url:['' TO *]";
-  } else if (datasetType == "dashboard") {
-    datasetTypeQ = "dashboard_url:['' TO *]";
-  }
 
   const initialRequestOption = {
     query: q ?? "",
@@ -58,7 +51,7 @@ export async function getServerSideProps({ query }) {
     groups: [],
     orgs: [],
     resFormat: [],
-    fq: datasetTypeQ,
+    type: [datasetType]
   };
 
   const search_result = await searchDatasets(initialRequestOption);

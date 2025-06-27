@@ -16,7 +16,7 @@ export async function getStaticProps() {
     tags: [],
     groups: [],
     orgs: [],
-    fq: "dashboard_url:['' TO *]",
+    type: ["dashboard"]
   });
   const datasets = await searchDatasets({
     offset: 0,
@@ -24,7 +24,7 @@ export async function getStaticProps() {
     tags: [],
     groups: [],
     orgs: [],
-    fq: "-dashboard_url:['' TO *]",
+    type: ["dataset"]
   });
   const groups = await getAllGroups({ detailed: true });
   return {
