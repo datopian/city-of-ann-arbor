@@ -22,7 +22,6 @@ import { Fragment } from "react";
 import Link from "next/link";
 import { Dataset } from "@/types/ckan";
 import Image from "next/image";
-import { format } from "path";
 
 interface DatasetPageProps {
   dataset: Dataset;
@@ -176,7 +175,7 @@ function TitleSection({ dataset }: { dataset: Dataset }) {
             )}
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            {dataset.resources.map((resource) => (
+            {[...new Set(dataset.resources ?? [])].map((resource) => (
               <Fragment key={resource.id}>
                 {getFormatBadge(resource.format)}
               </Fragment>
@@ -317,6 +316,16 @@ function OverviewContent({ dataset }: { dataset: Dataset }) {
       {extras?.map((e) => (
         <div key={`extra-${e.key}`}>{detailItem(e.key, e.value)}</div>
       ))}
+      {detailItem(
+        "License",
+        <Link
+          className="no-underline text-sm text-ann-arbor-primary-blue hover:underline"
+          href={dataset.license_url}
+          target="_blank"
+        >
+          {dataset.license_title}
+        </Link>
+      )}
     </div>
   );
 }

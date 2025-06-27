@@ -5,4 +5,5 @@ export type Dataset = CoreDataset & {
   image_url: string;
   dataset_type: "dashboard" | "dataset";
   extras?: { key: string; value: string }[];
+  license_url: string;
 };
