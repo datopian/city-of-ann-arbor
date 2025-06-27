@@ -35,26 +35,26 @@ describe("Homepage", () => {
   it("All dashboards link points to correct page", () => {
     cy.get('[data-cy="all-dashboards-link"]')
       .should("have.attr", "href")
-      .and("match", /^\/#dashboards/); // TODO: update this once the dashboards page works
+      .and("eq", "/search?type=dashboard");
   });
 
   it("Popular dashboards match CKAN datasets with dashboard_url", () => {
     cy.request(
-      `${CKAN_URL}/api/3/action/package_search?fq=dashboard_url:[* TO *]&rows=100`
+      `${CKAN_URL}/api/3/action/package_search?fq=dashboard_url:['' TO *]&rows=100`
     ).then((response) => {
-      const dashboardTitles = response.body.result.results.map(
-        (pkg) => pkg.title
-      );
+      const dashboards = response.body.result.results;
       cy.get('[data-cy="popular-dashboards-section"] .swiper-slide').each(
         ($slide) => {
-          const title = $slide.find("h3").text().trim();
-
-          // Check the title exists in CKAN results
-          expect(dashboardTitles).to.include(title);
-
-          // Check the Explore Dashboard button
           const $btn = $slide.find("a");
-          expect($btn.attr("href")).to.match(/^#dashboard-/);
+          const key = $slide.data("cy");
+          const dashboardId = key.split("dashboard-card-").at(1);
+          const dashboard = dashboards.find((d) => d.id == dashboardId);
+
+          expect($btn.attr("href")).to.eq(
+            `/${dashboard.organization.name}/${dashboard.name}`
+          );
+          const title = $slide.find("h3").text().trim();
+          expect(title).to.include(dashboard.title);
         }
       );
     });
@@ -63,26 +63,28 @@ describe("Homepage", () => {
   it("All datasets link points to correct page", () => {
     cy.get('[data-cy="all-datasets-link"]')
       .should("have.attr", "href")
-      .and("match", /^\/#datasets/);
+      .and("eq", "/search?type=dataset");
   });
 
   it("Recently added section matches CKAN datasets without dashboard_url", () => {
     cy.request(
-      `${CKAN_URL}/api/3/action/package_search?fq=-dashboard_url:[* TO *]&rows=100`
+      `${CKAN_URL}/api/3/action/package_search?fq=-dashboard_url:['' TO *]&rows=100`
     ).then((response) => {
-      const datasetTitles = response.body.result.results.map(
-        (pkg) => pkg.title
-      );
+      const datasets = response.body.result.results;
 
       cy.get('[data-cy="recently-added-section"] .grid > div').each(($card) => {
         const title = $card.find("h3").text().trim();
+        const key = $card.data("cy");
+        const datasetId = key.split("dataset-card-").at(1);
+        const dataset = datasets.find((d) => d.id == datasetId);
 
-        // Check the title exists in CKAN results
-        expect(datasetTitles).to.include(title);
+        expect(title).to.include(dataset.title);
 
         // Check the Explore Dataset button
         const $btn = $card.find("a");
-        expect($btn.attr("href")).to.match(/^#dataset-/);
+        expect($btn.attr("href")).to.eq(
+          `/${dataset.organization.name}/${dataset.name}`
+        );
       });
     });
   });

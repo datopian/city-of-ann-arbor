@@ -50,7 +50,7 @@ export function RecentlyAddedCard({
   };
 
   return (
-    <div className={container({ colors: variant })}>
+    <div className={container({ colors: variant })} data-cy={`dataset-card-${dataset.id}`}>
       <div className="space-y-3">
         <h3 className="font-bold text-[28px] h-[5.25rem] line-clamp-2">
           {dataset.title}

@@ -51,7 +51,7 @@ export function PopularDashboards({ dashboards }: { dashboards: Dataset[] }) {
           >
             {dashboards.map((d) => {
               return (
-                <SwiperSlide key={`dashboard-${d.id}`}>
+                <SwiperSlide key={`dashboard-${d.id}`} data-cy={`dashboard-card-${d.id}`}>
                   <PopularDashboardCard dashboard={d} />
                 </SwiperSlide>
               );
