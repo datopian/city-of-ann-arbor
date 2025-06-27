@@ -36,6 +36,7 @@ import {
 import { ArrowPathIcon, HashtagIcon } from "@heroicons/react/24/outline";
 import { getFormatBadge, formatDate, formatSize } from "@/lib/uiUtils";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { DataExplorer } from "@/components/data-explorer/DataExplorer";
 
 const PdfViewer = dynamic(
   () => import("@portaljs/components").then((mod) => mod.PdfViewer),
@@ -159,7 +160,7 @@ function CurrentResource({ resource }: { resource: Resource }) {
   return (
     <div className="flex flex-col gap-y-2 w-full px-8 py-4 bg-[#eef6ff]">
       {getFormatBadge(resource.format)}
-      <h3 className="text-primary-black text-sm font-medium leading-tight">
+      <h3 className="text-primary-black text-sm font-medium leading-tight text-clip">
         {resource.name}
       </h3>
       <div className="flex items-center gap-x-2">
@@ -175,24 +176,34 @@ function CurrentResource({ resource }: { resource: Resource }) {
   );
 }
 
-function OtherResourceCard({ resource }: { resource: Resource }) {
+function OtherResourceCard({
+  resource,
+  dataset,
+}: {
+  resource: Resource;
+  dataset: Dataset;
+}) {
   return (
     <div className="p-4">
-      <div className="flex flex-col gap-y-2 w-full px-8 py-4 hover:bg-[#eef6ff]">
-        {getFormatBadge(resource.format)}
-        <h3 className="text-primary-black text-sm font-medium leading-tight">
-          {resource.name}
-        </h3>
-        <div className="flex items-center gap-x-2">
-          <div className="text-primary-black text-xs font-normal">
-            {formatSize(resource.size)}
-          </div>
-          <div className="text-primary-black text-xs font-normal">|</div>
-          <div className="text-primary-black text-xs font-normal">
-            120 columns
+      <Link
+        href={`/@${dataset.organization.name}/${dataset.name}/r/${resource.id}`}
+      >
+        <div className="flex flex-col gap-y-2 w-full px-8 py-4 hover:bg-[#eef6ff]">
+          {getFormatBadge(resource.format)}
+          <h3 className="text-primary-black text-sm font-medium leading-tight text-clip">
+            {resource.name}
+          </h3>
+          <div className="flex items-center gap-x-2">
+            <div className="text-primary-black text-xs font-normal">
+              {formatSize(resource.size)}
+            </div>
+            <div className="text-primary-black text-xs font-normal">|</div>
+            <div className="text-primary-black text-xs font-normal">
+              120 columns
+            </div>
           </div>
         </div>
-      </div>
+      </Link>
     </div>
   );
 }
@@ -213,7 +224,7 @@ function MainContent({
   return (
     <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-0 z-20">
       <div className="flex flex-col gap-y-5 w-full">
-        <div className="w-full gap-4 grid grid-cols-1 lg:grid-cols-6 xl:grid-cols-8 relative">
+        <div className="w-full gap-4 grid grid-cols-1 lg:grid-cols-6 xl:grid-cols-8 lg:relative">
           {/* Sidebar */}
           <div
             className={`col-span-1 lg:col-span-2 xl:col-span-2 bg-white rounded-lg shadow-lg transition-all duration-300 ease-in-out ${
@@ -238,13 +249,13 @@ function MainContent({
             {dataset.resources
               .filter((r) => r.id !== resource.id)
               .map((r) => (
-                <OtherResourceCard key={r.id} resource={r} />
+                <OtherResourceCard dataset={dataset} key={r.id} resource={r} />
               ))}
           </div>
 
           {/* Main Content */}
           <div
-            className={`col-span-1 bg-white p-6 sm:p-8 lg:px-12 rounded-lg shadow-lg transition-all duration-300 ease-in-out relative ${
+            className={`col-span-1 bg-white p-6 sm:p-8 lg:px-12 rounded-lg shadow-lg transition-all duration-300 ease-in-out lg:relative ${
               isSidebarCollapsed
                 ? "lg:col-span-6 xl:col-span-8"
                 : "lg:col-span-4 xl:col-span-6"
@@ -266,8 +277,8 @@ function MainContent({
               <div className="flex flex-col sm:flex-row items-start gap-4">
                 <div className="flex-1">
                   <div className="pb-4">{getFormatBadge(resource.format)}</div>
-                  <div className="flex md:flex-row sm:items-start gap-x-2 mb-1">
-                    <h1 className="leading-tight text-black text-3xl font-bold">
+                  <div className="flex md:flex-row sm:items-start gap-x-2 mb-1 max-w-[80vw]">
+                    <h1 className="leading-tight text-black text-3xl font-bold text-clip truncate">
                       {resource.name}{" "}
                     </h1>
                     <Link href={resource.url}>
@@ -291,9 +302,9 @@ function MainContent({
                       </div>
                     )}
                   </div>
-                  <ResourceTabs resource={resource} />
                 </div>
               </div>
+              <ResourceTabs resource={resource} />
             </div>
           </div>
         </div>
@@ -304,34 +315,34 @@ function MainContent({
 
 export function ResourceTabs({ resource }: { resource: Resource }) {
   return (
-    <div className="w-full">
-      <Tabs defaultValue="preview" className="w-full">
-        <TabsList className="grid w-full grid-cols-3 bg-[#f7fbfe] p-1 rounded-t-lg max-w-[433px]">
-          <TabsTrigger
-            value="preview"
-            className="data-[state=active]:bg-ann-arbor-accent-green data-[state=active]:text-white data-[state=inactive]:bg-[#f7fbfe] dark:data-[state=inactive]:bg-gray-800 rounded-md py-2 text-sm font-medium"
-          >
-            Preview
-          </TabsTrigger>
-          <TabsTrigger
-            value="table-schema"
-            className="data-[state=active]:bg-ann-arbor-accent-green data-[state=active]:text-white data-[state=inactive]:bg-[#f7fbfe] dark:data-[state=inactive]:bg-gray-800 rounded-md py-2 text-sm font-medium"
-          >
-            Table Schema
-          </TabsTrigger>
-          <TabsTrigger
-            value="api"
-            className="data-[state=active]:bg-ann-arbor-accent-green data-[state=active]:text-white data-[state=inactive]:bg-[#f7fbfe] dark:data-[state=inactive]:bg-gray-800 rounded-md py-2 text-sm font-medium"
-          >
-            API
-          </TabsTrigger>
-        </TabsList>
-        <div className="bg-[#f7fbfe] p-4 rounded-b-lg mt-5 max-w-[1000px]">
-          <TabsContent value="preview" className="mt-0"></TabsContent>
-          <TabsContent value="table-schema" className="mt-0"></TabsContent>
-          <TabsContent value="api" className="mt-0"></TabsContent>
-        </div>
-      </Tabs>
-    </div>
+    <Tabs defaultValue="preview" className="w-full">
+      <TabsList className="grid w-full grid-cols-1 md:grid-cols-3 bg-[#f7fbfe] p-1 rounded-t-lg max-w-[433px]">
+        <TabsTrigger
+          value="preview"
+          className="data-[state=active]:bg-ann-arbor-accent-green data-[state=active]:text-white data-[state=inactive]:bg-[#f7fbfe] dark:data-[state=inactive]:bg-gray-800 rounded-md py-2 text-sm font-medium"
+        >
+          Preview
+        </TabsTrigger>
+        <TabsTrigger
+          value="table-schema"
+          className="data-[state=active]:bg-ann-arbor-accent-green data-[state=active]:text-white data-[state=inactive]:bg-[#f7fbfe] dark:data-[state=inactive]:bg-gray-800 rounded-md py-2 text-sm font-medium"
+        >
+          Table Schema
+        </TabsTrigger>
+        <TabsTrigger
+          value="api"
+          className="data-[state=active]:bg-ann-arbor-accent-green data-[state=active]:text-white data-[state=inactive]:bg-[#f7fbfe] dark:data-[state=inactive]:bg-gray-800 rounded-md py-2 text-sm font-medium"
+        >
+          API
+        </TabsTrigger>
+      </TabsList>
+      <div className="p-4 rounded-b-lg mt-5 w-full">
+        <TabsContent value="preview" className="mt-0">
+          <DataExplorer resourceId={resource.id} />
+        </TabsContent>
+        <TabsContent value="table-schema" className="mt-0"></TabsContent>
+        <TabsContent value="api" className="mt-0"></TabsContent>
+      </div>
+    </Tabs>
   );
 }
