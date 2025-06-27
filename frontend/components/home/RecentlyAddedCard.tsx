@@ -1,5 +1,6 @@
 import { Dataset } from "@/types/ckan";
 import { ArrowSmallRightIcon } from "@heroicons/react/20/solid";
+import Link from "next/link";
 import { tv } from "tailwind-variants";
 
 export type RecentlyAddedCardVariant = 0 | 1 | 2 | 3 | 4 | 5;
@@ -49,7 +50,7 @@ export function RecentlyAddedCard({
   };
 
   return (
-    <div className={container({ colors: variant })}>
+    <div className={container({ colors: variant })} data-cy={`dataset-card-${dataset.id}`}>
       <div className="space-y-3">
         <h3 className="font-bold text-[28px] h-[5.25rem] line-clamp-2">
           {dataset.title}
@@ -59,13 +60,13 @@ export function RecentlyAddedCard({
         </p>
       </div>
       <div>
-        <a
-          href={`#dataset-${dataset.name}`}
+        <Link
+          href={`/${dataset.organization.name}/${dataset.name}`}
           className={button({ colors: variant })}
         >
           Explore dataset
           <ArrowSmallRightIcon className="inline w-6" />
-        </a>
+        </Link>
       </div>
       <Leaf
         className="absolute right-0 bottom-0 -z-10"

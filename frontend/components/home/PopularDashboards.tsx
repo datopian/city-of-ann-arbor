@@ -5,11 +5,14 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { PopularDashboardCard } from "./PopularDashboardCard";
 import { ArrowSmallRightIcon } from "@heroicons/react/20/solid";
-import { Dashboard } from "@/types/ckan";
+import { Dataset } from "@/types/ckan";
 
-export function PopularDashboards({ dashboards }: { dashboards: Dashboard[] }) {
+export function PopularDashboards({ dashboards }: { dashboards: Dataset[] }) {
   return (
-    <section className="mt-24 flex flex-col items-center gap-y-11" data-cy="popular-dashboards-section">
+    <section
+      className="mt-24 flex flex-col items-center gap-y-11"
+      data-cy="popular-dashboards-section"
+    >
       <div className="text-center flex flex-col lg:space-y-4">
         <h2 className="font-extrabold text-2xl lg:text-4xl">
           Popular dashboards
@@ -19,7 +22,7 @@ export function PopularDashboards({ dashboards }: { dashboards: Dashboard[] }) {
           - from traffic patterns to tree cover.
         </p>
         <Link
-          href="#dashboards"
+          href="/search?type=dashboard"
           className="text-xl text-ann-arbor-primary-blue transition-all hover:opacity-80"
           data-cy="all-dashboards-link"
         >
@@ -48,7 +51,7 @@ export function PopularDashboards({ dashboards }: { dashboards: Dashboard[] }) {
           >
             {dashboards.map((d) => {
               return (
-                <SwiperSlide key={`dashboard-${d.id}`}>
+                <SwiperSlide key={`dashboard-${d.id}`} data-cy={`dashboard-card-${d.id}`}>
                   <PopularDashboardCard dashboard={d} />
                 </SwiperSlide>
               );

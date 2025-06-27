@@ -16,7 +16,7 @@ export function RecentlyAdded({ datasets }: { datasets: Dataset[] }) {
           city of Ann Arbor trends.
         </p>
         <Link
-          href="#datasets"
+          href="/search?type=dataset"
           className="text-xl text-ann-arbor-primary-blue transition-all hover:opacity-80"
           data-cy="all-datasets-link"
         >
