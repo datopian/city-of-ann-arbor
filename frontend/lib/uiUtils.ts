@@ -18,7 +18,7 @@ export const getTypeBadgeClass = (type: string) => {
 };
 
 export const getTypeIconBgColor = (type: string) => {
-  return type === "dashboard" ? "bg-[#d0f1e9]" : "bg-[#d2eaef]";
+  return type === "dataset" ? "bg-[#d0f1e9]" : "bg-[#d2eaef]";
 };
 
 export const getFormatBadge = (format: string) => {

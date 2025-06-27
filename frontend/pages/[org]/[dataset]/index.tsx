@@ -3,7 +3,7 @@ import Head from "next/head";
 import { getDataset } from "@/lib/queries/dataset";
 import { getTypeBadgeClass, getFormatBadge, formatDate } from "@/lib/uiUtils";
 import type React from "react";
-import { Clock, Download, DownloadIcon, ExternalLinkIcon } from "lucide-react";
+import { Clock, Download, DownloadIcon, ExternalLinkIcon, EyeIcon } from "lucide-react";
 import { ArrowPathIcon, HashtagIcon } from "@heroicons/react/24/outline";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -419,7 +419,7 @@ function ResourcesContent({ dataset }: { dataset: Dataset }) {
         {dataset.resources.map((resource, index) => (
           <div
             key={resource.id}
-            className={`pl-4 pr-6 py-4 rounded-[20px] hover:bg-ann-arbor-groups-5/20 outline outline-1 outline-offset-[-1px] outline-gray-200 inline-flex justify-start items-center gap-4 
+            className={`group pl-4 pr-6 py-4 rounded-[20px] hover:bg-ann-arbor-groups-5/20 outline outline-1 outline-offset-[-1px] outline-gray-200 inline-flex justify-start items-center gap-4 
             `}
           >
             {getFileIcon(resource.format)}
@@ -436,12 +436,15 @@ function ResourcesContent({ dataset }: { dataset: Dataset }) {
             </div>
             <div className="flex items-center gap-x-4">
               {resource.datastore_active && (
-                <Button className="bg-ann-arbor-accent-green text-white hover:bg-ann-arbor-accent-green/80">
-                  Preview
-                </Button>
+                <>
+                  <Button className="hidden group-hover:block bg-ann-arbor-accent-green text-white hover:bg-ann-arbor-accent-green/80">
+                    Preview
+                  </Button>
+                  <EyeIcon className="text-gray-600 group-hover:hidden w-5 h-5" />
+                </>
               )}
               <Link href={`${resource.url}`}>
-                <DownloadIcon className="w-5 h-5" />
+                <DownloadIcon className="text-gray-700 w-5 h-5" />
               </Link>
             </div>
           </div>
