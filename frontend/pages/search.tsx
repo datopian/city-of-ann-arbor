@@ -217,8 +217,7 @@ export default function DatasetSearch({
     }
   };
   const handlePageChange = (newPage: number) => {
-    const currentOffset = formData.offset;
-    setValue("offset", currentOffset + ITEMS_PER_PAGE * (newPage - 1));
+    setValue("offset", ITEMS_PER_PAGE * (newPage - 1));
   };
 
   const clearAllFilters = () => {
