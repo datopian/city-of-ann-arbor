@@ -65,6 +65,7 @@ export default function DatasetPage({ dataset }: DatasetPageProps) {
         <div className="hidden lg:block lg:absolute lg:top-28 lg:left-0 w-full h-[236px] lg:bg-[url('/images/bg-image.png')] bg-contain"></div>
         <div className="lg:pt-3 relative z-10">
           <MainContent dataset={dataset} />
+          <Image src="/images/leaf.svg" alt="leaf" width={350} height={443} className="hidden md:block absolute right-0 top-[420px] -z-10" />
         </div>
       </div>
       <div>
