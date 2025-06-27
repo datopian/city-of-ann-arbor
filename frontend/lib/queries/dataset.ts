@@ -39,7 +39,7 @@ export async function searchDatasets(
   }
 
   //@ts-ignore
-  const type = match(options?.dataset_type)
+  const type = match(options?.type)
     .with(["dataset"], (v) => `-dashboard_url:['' TO *]`)
     .with(["dashboard"], (v) => `dashboard_url:['' TO *]`)
     .otherwise(() => "");
