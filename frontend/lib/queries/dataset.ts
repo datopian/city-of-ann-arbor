@@ -124,15 +124,11 @@ export const getDataset = async ({ name }: { name: string }) => {
   const DMS = process.env.NEXT_PUBLIC_CKAN_URL;
   const ckan = new CKAN(DMS);
   const privateName = publicToPrivateDatasetName(name);
-  const dataset = await ckan.getDatasetDetails(privateName);
+  const dataset = await ckan.getDatasetDetails(privateName) as Dataset;
   dataset.name = privateToPublicDatasetName(dataset.name);
 
   return {
     ...dataset,
-    _name: privateName,
-    organization: {
-      ...dataset.organization,
-      name: privateToPublicOrgName(dataset.organization.name),
-    },
-  };
+    dataset_type: !!dataset.dashboard_url ? "dashboard" : "dataset",
+  } as Dataset;
 };

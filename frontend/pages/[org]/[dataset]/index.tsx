@@ -1,50 +1,7 @@
 import { GetServerSideProps } from "next";
 import Head from "next/head";
-import { CKAN } from "@portaljs/ckan";
 import { getDataset } from "@/lib/queries/dataset";
-import { Dataset } from "@/schemas/dataset.interface";
-import {
-  getTypeIcon,
-  getTypeBadgeClass,
-  getTypeIconBgColor,
-  getFormatBadge,
-  formatDate,
-} from "@/lib/uiUtils";
-
-interface DatasetPageProps {
-  dataset: Dataset;
-}
-
-export const getServerSideProps: GetServerSideProps<DatasetPageProps> = async (
-  context
-) => {
-  try {
-    const ckan = new CKAN(process.env.NEXT_PUBLIC_CKAN_URL);
-    const datasetName = context.params?.dataset as string;
-    let dataset = await getDataset({ name: datasetName as string });
-    if (!dataset) {
-      return {
-        notFound: true,
-      };
-    }
-    const activityStream = await ckan.getDatasetActivityStream(dataset.name);
-    dataset = {
-      ...dataset,
-      activity_stream: activityStream,
-    };
-    return {
-      props: {
-        dataset,
-      },
-    };
-  } catch (e) {
-    console.error(e);
-    return {
-      notFound: true,
-    };
-  }
-};
-
+import { getTypeBadgeClass, getFormatBadge, formatDate } from "@/lib/uiUtils";
 import type React from "react";
 import { Clock, Download, DownloadIcon } from "lucide-react";
 import { ArrowPathIcon, HashtagIcon } from "@heroicons/react/24/outline";
@@ -63,6 +20,36 @@ import NavBar from "@/components/_shared/NavBar";
 import { Footer } from "@/components/_shared/Footer";
 import { Fragment } from "react";
 import Link from "next/link";
+import { Dataset } from "@/types/ckan";
+import Image from "next/image";
+
+interface DatasetPageProps {
+  dataset: Dataset;
+}
+
+export const getServerSideProps: GetServerSideProps<DatasetPageProps> = async (
+  context
+) => {
+  try {
+    const datasetName = context.params?.dataset as string;
+    let dataset = await getDataset({ name: datasetName as string });
+    if (!dataset) {
+      return {
+        notFound: true,
+      };
+    }
+    return {
+      props: {
+        dataset,
+      },
+    };
+  } catch (e) {
+    console.error(e);
+    return {
+      notFound: true,
+    };
+  }
+};
 
 export default function DatasetPage({ dataset }: DatasetPageProps) {
   return (
@@ -147,10 +134,10 @@ function TitleSection({ dataset }: { dataset: Dataset }) {
             <Badge
               variant="outline"
               className={`w-fit text-gray-800 mt-1 text-sm font-normal border-0 ${getTypeBadgeClass(
-                dataset.type || "dataset"
+                dataset.dataset_type || "dataset"
               )}`}
             >
-              {dataset.type || "dataset"}
+              {dataset.dataset_type || "dataset"}
             </Badge>
           </div>
           <p className="text-sm font-normal text-black mb-3 mt-2">
