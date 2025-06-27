@@ -3,7 +3,13 @@ import Head from "next/head";
 import { getDataset } from "@/lib/queries/dataset";
 import { getTypeBadgeClass, getFormatBadge, formatDate } from "@/lib/uiUtils";
 import type React from "react";
-import { Clock, Download, DownloadIcon, ExternalLinkIcon, EyeIcon } from "lucide-react";
+import {
+  Clock,
+  Download,
+  DownloadIcon,
+  ExternalLinkIcon,
+  EyeIcon,
+} from "lucide-react";
 import { ArrowPathIcon, HashtagIcon } from "@heroicons/react/24/outline";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -461,52 +467,50 @@ interface ApiCodeTabsProps {
 
 export function ApiCodeTabs({ url, packageId }: ApiCodeTabsProps) {
   const pythonCode = `
-import urllib.request
-import json
+import requests
 
-# Define the API endpoint and package ID
-url = '${url}/api/package_show'
-id = '${packageId}'
+api_url = '${url}/api/3/action/package_show'
+dataset_id = '${packageId}'
 
-# Construct the full URL with query parameters
-full_url = api_url + '?' + urllib.parse.urlencode(params)
+params = {
+    'id': dataset_id
+}
 
-try:
-    with urllib.request.urlopen(full_url) as response:
-        if response.status == 200:
-            data = json.loads(response.read().decode())
-            print(json.dumps(data, indent=2)) # Display the fetched JSON data
-        else:
-            print(f'Error: Received status code {response.status}')
-except urllib.error.URLError as e:
-    print(f'Error fetching data: {e.reason}')
-except json.JSONDecodeError as e:
-    print(f'Error decoding JSON: {e}')
+response = requests.get(api_url, params=params)
+
+if response.status_code == 200:
+    data = response.json()
+    if data.get('success'):
+        dataset = data['result']
+        print(dataset)
+    else:
+        print("API responded with success=False")
+else:
+    print(f"Request failed with status code {response.status_code}")
   `;
 
   const javascriptCode = `
-  async function fetchData() {
-    const apiUrl = '${url}/api/package_show/';
-    const packageId = '${packageId}';
-    const fullUrl = \`\${apiUrl}?id=\${packageId}\`;
+const apiUrl = '${url}/api/3/action/package_show';
+const datasetId = '${packageId}';
 
-    try {
-      const response = await fetch(fullUrl);
-      if (!response.ok) {
-        throw new Error(\`HTTP error! status: \${response.status}\`);
-      }
-      const data = await response.json();
-      console.log(JSON.stringify(data, null, 2)); // Display the fetched JSON data
-    } catch (error) {
-      console.error('Error fetching data:', error);
+async function fetchDataset() {
+  try {
+    const response = await fetch(\`\${apiUrl}?id=\${datasetId}\`);
+    if (!response.ok) {
+      throw new Error(\`HTTP error! status: \${response.status}\`);
     }
+    const data = await response.json();
+    console.log(data.result);
+  } catch (error) {
+    console.error('Failed to fetch dataset:', error);
   }
+}
 
-  fetchData();
-  `;
+fetchDataset();
+`;
 
   const curlCode = `
-  curl -X GET "${url}/api/package_show?id=${packageId}"
+  curl -X GET "${url}/api/3/action/package_show?id=${packageId}"
   `;
 
   return (
