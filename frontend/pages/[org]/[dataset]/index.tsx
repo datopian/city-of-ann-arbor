@@ -22,6 +22,7 @@ import { Fragment } from "react";
 import Link from "next/link";
 import { Dataset } from "@/types/ckan";
 import Image from "next/image";
+import { format } from "path";
 
 interface DatasetPageProps {
   dataset: Dataset;
@@ -65,7 +66,13 @@ export default function DatasetPage({ dataset }: DatasetPageProps) {
         <div className="hidden lg:block lg:absolute lg:top-28 lg:left-0 w-full h-[236px] lg:bg-[url('/images/bg-image.png')] bg-contain"></div>
         <div className="lg:pt-3 relative z-10">
           <MainContent dataset={dataset} />
-          <Image src="/images/leaf.svg" alt="leaf" width={350} height={443} className="hidden md:block absolute right-0 top-[420px] -z-10" />
+          <Image
+            src="/images/leaf.svg"
+            alt="leaf"
+            width={350}
+            height={443}
+            className="hidden md:block absolute right-0 top-[420px] -z-10"
+          />
         </div>
       </div>
       <div>
@@ -214,7 +221,7 @@ function TabsSection({ dataset }: { dataset: Dataset }) {
         value="overview"
         className="bg-white p-12 border-none rounded-b-[10px] mt-0"
       >
-        <OverviewContent />
+        <OverviewContent dataset={dataset} />
       </TabsContent>
       <TabsContent
         value="api"
@@ -229,7 +236,7 @@ function TabsSection({ dataset }: { dataset: Dataset }) {
   );
 }
 
-function OverviewContent() {
+function OverviewContent({ dataset }: { dataset: Dataset }) {
   const detailItem = (label: string, value: string | React.ReactNode) => (
     <div className="mb-4">
       <h3 className="text-base font-medium mb-1">{label}</h3>
@@ -240,6 +247,8 @@ function OverviewContent() {
       )}
     </div>
   );
+
+  const extras = dataset.extras;
 
   return (
     <div>
@@ -271,42 +280,30 @@ function OverviewContent() {
         </div>
       </div>
 
-      {detailItem(
-        "Stakeholders",
-        "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident."
+      {dataset.url && (
+        <div className="mb-4">
+          <h3 className="text-base font-medium mb-1">Source</h3>
+          <a
+            href={dataset.url}
+            className="text-sm text-ann-arbor-primary-blue hover:underline"
+            target={"_blank"}
+          >
+            {dataset.url}
+          </a>
+        </div>
       )}
+      {dataset.version && detailItem("Version", dataset.version)}
+      {dataset.author && detailItem("Author", dataset.author)}
+      {dataset.author_email && detailItem("Author Email", dataset.author)}
+      {dataset.maintainer && detailItem("Maintainer", dataset.author)}
+      {dataset.maintainer_email &&
+        detailItem("Maintainer Email", dataset.author)}
 
-      <div className="mb-4">
-        <h3 className="text-base font-medium mb-1">Sources</h3>
-        <ul className="list-disc list-inside text-sm">
-          <li>
-            <a href="#" className="text-ann-arbor-primary-blue hover:underline">
-              American Transport Outlook (ATO)
-            </a>
-          </li>
-          <li>
-            <a href="#" className="text-ann-arbor-primary-blue hover:underline">
-              Integrated Database of the American Energy System (JRC-IDEES)
-            </a>
-          </li>
-        </ul>
-      </div>
-
-      {detailItem("Last updated date", "23 March, 2023")}
-      {detailItem("Version", "1.0")}
-      {detailItem("Temporal Coverage", "01 January 1990 - 31 December 2022")}
-      {detailItem("Coverage type", "National")}
-      {detailItem("Data type", "Count")}
-      {detailItem("Visibility", "Public")}
-      {detailItem(
-        "License",
-        <a
-          href="#"
-          className="text-ann-arbor-primary-blue hover:underline text-sm"
-        >
-          Open Data Commons Attribution License
-        </a>
-      )}
+      {detailItem("Created date", formatDate(dataset.metadata_created))}
+      {detailItem("Last updated date", formatDate(dataset.metadata_created))}
+      {extras.map((e) => (
+        <div key={`extra-${e.key}`}>{detailItem(e.key, e.value)}</div>
+      ))}
     </div>
   );
 }
