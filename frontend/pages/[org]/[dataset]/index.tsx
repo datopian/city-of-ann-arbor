@@ -3,7 +3,7 @@ import Head from "next/head";
 import { getDataset } from "@/lib/queries/dataset";
 import { getTypeBadgeClass, getFormatBadge, formatDate } from "@/lib/uiUtils";
 import type React from "react";
-import { Clock, Download, DownloadIcon } from "lucide-react";
+import { Clock, Download, DownloadIcon, ExternalLinkIcon } from "lucide-react";
 import { ArrowPathIcon, HashtagIcon } from "@heroicons/react/24/outline";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -175,12 +175,26 @@ function TitleSection({ dataset }: { dataset: Dataset }) {
             )}
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            {[...new Set(dataset.resources ?? [])].map((resource) => (
-              <Fragment key={resource.id}>
-                {getFormatBadge(resource.format)}
-              </Fragment>
-            ))}
+            {[...new Set(dataset.resources.map((r) => r.format) ?? [])].map(
+              (format) => (
+                <Fragment key={`format-${format}`}>
+                  {getFormatBadge(format)}
+                </Fragment>
+              )
+            )}
           </div>
+          {dataset.dataset_type == "dashboard" && (
+            <Link href={dataset.dashboard_url ?? ""} target="_blank">
+              <Button className="text-base font-bold text-white bg-ann-arbor-accent-green hover:bg-opacity-90 mt-7 py-2 px-4">
+                See dashboard{" "}
+                <ExternalLinkIcon
+                  width={18}
+                  height={18}
+                  className={"text-white"}
+                />
+              </Button>
+            </Link>
+          )}
         </div>
       </div>
     </div>
@@ -316,16 +330,17 @@ function OverviewContent({ dataset }: { dataset: Dataset }) {
       {extras?.map((e) => (
         <div key={`extra-${e.key}`}>{detailItem(e.key, e.value)}</div>
       ))}
-      {detailItem(
-        "License",
-        <Link
-          className="no-underline text-sm text-ann-arbor-primary-blue hover:underline"
-          href={dataset.license_url}
-          target="_blank"
-        >
-          {dataset.license_title}
-        </Link>
-      )}
+      {dataset.license_url &&
+        detailItem(
+          "License",
+          <Link
+            className="no-underline text-sm text-ann-arbor-primary-blue hover:underline"
+            href={dataset.license_url}
+            target="_blank"
+          >
+            {dataset.license_title}
+          </Link>
+        )}
     </div>
   );
 }

@@ -7,7 +7,13 @@ import {
 } from "@heroicons/react/24/outline";
 import { Fragment } from "react";
 import Link from "next/link";
-import { getTypeIcon, getTypeBadgeClass, getTypeIconBgColor, getFormatBadge, formatDate } from "@/lib/uiUtils";
+import {
+  getTypeIcon,
+  getTypeBadgeClass,
+  getTypeIconBgColor,
+  getFormatBadge,
+  formatDate,
+} from "@/lib/uiUtils";
 import { Dataset } from "@/types/ckan";
 
 interface SearchDatasetCardProps {
@@ -65,9 +71,11 @@ export default function SearchDatasetCard({ dataset }: SearchDatasetCardProps) {
                 )}
               </div>
               <div className="flex flex-wrap items-center gap-2">
-                {dataset.resources.map((resource, index) => (
-                  <Fragment key={resource.id}>
-                    {getFormatBadge(resource.format)}
+                {[
+                  ...(new Set(dataset.resources.map((r) => r.format)) ?? []),
+                ].map((format, index) => (
+                  <Fragment key={`r-${dataset.id}-format-${format}`}>
+                    {getFormatBadge(format)}
                   </Fragment>
                 ))}
               </div>
