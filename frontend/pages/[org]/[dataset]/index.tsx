@@ -412,16 +412,18 @@ function ResourcesContent({ dataset }: { dataset: Dataset }) {
               </div>
             </div>
             <div className="flex items-center gap-x-4">
-              <Button
-                asChild
-                className="bg-ann-arbor-accent-green text-white hover:bg-ann-arbor-accent-green/80"
-              >
-                <Link
-                  href={`/@${dataset.organization.name}/${dataset.name}/r/${resource.id}`}
+              {resource.datastore_active && (
+                <Button
+                  asChild
+                  className="bg-ann-arbor-accent-green text-white hover:bg-ann-arbor-accent-green/80"
                 >
-                  Preview
-                </Link>
-              </Button>
+                  <Link
+                    href={`/@${dataset.organization.name}/${dataset.name}/r/${resource.id}`}
+                  >
+                    Preview
+                  </Link>
+                </Button>
+              )}
               <Link href={`${resource.url}`}>
                 <DownloadIcon className="w-5 h-5" />
               </Link>

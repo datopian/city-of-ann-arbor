@@ -170,14 +170,11 @@ export function ToggleColumns({ table }: { table: TableType<any> }) {
           {q === "" && (
             <div className="relative flex items-start px-4">
               <div className="flex h-6 items-center">
-                <input
-                  {...{
-                    type: "checkbox",
-                    checked: table.getIsAllColumnsVisible(),
-                    onChange: table.getToggleAllColumnsVisibilityHandler(),
+                <Checkbox
+                  checked={table.getIsAllColumnsVisible()}
+                  onCheckedChange={(v) => {
+                    table.getToggleAllColumnsVisibilityHandler()(v as boolean);
                   }}
-                  name="toggle-all"
-                  className="h-4 w-4 rounded border-gray-300 text-accent focus:ring-accent"
                 />
               </div>
               <div className="ml-3 text-sm leading-6">
@@ -193,14 +190,11 @@ export function ToggleColumns({ table }: { table: TableType<any> }) {
           {filteredItems.map((column) => (
             <div key={column.id} className="relative flex items-start px-4">
               <div className="flex h-6 items-center">
-                <input
-                  {...{
-                    type: "checkbox",
-                    checked: column.getIsVisible(),
-                    onChange: column.getToggleVisibilityHandler(),
+                <Checkbox
+                  checked={column.getIsVisible()}
+                  onCheckedChange={(v) => {
+                    column.toggleVisibility(v as boolean);
                   }}
-                  name={column.id}
-                  className="data-[state=checked]:bg-teal-600 border-2 border-gray-300 bg-gray-300 data-[state=checked]:border-teal-600 focus:ring-teal-500"
                 />
               </div>
               <div className="ml-3 text-sm leading-6">

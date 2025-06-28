@@ -239,7 +239,9 @@ function MainContent({
   resource,
   dataset,
 }: {
-  resource: Resource;
+  resource: Resource & {
+    numOfColumns: number;
+  };
   dataset: Dataset;
 }) {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
@@ -365,20 +367,62 @@ export function SchemaTab({
 
 export function ApiTab({ resource }: { resource: Resource }) {
   const url = process.env.NEXT_PUBLIC_CKAN_URL;
-  const code = `
-# Get 5 results containing "jones" in any field:
+
+  const examples = {
+    curl: `# Get 5 results containing "jones" in any field:
 curl ${url}/api/action/datastore_search \\
   -H"Authorization:$API_TOKEN" -d '
 {
   "resource_id": "${resource.id}",
   "limit": 5,
   "q": "jones"
-}`;
+}'`,
+
+    python: `# Python example using requests
+import requests
+import json
+import os
+
+url = "${url}/api/action/datastore_search"
+headers = {"Authorization": os.getenv("API_TOKEN")}
+data = {
+    "resource_id": "${resource.id}",
+    "limit": 5,
+    "q": "jones"
+}
+
+response = requests.post(url, headers=headers, json=data)
+result = response.json()
+print(json.dumps(result, indent=2))`,
+
+    r: `# R example using httr
+library(httr)
+library(jsonlite)
+
+url <- "${url}/api/action/datastore_search"
+headers <- add_headers(Authorization = Sys.getenv("API_TOKEN"))
+body <- list(
+  resource_id = "${resource.id}",
+  limit = 5,
+  q = "jones"
+)
+
+response <- POST(url, headers, body = body, encode = "json")
+result <- content(response, "parsed")
+print(toJSON(result, pretty = TRUE))`,
+  };
 
   return (
-    <pre className="text-sm overflow-x-auto p-4 text-gray-800 rounded-md bg-[#f7fbff]">
-      <code>{code.trim()}</code>
-    </pre>
+    <div className="space-y-6">
+      {Object.entries(examples).map(([lang, code]) => (
+        <div key={lang} className="space-y-2">
+          <h4 className="font-medium text-gray-900 capitalize">{lang}</h4>
+          <pre className="text-sm overflow-x-auto p-4 text-gray-800 rounded-md bg-[#f7fbff]">
+            <code>{code.trim()}</code>
+          </pre>
+        </div>
+      ))}
+    </div>
   );
 }
 
@@ -405,12 +449,12 @@ export function ResourceTabs({ resource }: { resource: Resource }) {
           API
         </TabsTrigger>
       </TabsList>
-      <div className="rounded-b-lg mt-5 w-full">
+      <div className="rounded-b-lg mt-24 md:mt-5 w-full">
         <TabsContent value="preview" className="mt-0">
           <DataExplorer resourceId={resource.id} />
         </TabsContent>
         <TabsContent value="table-schema" className="mt-0">
-          <SchemaTab resource={resource} />
+          <SchemaTab resource={resource as any} />
         </TabsContent>
         <TabsContent value="api" className="mt-0">
           <ApiTab resource={resource} />
