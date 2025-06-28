@@ -37,11 +37,28 @@ import { ArrowPathIcon, HashtagIcon } from "@heroicons/react/24/outline";
 import { getFormatBadge, formatDate, formatSize } from "@/lib/uiUtils";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DataExplorer } from "@/components/data-explorer/DataExplorer";
+import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 const PdfViewer = dynamic(
   () => import("@portaljs/components").then((mod) => mod.PdfViewer),
   { ssr: false }
 );
+
+async function getDatastoreInfo(resourceId: string) {
+  const DMS = process.env.NEXT_PUBLIC_CKAN_URL;
+  const url = `${DMS}/api/3/action/datastore_search?resource_id=${resourceId}`;
+  const res = await fetch(url);
+  const datastore: {
+    result: {
+      fields: {
+        id: string;
+        type: string;
+      }[];
+    };
+  } = await res.json();
+  return datastore.result;
+}
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const DMS = process.env.NEXT_PUBLIC_CKAN_URL;
@@ -56,10 +73,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       };
     }
 
-    const [resource, dataset] = await Promise.all([
+    const [resource, resourceInfo, dataset] = await Promise.all([
       ckan.getResourceMetadata(resourceId as string),
+      getDatastoreInfo(resourceId as string),
       ckan.getDatasetDetails(datasetName as string),
     ]);
+    console.log("RESOURCE INFO", resourceInfo);
     if (!resource) {
       console.log("[!] Resource metadata not found");
       return {
@@ -68,7 +87,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
 
     return {
-      props: { resource, dataset },
+      props: {
+        resource: {
+          ...resource,
+          ...resourceInfo,
+          numOfColumns: resourceInfo.fields.length,
+        },
+        dataset,
+      },
     };
   } catch (e) {
     console.log(e);
@@ -156,7 +182,11 @@ function Breadcrumbs({
   );
 }
 
-function CurrentResource({ resource }: { resource: Resource }) {
+function CurrentResource({
+  resource,
+}: {
+  resource: Resource & { numOfColumns: number };
+}) {
   return (
     <div className="flex flex-col gap-y-2 w-full px-8 py-4 bg-[#eef6ff]">
       {getFormatBadge(resource.format)}
@@ -169,7 +199,7 @@ function CurrentResource({ resource }: { resource: Resource }) {
         </div>
         <div className="text-primary-black text-xs font-normal">|</div>
         <div className="text-primary-black text-xs font-normal">
-          120 columns
+          {resource.numOfColumns} columns
         </div>
       </div>
     </div>
@@ -183,11 +213,12 @@ function OtherResourceCard({
   resource: Resource;
   dataset: Dataset;
 }) {
+  const href = resource.datastore_active
+    ? `/@${dataset.organization.name}/${dataset.name}/r/${resource.id}`
+    : resource.url;
   return (
     <div className="p-4">
-      <Link
-        href={`/@${dataset.organization.name}/${dataset.name}/r/${resource.id}`}
-      >
+      <Link href={href}>
         <div className="flex flex-col gap-y-2 w-full px-8 py-4 hover:bg-[#eef6ff]">
           {getFormatBadge(resource.format)}
           <h3 className="text-primary-black text-sm font-medium leading-tight text-clip">
@@ -196,10 +227,6 @@ function OtherResourceCard({
           <div className="flex items-center gap-x-2">
             <div className="text-primary-black text-xs font-normal">
               {formatSize(resource.size)}
-            </div>
-            <div className="text-primary-black text-xs font-normal">|</div>
-            <div className="text-primary-black text-xs font-normal">
-              120 columns
             </div>
           </div>
         </div>
@@ -313,6 +340,48 @@ function MainContent({
   );
 }
 
+export function SchemaTab({
+  resource,
+}: {
+  resource: Resource & { fields: any };
+}) {
+  return (
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Field</TableHead>
+          <TableHead>Type</TableHead>
+        </TableRow>
+        {resource.fields.map((field) => (
+          <TableRow key={field.id}>
+            <TableHead>{field.id}</TableHead>
+            <TableHead>{field.type}</TableHead>
+          </TableRow>
+        ))}
+      </TableHeader>
+    </Table>
+  );
+}
+
+export function ApiTab({ resource }: { resource: Resource }) {
+  const url = process.env.NEXT_PUBLIC_CKAN_URL;
+  const code = `
+# Get 5 results containing "jones" in any field:
+curl ${url}/api/action/datastore_search \\
+  -H"Authorization:$API_TOKEN" -d '
+{
+  "resource_id": "${resource.id}",
+  "limit": 5,
+  "q": "jones"
+}`;
+
+  return (
+    <pre className="text-sm overflow-x-auto p-4 text-gray-800 rounded-md bg-[#f7fbff]">
+      <code>{code.trim()}</code>
+    </pre>
+  );
+}
+
 export function ResourceTabs({ resource }: { resource: Resource }) {
   return (
     <Tabs defaultValue="preview" className="w-full">
@@ -336,12 +405,16 @@ export function ResourceTabs({ resource }: { resource: Resource }) {
           API
         </TabsTrigger>
       </TabsList>
-      <div className="p-4 rounded-b-lg mt-5 w-full">
+      <div className="rounded-b-lg mt-5 w-full">
         <TabsContent value="preview" className="mt-0">
           <DataExplorer resourceId={resource.id} />
         </TabsContent>
-        <TabsContent value="table-schema" className="mt-0"></TabsContent>
-        <TabsContent value="api" className="mt-0"></TabsContent>
+        <TabsContent value="table-schema" className="mt-0">
+          <SchemaTab resource={resource} />
+        </TabsContent>
+        <TabsContent value="api" className="mt-0">
+          <ApiTab resource={resource} />
+        </TabsContent>
       </div>
     </Tabs>
   );
