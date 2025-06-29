@@ -40,11 +40,6 @@ import { DataExplorer } from "@/components/data-explorer/DataExplorer";
 import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
-const PdfViewer = dynamic(
-  () => import("@portaljs/components").then((mod) => mod.PdfViewer),
-  { ssr: false }
-);
-
 async function getDatastoreInfo(resourceId: string) {
   const DMS = process.env.NEXT_PUBLIC_CKAN_URL;
   const url = `${DMS}/api/3/action/datastore_search?resource_id=${resourceId}`;
@@ -78,7 +73,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       getDatastoreInfo(resourceId as string),
       ckan.getDatasetDetails(datasetName as string),
     ]);
-    console.log("RESOURCE INFO", resourceInfo);
     if (!resource) {
       console.log("[!] Resource metadata not found");
       return {
@@ -108,7 +102,7 @@ export default function ResourcePage({
   resource,
   dataset,
 }: {
-  resource: Resource;
+  resource: Resource & { numOfColumns: number };
   dataset: Dataset;
 }): JSX.Element {
   const resourceFormat = resource.format.toLowerCase();
