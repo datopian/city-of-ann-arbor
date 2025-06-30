@@ -4,11 +4,9 @@ import React from "react";
 
 export const getTypeIcon = (type: string) => {
   const className = "w-6 h-6 text-black";
-  return type === "dashboard" ? (
-    React.createElement(BarChart3, { className })
-  ) : (
-    React.createElement(CircleStackIcon, { className })
-  );
+  return type === "dashboard"
+    ? React.createElement(BarChart3, { className })
+    : React.createElement(CircleStackIcon, { className });
 };
 
 export const getTypeBadgeClass = (type: string) => {
@@ -19,6 +17,20 @@ export const getTypeBadgeClass = (type: string) => {
 
 export const getTypeIconBgColor = (type: string) => {
   return type === "dataset" ? "bg-[#d0f1e9]" : "bg-[#d2eaef]";
+};
+
+export const formatSize = (bytes: number) => {
+  if (!bytes) return "";
+  const kb = bytes / 1024;
+  if (kb < 1024) {
+    return `${Math.round(kb)} KB`;
+  }
+  const mb = kb / 1024;
+  if (mb < 1024) {
+    return `${Math.round(mb)} MB`;
+  }
+  const gb = mb / 1024;
+  return `${Math.round(gb)} GB`;
 };
 
 export const getFormatBadge = (format: string) => {
@@ -39,14 +51,15 @@ export const getFormatBadge = (format: string) => {
     return React.createElement(
       "div",
       {
-        className: "whitespace-nowrap bg-gray-200 text-gray-600 px-2 h-7 rounded-[5px] text-sm font-normal text-center flex items-center justify-center"
+        className:
+          "whitespace-nowrap bg-gray-200 text-gray-600 px-2 h-7 rounded-[5px] text-sm font-normal text-center flex items-center justify-center",
       },
       React.createElement("div", { className: "mt-0.5" }, format)
     );
   return React.createElement(
     "div",
     {
-      className: `whitespace-nowrap ${badge.bg} w-12 h-7 rounded-[5px] text-sm font-normal text-gray-600 text-center flex items-center justify-center`
+      className: `whitespace-nowrap ${badge.bg} w-12 h-7 rounded-[5px] text-sm font-normal text-gray-600 text-center flex items-center justify-center`,
     },
     React.createElement("div", { className: "mt-0.5" }, format)
   );
