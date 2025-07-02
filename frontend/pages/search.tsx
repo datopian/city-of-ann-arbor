@@ -40,18 +40,19 @@ import {
 const ITEMS_PER_PAGE = 5;
 
 export async function getServerSideProps({ query }) {
-  const q = query?.q;
-  const datasetType = query?.type;
+  const q = query?.q ?? "";
+  const datasetType = query?.type ?? "";
+  const topic = query?.topic ?? "";
 
   const initialRequestOption = {
-    query: q ?? "",
+    query: "",
     offset: 0,
     limit: ITEMS_PER_PAGE,
     tags: [],
     groups: [],
     orgs: [],
     resFormat: [],
-    type: [datasetType]
+    type: []
   };
 
   const search_result = await searchDatasets(initialRequestOption);
@@ -65,8 +66,9 @@ export async function getServerSideProps({ query }) {
       searchFacets: {
         ...search_result.search_facets,
       },
-      query: initialRequestOption.query,
+      query: q,
       datasetType: datasetType ?? "",
+      topic: topic
     },
   };
 }
@@ -140,12 +142,13 @@ export default function DatasetSearch({
   searchFacets,
   query,
   datasetType,
+  topic
 }: InferGetServerSidePropsType<typeof getServerSideProps>): JSX.Element {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const form = useForm<SearchFormData>({
     defaultValues: {
       query,
-      groups: [],
+      groups: topic ? [topic] : [],
       orgs: [],
       resFormat: [],
       type: datasetType ? [datasetType] : [],
@@ -182,7 +185,7 @@ export default function DatasetSearch({
         label: `Keyword: ${formData.query}`,
       });
     formData.groups.forEach((topic) =>
-      filters.push({ type: "topics", value: topic, label: topic })
+      filters.push({ type: "groups", value: topic, label: topic })
     );
     formData.type.forEach((type) =>
       filters.push({ type: "type", value: type, label: type })
