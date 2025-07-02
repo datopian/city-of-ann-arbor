@@ -49,7 +49,7 @@ export function SearchHero({ query }: { query: string }) {
               >
                 <div className="flex flex-row justify-between gap-4 p-1 lg:p-[7px]">
                   <input
-                    id="search-form-input"
+                    data-cy="search-form-input"
                     type="search"
                     name="search"
                     defaultValue={query}
@@ -62,6 +62,7 @@ export function SearchHero({ query }: { query: string }) {
                   />
                   <button
                     type="submit"
+                    data-cy="search-submit-button"
                     className={`text-sm lg:text-[19px] rounded-[5px] font-bold px-3 py-3 md:px-8 md:py-3 leading-none lg:mt-0 text-white bg-ann-arbor-accent-green transition-all hover:bg-ann-arbor-accent-green/90`}
                   >
                     Search
@@ -151,8 +152,7 @@ export default function TopicsSearch({
                   {error && (
                     <Card className="border-red-300 bg-red-50">
                       <CardContent className="p-6 text-center text-red-700">
-                        Error loading topics: {error.message}. Please try
-                        again.
+                        Error loading topics: {error.message}. Please try again.
                       </CardContent>
                     </Card>
                   )}
@@ -170,7 +170,6 @@ export default function TopicsSearch({
                       {data.result.map((group, i) => (
                         <GroupSearchCard
                           key={`group-card-${group.id}`}
-                          data-cy={`group-card-${group.id}`}
                           group={group}
                           index={i}
                         />
