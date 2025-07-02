@@ -1,17 +1,10 @@
 import { GetServerSideProps } from "next";
-import { format } from "timeago.js";
-import Layout from "@/components/_shared/Layout";
 import { Dataset, Resource } from "@portaljs/ckan";
 import { CKAN } from "@portaljs/ckan";
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { RiArrowLeftLine } from "react-icons/ri";
-import ResourcesBadges from "@/components/dataset/_shared/ResourcesBadges";
 import Head from "next/head";
-import { PrimeReactProvider } from "primereact/api";
-import ResponsiveGridData from "@/components/responsiveGrid";
 import NavBar from "@/components/_shared/NavBar";
 import { Footer } from "@/components/_shared/Footer";
 import {
@@ -26,19 +19,11 @@ import {
   ArrowDownTrayIcon,
   ArrowsPointingOutIcon,
 } from "@heroicons/react/24/outline";
-import {
-  ChevronsLeft,
-  ChevronsRight,
-  Clock,
-  Download,
-  DownloadIcon,
-} from "lucide-react";
-import { ArrowPathIcon, HashtagIcon } from "@heroicons/react/24/outline";
+import { ChevronsLeft, ChevronsRight, Clock } from "lucide-react";
 import { getFormatBadge, formatDate, formatSize } from "@/lib/uiUtils";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DataExplorer } from "@/components/data-explorer/DataExplorer";
 import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 async function getDatastoreInfo(resourceId: string) {
   const DMS = process.env.NEXT_PUBLIC_CKAN_URL;

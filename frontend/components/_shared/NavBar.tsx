@@ -1,4 +1,4 @@
-import Brand from "@/components/_shared/PortalDefaultLogo";
+import Brand from "@/components/_shared/Brand";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/20/solid";
 import Image from "next/image";
