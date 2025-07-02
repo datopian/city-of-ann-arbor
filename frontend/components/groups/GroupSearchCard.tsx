@@ -10,9 +10,15 @@ export function GroupSearchCard({
   index: number;
 }) {
   return (
-    <Link href={`/search?topic=${group.name}`} className="flex flex-col p-9 gap-y-6 bg-white rounded-[10px] shadow">
+    <Link
+      data-cy={`group-card-${group.id}`}
+      href={`/search?topic=${group.name}`}
+      className="flex flex-col p-9 gap-y-6 bg-white rounded-[10px] shadow"
+    >
       <div
-        className={`w-[80px] h-[80px] flex items-center justify-center bg-ann-arbor-groups-${index + 1} rounded-[5px]`}
+        className={`w-[80px] h-[80px] flex items-center justify-center bg-ann-arbor-groups-${
+          index + 1
+        } rounded-[5px]`}
       >
         <Image
           src={group.image_display_url}
@@ -23,9 +29,12 @@ export function GroupSearchCard({
       </div>
       <div className="space-y-2">
         <h2 className="text-[23px] font-bold">{group.title}</h2>
-        <p className="text-ann-arbor-gray-600 text-sm leading-5">
-          Lorem ipsum dolor molor this is the description of a topic. Lorem
-          ipsum dolor molor this is the description of a topic
+        <p className="text-ann-arbor-gray-600 text-sm leading-5 h-[3.75rem] line-clamp-3">
+          {group.description ? (
+            group.description
+          ) : (
+            <span className="italic">N/A</span>
+          )}
         </p>
       </div>
       <div>
