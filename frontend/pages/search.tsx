@@ -43,6 +43,7 @@ export async function getServerSideProps({ query }) {
   const q = query?.q ?? "";
   const datasetType = query?.type?.split(",") ?? [];
   const topic = query?.topic ?? "";
+  const tags = query?.tags?.split(",") ?? []
 
   const initialRequestOption = {
     query: "",
@@ -69,6 +70,7 @@ export async function getServerSideProps({ query }) {
       query: q,
       datasetType: datasetType ?? [],
       topic: topic,
+      tags: tags ?? []
     },
   };
 }
@@ -144,6 +146,7 @@ export default function DatasetSearch({
   query,
   datasetType,
   topic,
+  tags: initialTags
 }: InferGetServerSidePropsType<typeof getServerSideProps>): JSX.Element {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const form = useForm<SearchFormData>({
@@ -153,7 +156,7 @@ export default function DatasetSearch({
       orgs: [],
       resFormat: [],
       type: datasetType ? datasetType : [],
-      tags: [],
+      tags: initialTags ? initialTags : [],
       offset: 0,
       limit: 5,
     },
