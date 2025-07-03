@@ -211,7 +211,7 @@ function TabsSection({ dataset }: { dataset: Dataset }) {
   const hideResources =
     dataset.ann_arbor_dataset_type != "dataset" && !dataset.resources?.length;
   return (
-    <Tabs defaultValue="overview" className="bg-transparent drop-shadow-xl">
+    <Tabs defaultValue={!hideResources ? "resources" : "overview"} className="bg-transparent drop-shadow-xl">
       <TabsList className="flex justify-start bg-transparent rounded-none mb-0 p-0 border-b-0 h-auto overflow-x-scroll md:overflow-x-visible">
         {!hideResources && (
           <TabsTrigger
