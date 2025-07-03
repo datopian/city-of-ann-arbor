@@ -30,31 +30,31 @@ export default function SearchDatasetCard({ dataset }: SearchDatasetCardProps) {
           <div className="flex flex-col sm:flex-row items-start gap-4">
             <div
               className={`flex-shrink-0 w-14 h-14 ${getTypeIconBgColor(
-                dataset.dataset_type
+                dataset.ann_arbor_dataset_type
               )} rounded-[5px] flex items-center justify-center mt-1 relative`}
             >
-              {dataset.dataset_type == "dataset" ? (
-                getTypeIcon(dataset.dataset_type)
+              {dataset.ann_arbor_dataset_type == "dataset" ? (
+                getTypeIcon(dataset.ann_arbor_dataset_type)
               ) : !!dataset.image_url ? (
                 <Image
                   src={dataset.image_url}
                   alt="Dashboard Thumbnail"
                   fill={true}
                   className={`mix-blend-luminosity object-contain object-center opacity-50 ${getTypeIconBgColor(
-                    dataset.dataset_type
+                    dataset.ann_arbor_dataset_type
                   )}`}
                   onError={(e) => {
                     e.currentTarget.src = fallbackImage.src;
                   }}
                 />
               ) : (
-                getTypeIcon(dataset.dataset_type)
+                getTypeIcon(dataset.ann_arbor_dataset_type)
               )}
             </div>
             <div className="flex-1">
               <div className="flex flex-col md:flex-row sm:items-start gap-x-2 mb-1">
                 <h3 className="group-hover:text-teal-600 cursor-pointer leading-tight text-black text-2xl font-bold transition-colors duration-200 flex items-center gap-x-2">
-                  {dataset.dataset_type == "dashboard" && (
+                  {dataset.ann_arbor_dataset_type != "dataset" && (
                     <svg
                       width="24"
                       height="24"
@@ -93,10 +93,10 @@ export default function SearchDatasetCard({ dataset }: SearchDatasetCardProps) {
                 <Badge
                   variant="outline"
                   className={`w-fit text-[#3f3f3f] mt-1 text-sm font-normal border-0 ${getTypeBadgeClass(
-                    dataset.dataset_type
+                    dataset.ann_arbor_dataset_type
                   )}`}
                 >
-                  {dataset.dataset_type}
+                  {dataset.ann_arbor_dataset_type}
                 </Badge>
               </div>
               <p className="text-sm font-normal text-black mb-3 mt-2 line-clamp-2">

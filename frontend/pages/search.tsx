@@ -41,7 +41,7 @@ const ITEMS_PER_PAGE = 5;
 
 export async function getServerSideProps({ query }) {
   const q = query?.q ?? "";
-  const datasetType = query?.type ?? "";
+  const datasetType = query?.type?.split(",") ?? [];
   const topic = query?.topic ?? "";
 
   const initialRequestOption = {
@@ -67,7 +67,7 @@ export async function getServerSideProps({ query }) {
         ...search_result.search_facets,
       },
       query: q,
-      datasetType: datasetType ?? "",
+      datasetType: datasetType ?? [],
       topic: topic
     },
   };
@@ -151,7 +151,7 @@ export default function DatasetSearch({
       groups: topic ? [topic] : [],
       orgs: [],
       resFormat: [],
-      type: datasetType ? [datasetType] : [],
+      type: datasetType ? datasetType : [],
       tags: [],
       offset: 0,
       limit: 5,
@@ -282,6 +282,10 @@ export default function DatasetSearch({
               {
                 name: "dashboard",
                 display_name: "Dashboard",
+              },
+              {
+                name: "map",
+                display_name: "Map",
               },
             ],
             formName: "type" as const,

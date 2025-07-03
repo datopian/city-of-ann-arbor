@@ -5,11 +5,14 @@ from ckanext.ann_arbor.logic.action.create import package_create as ann_arbor_cr
 from ckanext.ann_arbor.logic.action.update import package_update as ann_arbor_update_package
 from ckanext.ann_arbor.views.dataset import dataset as dataset_bp
 
+import ckanext.ann_arbor.logic.validators as validators
+
 
 class AnnArborPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IActions)
     plugins.implements(plugins.IBlueprint)
+    plugins.implements(plugins.IValidators)
 
     # IConfigurer
 
@@ -28,3 +31,10 @@ class AnnArborPlugin(plugins.SingletonPlugin):
 
     def get_blueprint(self):
         return [dataset_bp]
+
+    # IValidators
+    
+    def get_validators(self):
+        return {
+            "optional_for_datasets": validators.optional_for_datasets
+        }

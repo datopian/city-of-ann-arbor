@@ -42,7 +42,7 @@ export function PopularDashboardCard({ dashboard }: { dashboard: Dataset }) {
           href={`/${dashboard.organization.name}/${dashboard.name}`}
           className="w-fit bg-ann-arbor-accent-green transition-all hover:bg-opacity-90 text-white font-bold px-3 py-2 rounded-[5px] flex items-center"
         >
-          Explore dashboard
+          Explore {dashboard.ann_arbor_dataset_type}
           <ArrowSmallRightIcon className="inline w-6" />
         </Link>
       </div>

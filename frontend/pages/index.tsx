@@ -10,13 +10,13 @@ import { Footer } from "@/components/_shared/Footer";
 import { Dataset } from "@/types/ckan";
 
 export async function getStaticProps() {
-  const dashboards = await searchDatasets({
+  const dashboardsAndMaps = await searchDatasets({
     offset: 0,
     limit: 9,
     tags: [],
     groups: [],
     orgs: [],
-    type: ["dashboard"]
+    type: ["dashboard", "map"]
   });
   const datasets = await searchDatasets({
     offset: 0,
@@ -29,7 +29,7 @@ export async function getStaticProps() {
   const groups = await getAllGroups({ detailed: true });
   return {
     props: {
-      dashboards: dashboards.results as Dataset[],
+      dashboards: dashboardsAndMaps.results as Dataset[],
       datasets: datasets.results as Dataset[],
       groups,
     },

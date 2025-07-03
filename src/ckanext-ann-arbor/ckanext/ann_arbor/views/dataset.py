@@ -76,7 +76,7 @@ class CreateView(BaseCreateView):
             data_dict["type"] = package_type
             pkg_dict = get_action("package_create")(context, data_dict)
 
-            create_on_ui_requires_resources = not pkg_dict.get("dashboard_url", False)
+            create_on_ui_requires_resources = pkg_dict.get("ann_arbor_dataset_type") == "dataset"
 
             if ckan_phase:
                 if create_on_ui_requires_resources:

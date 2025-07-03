@@ -38,12 +38,6 @@ export async function searchDatasets(
     queryParams.push(`q=${options.query}`);
   }
 
-  //@ts-ignore
-  const type = match(options?.type)
-    .with(["dataset"], (v) => `-dashboard_url:['' TO *]`)
-    .with(["dashboard"], (v) => `dashboard_url:['' TO *]`)
-    .otherwise(() => "");
-
   if (options?.offset) {
     queryParams.push(`start=${options.offset}`);
   }
@@ -83,8 +77,8 @@ export async function searchDatasets(
     fqList.push(`+(${fqListGroups.join(" AND ")})`);
   }
 
-  if (type !== "") {
-    fqList.push(type);
+  if (options?.type?.length) {
+    fqList.push(`ann_arbor_dataset_type:(${joinTermsWithOr(options.type)})`);
   }
 
   if (fqList?.length) {
@@ -108,11 +102,7 @@ export async function searchDatasets(
     }>
   >(action, { ckanUrl: DMS });
 
-  const datasets = res.result.results?.map((d) => ({
-    ...d,
-    dataset_type: !!d?.dashboard_url ? "dashboard" : "dataset",
-  }));
-
+  const datasets = res.result.results;
   return { ...res.result, results: datasets };
 }
 
@@ -124,11 +114,8 @@ export const getDataset = async ({ name }: { name: string }) => {
   const DMS = process.env.NEXT_PUBLIC_CKAN_URL;
   const ckan = new CKAN(DMS);
   const privateName = publicToPrivateDatasetName(name);
-  const dataset = await ckan.getDatasetDetails(privateName) as Dataset;
+  const dataset = (await ckan.getDatasetDetails(privateName)) as Dataset;
   dataset.name = privateToPublicDatasetName(dataset.name);
 
-  return {
-    ...dataset,
-    dataset_type: !!dataset.dashboard_url ? "dashboard" : "dataset",
-  } as Dataset;
+  return dataset;
 };
