@@ -88,7 +88,7 @@ dataset_fields:
   form_placeholder: http://example.com/dashboard
   display_property: foaf:page
   display_snippet: link.html
-  validators: url_validator optional_for_datasets
+  validators: ignore_missing url_validator optional_for_datasets
   required: true
   help_text: "Link to the external visualization"
 

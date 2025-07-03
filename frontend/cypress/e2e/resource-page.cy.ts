@@ -21,8 +21,7 @@ describe("Resource Page", () => {
       name: datasetName,
       title: datasetTitle,
       owner_org: sample_org,
-      visualization_url: "",
-      ann_arbor_dataset_type: "dataset"
+      dashboard_url: "",
     });
     cy.prepareFile(
       datasetName,

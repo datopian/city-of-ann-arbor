@@ -74,6 +74,7 @@ export const getFormatBadge = (format: string) => {
     "div",
     {
       className: `whitespace-nowrap ${badge.bg} w-12 h-7 rounded-[5px] text-sm font-normal text-gray-600 text-center flex items-center justify-center`,
+      "data-cy": `format-${format}`
     },
     React.createElement("div", { className: "mt-0.5" }, format)
   );

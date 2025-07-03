@@ -52,7 +52,7 @@ export async function getServerSideProps({ query }) {
     groups: [],
     orgs: [],
     resFormat: [],
-    type: []
+    type: [],
   };
 
   const search_result = await searchDatasets(initialRequestOption);
@@ -68,7 +68,7 @@ export async function getServerSideProps({ query }) {
       },
       query: q,
       datasetType: datasetType ?? [],
-      topic: topic
+      topic: topic,
     },
   };
 }
@@ -112,6 +112,7 @@ export function SearchHero({ query }: { query: string }) {
                   <button
                     type="submit"
                     className={`text-sm lg:text-[19px] rounded-[5px] font-bold px-3 py-3 md:px-8 md:py-3 leading-none lg:mt-0 text-white bg-ann-arbor-accent-green transition-all hover:bg-ann-arbor-accent-green/90`}
+                    data-cy="search-form-submit-button"
                   >
                     Search
                   </button>
@@ -142,7 +143,7 @@ export default function DatasetSearch({
   searchFacets,
   query,
   datasetType,
-  topic
+  topic,
 }: InferGetServerSidePropsType<typeof getServerSideProps>): JSX.Element {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const form = useForm<SearchFormData>({
@@ -205,7 +206,12 @@ export default function DatasetSearch({
   ) => {
     if (type === "query") {
       setValue("query", "");
-    } else if (type === "groups" || type === "resFormat" || type === "tags" || type == "type") {
+    } else if (
+      type === "groups" ||
+      type === "resFormat" ||
+      type === "tags" ||
+      type == "type"
+    ) {
       setValue(
         type,
         formData[type].filter((item) => item !== value)
@@ -319,7 +325,10 @@ export default function DatasetSearch({
               value={filterGroup.value}
               className="border-none"
             >
-              <AccordionTrigger className="font-normal text-gray-700 hover:text-teal-600 hover:no-underline py-4 text-lg">
+              <AccordionTrigger
+                className="font-normal text-gray-700 hover:text-teal-600 hover:no-underline py-4 text-lg"
+                data-cy={`filter-${filterGroup.value}`}
+              >
                 <div className="flex items-center gap-2">
                   {filterGroup.title}
                   {formData[filterGroup.formName].length > 0 && (
@@ -345,6 +354,7 @@ export default function DatasetSearch({
                           <Checkbox
                             id={`${filterGroup.formName}-${item.name}`}
                             checked={field.value.includes(item.name)}
+                            data-cy={`filter-${filterGroup.value}-option-${item.name}`}
                             onCheckedChange={(checked) => {
                               const newValue = checked
                                 ? [...field.value, item.name]

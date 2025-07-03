@@ -24,7 +24,7 @@ interface SearchDatasetCardProps {
 
 export default function SearchDatasetCard({ dataset }: SearchDatasetCardProps) {
   return (
-    <Link href={`/${dataset.organization.name}/${dataset.name}`}>
+    <Link href={`/${dataset.organization.name}/${dataset.name}`} data-cy={`dataset-card-${dataset.id}`}>
       <Card className="group border-0 hover:border-1 shadow-none border-gray-200 cursor-pointer ">
         <CardContent className="p-4 sm:p-6">
           <div className="flex flex-col sm:flex-row items-start gap-4">
@@ -91,6 +91,7 @@ export default function SearchDatasetCard({ dataset }: SearchDatasetCardProps) {
                   {dataset.title}
                 </h3>
                 <Badge
+                  data-cy={`dataset-card-badge-${dataset.id}`}
                   variant="outline"
                   className={`w-fit text-[#3f3f3f] mt-1 text-sm font-normal border-0 ${getTypeBadgeClass(
                     dataset.ann_arbor_dataset_type
@@ -112,7 +113,7 @@ export default function SearchDatasetCard({ dataset }: SearchDatasetCardProps) {
                   Updated {formatDate(dataset.metadata_modified)}
                 </div>
                 {dataset.tags && dataset.tags.length > 0 && (
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-1" data-cy={`dataset-card-tag-${dataset.id}`}>
                     <HashtagIcon className="w-4 h-4 mb-0.5" />
                     {dataset.tags
                       .slice(0, 3)
