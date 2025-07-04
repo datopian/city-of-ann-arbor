@@ -42,7 +42,8 @@ export function SearchHero({ query }: { query: string }) {
             <h1 className="lg:max-w-[478px] font-bold text-3xl mx-auto text-[40px] lg:text-6xl flex flex-col text-center !leading-snug pb-8 lg:pb-[120px]">
               Topics
             </h1>
-            <div className="w-full p-4 bg-white rounded-lg">
+            <div className="hidden md:block h-[97px]"></div> {/* NOTE: this compensates the height of the search input commeneted below */}
+            {/*<div className="w-full p-4 bg-white rounded-lg">
               <form
                 onSubmit={(e) => handleSubmit(e)}
                 className="items-center bg-white border-[2px] border-[#D9D9D9] rounded-[10px] w-full w-full"
@@ -69,7 +70,7 @@ export function SearchHero({ query }: { query: string }) {
                   </button>
                 </div>
               </form>
-            </div>
+            </div>*/}
           </div>
           <div className="lg:absolute lg:bottom-[-15px] lg:left-0 w-full lg:h-[240px] lg:bg-[url('/images/bg-image.png')] bg-contain"></div>
         </div>
