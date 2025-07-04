@@ -16,7 +16,7 @@ const links = [
     label: "Topics",
   },
   {
-    href: "#external-link",
+    href: "https://www.a2gov.org/",
     target: "_blank",
     label: (
       <>
@@ -89,9 +89,12 @@ export default function NavBar() {
             {links.map((link) => (
               <div key={`navbar-link-${link.href}`}>
                 <Link
+                  target={link.target ?? undefined}
                   href={link.href}
                   className={`transition-all duration-100 ${
-                    router.pathname === link.href ? "font-semibold border-b-ann-arbor-accent-green border-b-2" : ""
+                    router.pathname === link.href
+                      ? "font-semibold border-b-ann-arbor-accent-green border-b-2"
+                      : ""
                   } hover:font-semibold hover:border-b-ann-arbor-accent-green hover:border-b-2`}
                 >
                   {link.label}
