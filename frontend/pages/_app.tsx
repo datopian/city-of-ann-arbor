@@ -11,9 +11,14 @@ import SEO from "../next-seo.config";
 
 import Loader from "../components/_shared/Loader";
 
-import { Fira_Sans } from 'next/font/google'
+import { Fira_Sans } from "next/font/google";
 
-const FiraSans = Fira_Sans({ subsets: ["latin"], weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"] })
+import { FeedbackFloatingButton } from "@/components/_shared/FeedbackFloatingButton";
+
+const FiraSans = Fira_Sans({
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+});
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
@@ -23,6 +28,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <main className={`${FiraSans.className}`}>
         <DefaultSeo {...SEO} />
         <Loader />
+        <FeedbackFloatingButton />
         <Component {...pageProps} />
       </main>
     </QueryClientProvider>
