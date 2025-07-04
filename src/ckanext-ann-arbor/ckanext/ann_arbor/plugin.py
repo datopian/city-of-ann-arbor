@@ -4,6 +4,7 @@ import ckan.plugins.toolkit as toolkit
 from ckanext.ann_arbor.logic.action.create import package_create as ann_arbor_create_package
 from ckanext.ann_arbor.logic.action.update import package_update as ann_arbor_update_package
 from ckanext.ann_arbor.views.dataset import dataset as dataset_bp
+import ckanext.ann_arbor.logic.auth as auth_fn
 
 import ckanext.ann_arbor.logic.validators as validators
 
@@ -13,6 +14,7 @@ class AnnArborPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IActions)
     plugins.implements(plugins.IBlueprint)
     plugins.implements(plugins.IValidators)
+    plugins.implements(plugins.IAuthFunctions)
 
     # IConfigurer
 
@@ -37,4 +39,10 @@ class AnnArborPlugin(plugins.SingletonPlugin):
     def get_validators(self):
         return {
             "optional_for_datasets": validators.optional_for_datasets
+        }
+
+    # IAuthFunctions
+    def get_auth_functions(self):
+        return {
+            "group_show": auth_fn.group_show
         }
