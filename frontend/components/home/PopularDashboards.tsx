@@ -15,18 +15,18 @@ export function PopularDashboards({ dashboards }: { dashboards: Dataset[] }) {
     >
       <div className="text-center flex flex-col lg:space-y-4">
         <h2 className="font-extrabold text-2xl lg:text-4xl">
-          Popular dashboards
+          Popular dashboards & maps
         </h2>
         <p className="p-5 lg:p-0 max-w-[570px] text-ann-arbor-primary-gray text-xl">
-          Dive into our popular dashboards to see what’s happening in Ann Arbor
+          Dive into our popular dashboards and maps to see what’s happening in Ann Arbor
           - from traffic patterns to tree cover.
         </p>
         <Link
-          href="/search?type=dashboard"
+          href="/search?type=dashboard,map"
           className="text-xl text-ann-arbor-primary-blue transition-all hover:opacity-80"
           data-cy="all-dashboards-link"
         >
-          <span className="underline">All dashboards</span>{" "}
+          <span className="underline">All dashboards and maps</span>{" "}
           <ArrowSmallRightIcon className="inline w-6" />
         </Link>
       </div>

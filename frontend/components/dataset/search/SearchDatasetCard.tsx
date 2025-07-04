@@ -24,37 +24,37 @@ interface SearchDatasetCardProps {
 
 export default function SearchDatasetCard({ dataset }: SearchDatasetCardProps) {
   return (
-    <Link href={`/${dataset.organization.name}/${dataset.name}`}>
+    <Link href={`/${dataset.organization.name}/${dataset.name}`} data-cy={`dataset-card-${dataset.id}`}>
       <Card className="group border-0 hover:border-1 shadow-none border-gray-200 cursor-pointer ">
         <CardContent className="p-4 sm:p-6">
           <div className="flex flex-col sm:flex-row items-start gap-4">
             <div
               className={`flex-shrink-0 w-14 h-14 ${getTypeIconBgColor(
-                dataset.dataset_type
+                dataset.ann_arbor_dataset_type
               )} rounded-[5px] flex items-center justify-center mt-1 relative`}
             >
-              {dataset.dataset_type == "dataset" ? (
-                getTypeIcon(dataset.dataset_type)
+              {dataset.ann_arbor_dataset_type == "dataset" ? (
+                getTypeIcon(dataset.ann_arbor_dataset_type)
               ) : !!dataset.image_url ? (
                 <Image
                   src={dataset.image_url}
                   alt="Dashboard Thumbnail"
                   fill={true}
                   className={`mix-blend-luminosity object-contain object-center opacity-50 ${getTypeIconBgColor(
-                    dataset.dataset_type
+                    dataset.ann_arbor_dataset_type
                   )}`}
                   onError={(e) => {
                     e.currentTarget.src = fallbackImage.src;
                   }}
                 />
               ) : (
-                getTypeIcon(dataset.dataset_type)
+                getTypeIcon(dataset.ann_arbor_dataset_type)
               )}
             </div>
             <div className="flex-1">
               <div className="flex flex-col md:flex-row sm:items-start gap-x-2 mb-1">
                 <h3 className="group-hover:text-teal-600 cursor-pointer leading-tight text-black text-2xl font-bold transition-colors duration-200 flex items-center gap-x-2">
-                  {dataset.dataset_type == "dashboard" && (
+                  {dataset.ann_arbor_dataset_type != "dataset" && (
                     <svg
                       width="24"
                       height="24"
@@ -91,12 +91,13 @@ export default function SearchDatasetCard({ dataset }: SearchDatasetCardProps) {
                   {dataset.title}
                 </h3>
                 <Badge
+                  data-cy={`dataset-card-badge-${dataset.id}`}
                   variant="outline"
                   className={`w-fit text-[#3f3f3f] mt-1 text-sm font-normal border-0 ${getTypeBadgeClass(
-                    dataset.dataset_type
+                    dataset.ann_arbor_dataset_type
                   )}`}
                 >
-                  {dataset.dataset_type}
+                  {dataset.ann_arbor_dataset_type}
                 </Badge>
               </div>
               <p className="text-sm font-normal text-black mb-3 mt-2 line-clamp-2">
@@ -112,7 +113,7 @@ export default function SearchDatasetCard({ dataset }: SearchDatasetCardProps) {
                   Updated {formatDate(dataset.metadata_modified)}
                 </div>
                 {dataset.tags && dataset.tags.length > 0 && (
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-1" data-cy={`dataset-card-tag-${dataset.id}`}>
                     <HashtagIcon className="w-4 h-4 mb-0.5" />
                     {dataset.tags
                       .slice(0, 3)

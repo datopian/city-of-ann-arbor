@@ -1,22 +1,36 @@
 import { BarChart3 } from "lucide-react";
-import { CircleStackIcon } from "@heroicons/react/24/outline";
+import { CircleStackIcon, MapIcon } from "@heroicons/react/24/outline";
 import React from "react";
 
 export const getTypeIcon = (type: string) => {
   const className = "w-6 h-6 text-black";
-  return type === "dashboard"
-    ? React.createElement(BarChart3, { className })
-    : React.createElement(CircleStackIcon, { className });
+  if (type === "dashboard") {
+    return React.createElement(BarChart3, { className });
+  } else if (type === "dataset") {
+    return React.createElement(CircleStackIcon, { className });
+  } else if (type === "map") {
+    return React.createElement(MapIcon, { className });
+  }
 };
 
 export const getTypeBadgeClass = (type: string) => {
-  return type === "dashboard"
-    ? "bg-[#d2eaef] text-gray-700"
-    : "bg-[#d1f1ea] text-gray-700";
+  if (type == "dashboard") {
+    return "bg-[#d2eaef] text-gray-700";
+  } else if (type == "dataset") {
+    return "bg-[#d1f1ea] text-gray-700";
+  } else {
+    return "bg-ann-arbor-groups-1 text-gray-700";
+  }
 };
 
 export const getTypeIconBgColor = (type: string) => {
-  return type === "dataset" ? "bg-[#d0f1e9]" : "bg-[#d2eaef]";
+  if (type === "dataset") {
+    return "bg-[#d0f1e9]";
+  } else if (type === "dashboard") {
+    return "bg-[#d2eaef]";
+  } else {
+    return "bg-ann-arbor-groups-1";
+  }
 };
 
 export const formatSize = (bytes: number) => {
@@ -60,6 +74,7 @@ export const getFormatBadge = (format: string) => {
     "div",
     {
       className: `whitespace-nowrap ${badge.bg} w-12 h-7 rounded-[5px] text-sm font-normal text-gray-600 text-center flex items-center justify-center`,
+      "data-cy": `format-${format}`
     },
     React.createElement("div", { className: "mt-0.5" }, format)
   );

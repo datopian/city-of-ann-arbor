@@ -147,10 +147,10 @@ function TitleSection({ dataset }: { dataset: Dataset }) {
             <Badge
               variant="outline"
               className={`w-fit text-gray-800 mt-1 text-sm font-normal border-0 ${getTypeBadgeClass(
-                dataset.dataset_type || "dataset"
+                dataset.ann_arbor_dataset_type || "dataset"
               )}`}
             >
-              {dataset.dataset_type || "dataset"}
+              {dataset.ann_arbor_dataset_type || "dataset"}
             </Badge>
           </div>
           <p className="text-sm font-normal text-black mb-3 mt-2">
@@ -172,11 +172,9 @@ function TitleSection({ dataset }: { dataset: Dataset }) {
             {dataset.tags && dataset.tags.length > 0 && (
               <div className="flex items-center gap-1">
                 <HashtagIcon className="w-4 h-4 mb-0.5" />
-                {dataset.tags
-                  .slice(0, 3)
-                  .map((tag) => tag.display_name)
-                  .join(", ")}
-                {dataset.tags.length > 3 && "..."}
+                {dataset.tags.map((tag, i) => (
+                  <Link href={`/search?tags=${tag.name}`}>{tag.display_name}{i < dataset.tags.length - 1 ? "," : ""}</Link>
+                ))}
               </div>
             )}
           </div>
@@ -189,10 +187,10 @@ function TitleSection({ dataset }: { dataset: Dataset }) {
               )
             )}
           </div>
-          {dataset.dataset_type == "dashboard" && (
-            <Link href={dataset.dashboard_url ?? ""} target="_blank">
+          {dataset.ann_arbor_dataset_type != "dataset" && (
+            <Link href={dataset.visualization_url ?? ""} target="_blank">
               <Button className="text-base font-bold text-white bg-ann-arbor-accent-green hover:bg-opacity-90 mt-7 py-2 px-4">
-                See dashboard{" "}
+                Visit {dataset.ann_arbor_dataset_type}{" "}
                 <ExternalLinkIcon
                   width={18}
                   height={18}
@@ -209,9 +207,12 @@ function TitleSection({ dataset }: { dataset: Dataset }) {
 
 function TabsSection({ dataset }: { dataset: Dataset }) {
   const hideResources =
-    dataset.dataset_type == "dashboard" && !dataset.resources?.length;
+    dataset.ann_arbor_dataset_type != "dataset" && !dataset.resources?.length;
   return (
-    <Tabs defaultValue="overview" className="bg-transparent drop-shadow-xl">
+    <Tabs
+      defaultValue={!hideResources ? "resources" : "overview"}
+      className="bg-transparent drop-shadow-xl"
+    >
       <TabsList className="flex justify-start bg-transparent rounded-none mb-0 p-0 border-b-0 h-auto overflow-x-scroll md:overflow-x-visible">
         {!hideResources && (
           <TabsTrigger

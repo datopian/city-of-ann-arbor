@@ -1,9 +1,9 @@
 import { type Dataset as CoreDataset } from "@portaljs/ckan";
 
 export type Dataset = CoreDataset & {
-  dashboard_url: string;
+  visualization_url: string;
   image_url: string;
-  dataset_type: "dashboard" | "dataset";
+  ann_arbor_dataset_type: "dashboard" | "dataset" | "map";
   extras?: { key: string; value: string }[];
   license_url: string;
 };

@@ -69,16 +69,31 @@ dataset_fields:
   display_snippet: email.html
   display_email_name_field: maintainer
 
-- field_name: dashboard_url
-  label: Dashboard URL
-  form_placeholder: http://example.com/dataset
+- field_name: ann_arbor_dataset_type
+  label: Dataset Type
+  preset: select
+  required: true
+  choices:
+  - label: Dataset
+    value: dataset
+  - label: Dashboard
+    value: dashboard
+  - label: Map
+    value: map
+  form_attrs:
+    data-module: dataset-type
+
+- field_name: visualization_url
+  label: Visualization URL
+  form_placeholder: http://example.com/dashboard
   display_property: foaf:page
   display_snippet: link.html
-  validators: url_validator
-  help_text: "Leave empty to create a dataset. Provide a value to create a dashboard."
+  validators: ignore_missing url_validator optional_for_datasets
+  required: true
+  help_text: "Link to the external visualization"
 
 - field_name: image_url
-  label: Dashboard Thumbnail
+  label: Visualization Thumbnail
   form_placeholder: http://example.com/my-image.jpg
   preset: organization_url_upload
   display_snippet: image.html
