@@ -6,14 +6,17 @@ import {
   RecentlyAddedCardVariant,
 } from "./RecentlyAddedCard";
 
-export function RecentlyAdded({ datasets }: { datasets: Dataset[] }) {
+export function DatasetsSection({ datasets }: { datasets: Dataset[] }) {
   return (
-    <section className="flex flex-col items-center gap-y-11" data-cy="recently-added-section">
+    <section
+      className="flex flex-col items-center gap-y-11"
+      data-cy="recently-added-section"
+    >
       <div className="text-center flex flex-col space-y-4">
-        <h2 className="font-extrabold text-4xl">Recently added</h2>
+        <h2 className="font-extrabold text-4xl">Datasets</h2>
         <p className="max-w-[570px] text-ann-arbor-primary-gray text-xl">
-          Explore recently added datasets and gain valuable insights into the
-          city of Ann Arbor trends.
+          Browse the city's data, available in a variety of formats, and gain
+          valuable insights.
         </p>
         <Link
           href="/search?type=dataset"
