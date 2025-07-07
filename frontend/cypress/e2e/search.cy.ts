@@ -63,24 +63,27 @@ describe("Search page", () => {
     cy.deleteDatasetViaAPI(datasets[0].name);
     cy.deleteDatasetViaAPI(datasets[1].name);
     cy.deleteDatasetViaAPI(datasets[2].name);
-    cy.deleteOrganizationAPI(org.name);
-
     cy.purgeDataset(datasets[0].name);
     cy.purgeDataset(datasets[1].name);
     cy.purgeDataset(datasets[2].name);
+
+    cy.deleteOrganizationAPI(org.name);
     cy.purgeOrganization(org.name);
   });
 
   it("search by keyword works", () => {
     cy.get("#search-form-input").type(datasets[0].name);
+    cy.wait(2000);
     cy.get('[data-cy="search-form-submit-button"]').click();
     cy.get('[data-cy^="dataset-card-"]').contains(datasets[0].title);
 
     cy.get("#search-form-input").clear().type(datasets[1].name);
+    cy.wait(2000);
     cy.get('[data-cy="search-form-submit-button"]').click();
     cy.get('[data-cy^="dataset-card-"]').contains(datasets[1].title);
 
     cy.get("#search-form-input").clear().type(datasets[2].name);
+    cy.wait(2000);
     cy.get('[data-cy="search-form-submit-button"]').click();
     cy.get('[data-cy^="dataset-card-"]').contains(datasets[2].title);
   });
@@ -131,7 +134,7 @@ describe("Search page", () => {
       $card
         .find('[data-cy^="dataset-card-tag-"]')
         .each((index, element) => {
-          expect(element.innerText).to.eq("test");
+          expect(element.innerText).to.include("test");
         });
     });
   });

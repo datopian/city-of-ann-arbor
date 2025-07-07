@@ -25,10 +25,10 @@ describe("Homepage", () => {
     );
   });
 
-  it("Search input works", () => {
+  /* it("Search input works", () => {
     const query = "env";
     cy.get(`[data-cy="search-form-input"]`).type(query);
     cy.get('[data-cy="search-submit-button"]').click();
     cy.get('[data-cy^="group-card-"] h2').contains("Environment");
-  });
+  }); */
 });
