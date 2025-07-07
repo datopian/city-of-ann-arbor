@@ -3,35 +3,24 @@ import Link from "next/link";
 
 const navigation = [
   {
-    title: "About",
-    links: [
-      { title: "Organizations", href: "#" },
-      { title: "Contact", href: "#" },
-      { title: "Organizations", href: "#" },
-    ],
-  },
-  {
-    title: "Learn more",
-    links: [
-      { title: "Organizations", href: "#" },
-      { title: "Contact", href: "#" },
-      { title: "Organizations", href: "#" },
-    ],
-  },
-  {
     title: "Get started",
     links: [
-      { title: "Organizations", href: "#" },
-      { title: "Contact", href: "#" },
-      { title: "Organizations", href: "#" },
+      { title: "Discover", href: "/search" },
+      { title: "Topics", href: "/topics" },
+    ],
+  },
+  {
+    title: "Types of data",
+    links: [
+      { title: "Datasets", href: "/search?type=dataset" },
+      { title: "Dashboards", href: "/search?type=dashboard" },
+      { title: "Maps", href: "/search?type=map" },
     ],
   },
   {
     title: "Useful links",
     links: [
-      { title: "Organizations", href: "#" },
-      { title: "Contact", href: "#" },
-      { title: "Organizations", href: "#" },
+      { title: "a2gov", href: "https://www.a2gov.org", target: "_blank" },
     ],
   },
 ];
@@ -130,7 +119,7 @@ export function Footer() {
             </div>
           </div>
         </div>
-        <div className="flex flex-col p-6 gap-y-3">
+        <div className="flex flex-col p-6 pb-0 gap-y-3 justify-between">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-14">
             {navigation.map((n, ni) => {
               return (
@@ -143,6 +132,7 @@ export function Footer() {
                           key={`footer-link-${ni}-${li}`}
                           href={l.href}
                           className="text-lg"
+                          target={l.target ?? undefined}
                         >
                           {l.title}
                         </a>
