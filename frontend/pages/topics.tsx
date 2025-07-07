@@ -102,8 +102,8 @@ export default function TopicsSearch({
   return (
     <div className="">
       <Head>
-        <title>City of Ann Arbor Open Data Portal</title>
-        <meta name="description" content="City of Ann Arbor Open Data Portal" />
+        <title>Topics - City of Ann Arbor Open Data Portal</title>
+        <meta name="description" content="Topics in the City of Ann Arbor Open Data Portal" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <FormProvider {...form}>

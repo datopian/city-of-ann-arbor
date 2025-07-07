@@ -61,8 +61,8 @@ export default function DatasetPage({ dataset }: DatasetPageProps) {
   return (
     <div className="">
       <Head>
-        <title>City of Ann Arbor Open Data Portal</title>
-        <meta name="description" content="City of Ann Arbor Open Data Portal" />
+        <title>{dataset.title} - City of Ann Arbor Open Data Portal</title>
+        <meta name="description" content={dataset.notes} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="lg:min-h-[1250px] bg-gradient-to-t from-[#E2F1E4] to-[#FFFFFF] to-65% pb-28">
@@ -173,7 +173,10 @@ function TitleSection({ dataset }: { dataset: Dataset }) {
               <div className="flex items-center gap-1">
                 <HashtagIcon className="w-4 h-4 mb-0.5" />
                 {dataset.tags.map((tag, i) => (
-                  <Link href={`/search?tags=${tag.name}`}>{tag.display_name}{i < dataset.tags.length - 1 ? "," : ""}</Link>
+                  <Link href={`/search?tags=${tag.name}`}>
+                    {tag.display_name}
+                    {i < dataset.tags.length - 1 ? "," : ""}
+                  </Link>
                 ))}
               </div>
             )}

@@ -96,7 +96,7 @@ export default function ResourcePage({
   return (
     <>
       <Head>
-        <title>{`${resource.name}`}</title>
+        <title>{`${resource.name}`} - City of Ann Arbor Open Data Portal</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="lg:min-h-[1250px] bg-gradient-to-t from-[#E2F1E4] to-[#FFFFFF] to-65% pb-28">
