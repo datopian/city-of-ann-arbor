@@ -10,6 +10,7 @@ import SEO from "../next-seo.config";
 import Loader from "../components/_shared/Loader";
 import { Fira_Sans } from "next/font/google";
 import { useRouter } from "next/router";
+import { FeedbackFloatingButton } from "@/components/_shared/FeedbackFloatingButton";
 
 const FiraSans = Fira_Sans({
   subsets: ["latin"],
@@ -39,6 +40,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <main className={`${FiraSans.className}`}>
         <DefaultSeo {...SEO} />
         <Loader />
+        <FeedbackFloatingButton />
         <Component {...pageProps} />
       </main>
     </QueryClientProvider>
