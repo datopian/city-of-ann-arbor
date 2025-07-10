@@ -14,8 +14,7 @@ export function FeedbackFloatingButton() {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
-          className="fixed z-[1000] right-3 bottom-3 bg-ann-arbor-accent-green hover:bg-opacity-90"
-          size="sm"
+          className="right-3 bottom-3 lg:flex fixed z-[1000] lg:right-auto lg:-left-[32px] lg:rounded-t-none lg:bottom-[50vh] text-base lg:-rotate-90 bg-ann-arbor-primary-blue hover:bg-opacity-90 p-5"
         >
           Feedback
         </Button>
