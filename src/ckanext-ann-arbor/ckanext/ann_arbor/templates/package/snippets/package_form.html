@@ -55,7 +55,7 @@ then itself be extended to add/remove blocks of functionality. #}
             {%- if form_style == 'edit' -%}
               {{ h.humanize_entity_type('package', pkg_dict.type, 'update label') or _('Update Dataset') }}
             {%- else -%}
-              {{ _('Next: Add Data') }}
+              {{ _('Next') }}
             {%- endif -%}
           {%- endblock -%}
         </button>

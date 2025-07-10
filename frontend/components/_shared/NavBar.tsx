@@ -1,4 +1,4 @@
-import Brand from "@/components/_shared/PortalDefaultLogo";
+import Brand from "@/components/_shared/Brand";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/20/solid";
 import Image from "next/image";
@@ -16,7 +16,7 @@ const links = [
     label: "Topics",
   },
   {
-    href: "#external-link",
+    href: "https://www.a2gov.org/",
     target: "_blank",
     label: (
       <>
@@ -75,7 +75,7 @@ export default function NavBar() {
     >
       <nav
         className={`mx-auto ${
-          !hasScrolled ? "pb-9 pt-5" : "pb-2 pt-2"
+          !hasScrolled ? "pb-9 pt-5" : "pb-3 pt-3"
         } px-9 flex flex-nowrap justify-between transition-all`}
         aria-label="Global"
       >
@@ -89,9 +89,12 @@ export default function NavBar() {
             {links.map((link) => (
               <div key={`navbar-link-${link.href}`}>
                 <Link
+                  target={link.target ?? undefined}
                   href={link.href}
                   className={`transition-all duration-100 ${
-                    router.pathname === link.href ? "font-bold" : ""
+                    router.pathname === link.href
+                      ? "font-semibold border-b-ann-arbor-accent-green border-b-2"
+                      : ""
                   } hover:font-semibold hover:border-b-ann-arbor-accent-green hover:border-b-2`}
                 >
                   {link.label}
@@ -142,13 +145,13 @@ export default function NavBar() {
             <div className="-my-6 divide-y divide-gray-500/10">
               <div className="space-y-2 py-6 flex flex-col">
                 <Link href="/search" className="font-semibold my-auto">
-                  DATASETS
+                  Data
                 </Link>
-                <Link href="/organizations" className="font-semibold my-auto">
-                  ORGS
+                <Link href="/topics" className="font-semibold my-auto">
+                  Topics
                 </Link>
-                <Link href="/groups" className="font-semibold my-auto">
-                  GROUPS
+                <Link href="#" className="font-semibold my-auto">
+                  About AA
                 </Link>
               </div>
             </div>

@@ -1,15 +1,14 @@
-import type {
-  InferGetStaticPropsType,
-} from "next";
+import type { InferGetStaticPropsType } from "next";
 import Head from "next/head";
 import { searchDatasets } from "@/lib/queries/dataset";
 import { getAllGroups } from "@/lib/queries/groups";
 import HeroSection from "@/components/home/Hero";
 import NavBar from "@/components/_shared/NavBar";
-import { PopularDashboards } from "@/components/home/PopularDashboards";
-import { RecentlyAdded } from "@/components/home/RecentlyAdded";
+import { DashboardsSection } from "@/components/home/DashboardsSection";
+import { DatasetsSection } from "@/components/home/DatasetsSection";
 import { Footer } from "@/components/_shared/Footer";
-import { Dashboard } from "@/types/ckan";
+import { Dataset } from "@/types/ckan";
+import { MapsSection } from "@/components/home/MapsSection";
 
 export async function getStaticProps() {
   const dashboards = await searchDatasets({
@@ -18,7 +17,15 @@ export async function getStaticProps() {
     tags: [],
     groups: [],
     orgs: [],
-    fq: "dashboard_url:[* TO *]",
+    type: ["dashboard"],
+  });
+  const maps = await searchDatasets({
+    offset: 0,
+    limit: 9,
+    tags: [],
+    groups: [],
+    orgs: [],
+    type: ["map"],
   });
   const datasets = await searchDatasets({
     offset: 0,
@@ -26,14 +33,15 @@ export async function getStaticProps() {
     tags: [],
     groups: [],
     orgs: [],
-    fq: "-dashboard_url:[* TO *]",
+    type: ["dataset"],
   });
-  const groups = await getAllGroups({ detailed: true });
+  const topics = await getAllGroups({ detailed: true });
   return {
     props: {
-      dashboards: dashboards.datasets as Dashboard[],
-      datasets: datasets.datasets,
-      groups,
+      dashboards: dashboards.results as Dataset[],
+      datasets: datasets.results as Dataset[],
+      maps: maps.results as Dataset[],
+      groups: topics,
     },
     revalidate: 60,
   };
@@ -42,13 +50,14 @@ export async function getStaticProps() {
 export default function Home({
   dashboards,
   groups,
+  maps,
   datasets,
 }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element {
   return (
     <div className="">
       <Head>
         <title>City of Ann Arbor Open Data Portal</title>
-        <meta name="description" content="City of Ann Arbor Open Data Portal" />
+        <meta name="description" content="Find datasets, dashboards and maps in the City of Ann Arbor Open Data Portal" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="lg:min-h-screen bg-gradient-to-b from-[#E2F1E4] to-[#FFFFFF] to-65%">
@@ -56,9 +65,12 @@ export default function Home({
         <HeroSection groups={groups} />
         <div className="lg:absolute lg:bottom-0 lg:left-0 w-full h-[222px] lg:bg-[url('/images/bg-image.png')] bg-contain"></div>
       </div>
-      <PopularDashboards dashboards={dashboards} />
+
+      <DashboardsSection dashboards={dashboards} />
+      <MapsSection maps={maps} />
+
       <div className="space-y-2 mt-4">
-        <RecentlyAdded datasets={datasets} />
+        <DatasetsSection datasets={datasets} />
         <Footer />
       </div>
     </div>

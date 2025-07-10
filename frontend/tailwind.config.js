@@ -22,10 +22,18 @@ module.exports = {
     "bg-ann-arbor-groups-8",
     "bg-dataset-badge",
     "bg-dashboard-badge",
+    "accent-green",
+    "primary-blue",
+    "primary-gray",
+    "accent",
+    "accent-foreground",
   ],
   theme: {
     extend: {
       colors: {
+        "primary-black": "#3f3f3f",
+        accent: "#079A6D",
+        "accent-foreground": "#ffffff",
         "ann-arbor": {
           "accent-green": "#079A6D",
           "primary-blue": "#0787AD",
@@ -65,10 +73,6 @@ module.exports = {
         muted: {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",
-        },
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",

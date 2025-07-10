@@ -4,9 +4,10 @@ import {
   privateToPublicOrgName,
   publicToPrivateDatasetName,
 } from "./utils";
-import { Dataset, PackageSearchOptions } from "@/schemas/dataset.interface";
+import { PackageSearchOptions } from "@/schemas/dataset.interface";
 import CkanRequest, { CkanResponse } from "@portaljs/ckan-api-client-js";
 import { match, P } from "ts-pattern";
+import { Dataset } from "@/types/ckan";
 
 const DMS = process.env.NEXT_PUBLIC_CKAN_URL;
 const mainOrg = process.env.NEXT_PUBLIC_ORG;
@@ -36,14 +37,6 @@ export async function searchDatasets(
   if (options?.query) {
     queryParams.push(`q=${options.query}`);
   }
-
-  //@ts-ignore
-  const type = match(options?.type)
-    .with(["dataset"], (v) => `-dashboard_url:[* TO *]`)
-    .with(["dashboard"], (v) => `dashboard_url:[* TO *]`)
-    .otherwise(() => "");
-
-  console.log("type", type);
 
   if (options?.offset) {
     queryParams.push(`start=${options.offset}`);
@@ -84,8 +77,8 @@ export async function searchDatasets(
     fqList.push(`+(${fqListGroups.join(" AND ")})`);
   }
 
-  if (type !== "") {
-    fqList.push(type);
+  if (options?.type?.length) {
+    fqList.push(`ann_arbor_dataset_type:(${joinTermsWithOr(options.type)})`);
   }
 
   if (fqList?.length) {
@@ -95,8 +88,6 @@ export async function searchDatasets(
   const action = `${baseAction}?${queryParams.join(
     "&"
   )}&facet.field=[${facetFields}]&facet.limit=9999`;
-
-  console.log("URL", action);
 
   const res = await CkanRequest.get<
     CkanResponse<{
@@ -111,7 +102,8 @@ export async function searchDatasets(
     }>
   >(action, { ckanUrl: DMS });
 
-  return { ...res.result, datasets: res.result.results };
+  const datasets = res.result.results;
+  return { ...res.result, results: datasets };
 }
 
 const joinTermsWithOr = (tems) => {
@@ -122,15 +114,8 @@ export const getDataset = async ({ name }: { name: string }) => {
   const DMS = process.env.NEXT_PUBLIC_CKAN_URL;
   const ckan = new CKAN(DMS);
   const privateName = publicToPrivateDatasetName(name);
-  const dataset = await ckan.getDatasetDetails(privateName);
+  const dataset = (await ckan.getDatasetDetails(privateName)) as Dataset;
   dataset.name = privateToPublicDatasetName(dataset.name);
 
-  return {
-    ...dataset,
-    _name: privateName,
-    organization: {
-      ...dataset.organization,
-      name: privateToPublicOrgName(dataset.organization.name),
-    },
-  };
+  return dataset;
 };

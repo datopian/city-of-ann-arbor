@@ -87,3 +87,11 @@ export const getGroup = async ({
 
   return { ...group.result, name: publicName, _name: group.result.name };
 };
+
+export const searchGroups = async ({ q }: { q: string }) => {
+  const groups = await CkanRequest.get<CkanResponse<Group[]>>(
+    `group_list?all_fields=True&q=${q}`,
+    { ckanUrl: DMS }
+  );
+  return groups;
+};
