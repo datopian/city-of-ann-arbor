@@ -466,8 +466,8 @@ export default function DatasetSearch({
   return (
     <div className="">
       <Head>
-        <title>City of Ann Arbor Open Data Portal</title>
-        <meta name="description" content="City of Ann Arbor Open Data Portal" />
+        <title>Search Data - City of Ann Arbor Open Data Portal</title>
+        <meta name="description" content="Search datasets, dashboards and maps in the City of Ann Arbor Open Data Portal" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <FormProvider {...form}>

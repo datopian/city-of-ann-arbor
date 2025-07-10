@@ -3,13 +3,14 @@ describe("Homepage", () => {
 
   beforeEach(() => {
     cy.visit("/");
+    cy.viewport(1920, 1080)
   });
 
   it("Navbar links point to expected pages", () => {
     cy.get("nav").within(() => {
       cy.contains("Data").should("have.attr", "href", "/search");
       cy.contains("Topics").should("have.attr", "href", "/topics");
-      cy.contains("a2gov").should("have.attr", "href", "/#external-link"); // TODO: update this once we have the link
+      cy.contains("a2gov").should("have.attr", "href", "https://www.a2gov.org/"); // TODO: update this once we have the link
     });
   });
 
@@ -32,18 +33,18 @@ describe("Homepage", () => {
     );
   });
 
-  it("All dashboards and maps link points to correct page", () => {
+  it("All dashboards link points to correct page", () => {
     cy.get('[data-cy="all-dashboards-link"]')
       .should("have.attr", "href")
-      .and("eq", "/search?type=dashboard,map");
+      .and("eq", "/search?type=dashboard");
   });
 
-  it("Popular dashboards match CKAN datasets that are visualizations", () => {
+  it("Dashboards section matches CKAN datasets that are dashboards", () => {
     cy.request(
-      `${CKAN_URL}/api/3/action/package_search?fq=-ann_arbor_dataset_type:dataset&rows=100`
+      `${CKAN_URL}/api/3/action/package_search?fq=ann_arbor_dataset_type:dashboard&rows=9`
     ).then((response) => {
       const dashboards = response.body.result.results;
-      cy.get('[data-cy="popular-dashboards-section"] .swiper-slide').each(
+      cy.get('[data-cy="dashboards-section"] .swiper-slide').each(
         ($slide) => {
           const $btn = $slide.find("a");
           const key = $slide.data("cy");
@@ -60,13 +61,41 @@ describe("Homepage", () => {
     });
   });
 
+  it("All maps link points to correct page", () => {
+    cy.get('[data-cy="all-maps-link"]')
+      .should("have.attr", "href")
+      .and("eq", "/search?type=map");
+  });
+
+  it("Maps section matches CKAN datasets that are maps", () => {
+    cy.request(
+      `${CKAN_URL}/api/3/action/package_search?fq=ann_arbor_dataset_type:map&rows=100`
+    ).then((response) => {
+      const maps = response.body.result.results;
+      cy.get('[data-cy="maps-section"] .swiper-slide').each(
+        ($slide) => {
+          const $btn = $slide.find("a");
+          const key = $slide.data("cy");
+          const mapId = key.split("map-card-").at(1);
+          const map = maps.find((d) => d.id == mapId);
+
+          expect($btn.attr("href")).to.eq(
+            `/${map.organization.name}/${map.name}`
+          );
+          const title = $slide.find("h3").text().trim();
+          expect(title).to.include(map.title);
+        }
+      );
+    });
+  });
+
   it("All datasets link points to correct page", () => {
     cy.get('[data-cy="all-datasets-link"]')
       .should("have.attr", "href")
       .and("eq", "/search?type=dataset");
   });
 
-  it("Recently added section matches CKAN datasets that are not dashboards or maps", () => {
+  it("Datasets section matches CKAN datasets that are not dashboards or maps", () => {
     cy.request(
       `${CKAN_URL}/api/3/action/package_search?fq=ann_arbor_dataset_type:dataset&rows=100`
     ).then((response) => {

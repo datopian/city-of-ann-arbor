@@ -57,7 +57,7 @@ export default function Home({
     <div className="">
       <Head>
         <title>City of Ann Arbor Open Data Portal</title>
-        <meta name="description" content="City of Ann Arbor Open Data Portal" />
+        <meta name="description" content="Find datasets, dashboards and maps in the City of Ann Arbor Open Data Portal" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="lg:min-h-screen bg-gradient-to-b from-[#E2F1E4] to-[#FFFFFF] to-65%">
