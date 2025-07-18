@@ -19,7 +19,9 @@ ckan.module("dataset-type", function($, _) {
                     $thumbnailUrl.css("display", "block");
                 }
             }
-            updateNonDatasetFieldsVisibility()
+            $(document).ready(() => {
+                updateNonDatasetFieldsVisibility()
+            })
 
             this.el.on("change", () => {
                 updateNonDatasetFieldsVisibility()
