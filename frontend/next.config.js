@@ -7,6 +7,7 @@ const domains = [
   "ckan.ann-arbor.dev.datopian.com",
   "ckan.ann-arbor.prod.datopian.com",
   "ckan.a2gov.org",
+  "www.a2gov.org",
 ];
 const nextConfig = {
   reactStrictMode: true,
