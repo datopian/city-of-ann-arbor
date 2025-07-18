@@ -12,9 +12,9 @@ const navigation = [
   {
     title: "Types of data",
     links: [
-      { title: "Datasets", href: "/search?type=dataset" },
       { title: "Dashboards", href: "/search?type=dashboard" },
       { title: "Maps", href: "/search?type=map" },
+      { title: "Datasets", href: "/search?type=dataset" },
     ],
   },
   {
