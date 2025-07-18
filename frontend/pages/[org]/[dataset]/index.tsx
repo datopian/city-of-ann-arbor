@@ -330,10 +330,27 @@ function OverviewContent({ dataset }: { dataset: Dataset }) {
       )}
       {dataset.version && detailItem("Version", dataset.version)}
       {dataset.author && detailItem("Author", dataset.author)}
-      {dataset.author_email && detailItem("Author Email", dataset.author)}
-      {dataset.maintainer && detailItem("Maintainer", dataset.author)}
+      {dataset.author_email &&
+        detailItem(
+          "Author Email",
+          <Link
+            href={`mailto:${dataset.author_email}`}
+            className="text-sm text-ann-arbor-primary-blue"
+          >
+            {dataset.author_email}
+          </Link>
+        )}
+      {dataset.maintainer && detailItem("Maintainer", dataset.maintainer)}
       {dataset.maintainer_email &&
-        detailItem("Maintainer Email", dataset.author)}
+        detailItem(
+          "Maintainer Email",
+          <Link
+            href={`mailto:${dataset.maintainer_email}`}
+            className="text-sm text-ann-arbor-primary-blue"
+          >
+            {dataset.maintainer_email}
+          </Link>
+        )}
 
       {detailItem("Created date", formatDate(dataset.metadata_created))}
       {detailItem("Last updated date", formatDate(dataset.metadata_created))}
