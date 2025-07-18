@@ -8,7 +8,6 @@ import {
   Download,
   DownloadIcon,
   ExternalLinkIcon,
-  EyeIcon,
 } from "lucide-react";
 import { ArrowPathIcon, HashtagIcon } from "@heroicons/react/24/outline";
 import { Badge } from "@/components/ui/badge";
@@ -28,6 +27,7 @@ import { Fragment } from "react";
 import Link from "next/link";
 import { Dataset } from "@/types/ckan";
 import Image from "next/image";
+import Markdown from "react-markdown";
 
 interface DatasetPageProps {
   dataset: Dataset;
@@ -153,8 +153,8 @@ function TitleSection({ dataset }: { dataset: Dataset }) {
               {dataset.ann_arbor_dataset_type || "dataset"}
             </Badge>
           </div>
-          <p className="text-sm font-normal text-black mb-3 mt-2">
-            {dataset.notes}
+          <p className="text-sm font-normal text-black mb-3 mt-2 prose max-w-none">
+            <Markdown>{dataset.notes}</Markdown>
           </p>
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm font-normal text-black mb-3">
             {dataset.metadata_created && (
