@@ -49,6 +49,7 @@
     "react-day-picker": "^9.7.0",
     "react-dom": "^18.0.0",
     "react-icons": "^4.4.0",
+    "react-markdown": "^10.1.0",
     "react-popper": "^2.3.0",
     "react-tailwindcss-datepicker": "^1.7.2",
     "sass": "^1.54.0",
