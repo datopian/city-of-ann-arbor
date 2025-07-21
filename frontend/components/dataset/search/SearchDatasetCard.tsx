@@ -31,7 +31,7 @@ export default function SearchDatasetCard({ dataset }: SearchDatasetCardProps) {
             <div
               className={`flex-shrink-0 w-14 h-14 ${getTypeIconBgColor(
                 dataset.ann_arbor_dataset_type
-              )} rounded-[5px] flex items-center justify-center mt-1 relative border-2 border-ann-arbor-dataset-type-accent-${dataset.ann_arbor_dataset_type}`}
+              )} rounded-[5px] flex items-center justify-center mt-1 relative border-4 border-ann-arbor-dataset-type-accent-${dataset.ann_arbor_dataset_type}`}
             >
               {dataset.ann_arbor_dataset_type == "dataset" ? (
                 getTypeIcon(dataset.ann_arbor_dataset_type)
