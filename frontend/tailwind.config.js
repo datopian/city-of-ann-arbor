@@ -20,6 +20,9 @@ module.exports = {
     "bg-ann-arbor-groups-6",
     "bg-ann-arbor-groups-7",
     "bg-ann-arbor-groups-8",
+    "border-ann-arbor-dataset-type-accent-dataset",
+    "border-ann-arbor-dataset-type-accent-map",
+    "border-ann-arbor-dataset-type-accent-dashboard",
     "bg-dataset-badge",
     "bg-dashboard-badge",
     "accent-green",
@@ -41,6 +44,11 @@ module.exports = {
           "dashboard-badge": "#d2eaef",
           "dataset-badge": "#d1f1ea",
           "gray-600": "#3F3F3F",
+          "dataset-type-accent": {
+            dataset: "#d0f1e9",
+            dashboard: "#d2eaef",
+            map: "#D9EFD2",
+          },
           groups: {
             1: "#D9EFD2",
             2: "#D9F4EA",
