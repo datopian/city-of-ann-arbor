@@ -353,7 +353,7 @@ function OverviewContent({ dataset }: { dataset: Dataset }) {
         )}
 
       {detailItem("Created date", formatDate(dataset.metadata_created))}
-      {detailItem("Last updated date", formatDate(dataset.metadata_created))}
+      {detailItem("Last updated date", formatDate(dataset.metadata_modified))}
       {extras?.map((e) => (
         <div key={`extra-${e.key}`}>{detailItem(e.key, e.value)}</div>
       ))}
