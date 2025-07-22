@@ -297,10 +297,16 @@ function MainContent({
                     {resource.description}
                   </p>
                   <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm font-normal text-black mb-3">
-                    {resource.last_modified && (
+                    {resource.created && (
                       <div className="flex items-center gap-1.5">
                         <Clock className="w-4 h-4 mb-0.5" />
-                        Created {formatDate(dataset.metadata_created)}
+                        Created {formatDate(resource.created)}
+                      </div>
+                    )}
+                    {resource.metadata_modified && (
+                      <div className="flex items-center gap-1.5">
+                        <Clock className="w-4 h-4 mb-0.5" />
+                        Updated {formatDate(resource.metadata_modified)}
                       </div>
                     )}
                     {resource.size && (
