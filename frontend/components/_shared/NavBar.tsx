@@ -144,15 +144,17 @@ export default function NavBar() {
           <div className="mt-6 flow-root">
             <div className="-my-6 divide-y divide-gray-500/10">
               <div className="space-y-2 py-6 flex flex-col">
-                <Link href="/search" className="font-semibold my-auto">
-                  Data
-                </Link>
-                <Link href="/topics" className="font-semibold my-auto">
-                  Topics
-                </Link>
-                <Link href="#" className="font-semibold my-auto">
-                  About AA
-                </Link>
+                {links.map((link) => {
+                  return (
+                    <Link
+                      href={link.href}
+                      target={link.target}
+                      className="font-semibold my-auto"
+                    >
+                      {link.label}
+                    </Link>
+                  );
+                })}
               </div>
             </div>
           </div>
