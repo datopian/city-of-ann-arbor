@@ -6,6 +6,7 @@ import { VisualizationsCarousel } from "./VisualizationsCarousel";
 export function DashboardsSection({ dashboards }: { dashboards: Dataset[] }) {
   return (
     <section
+      id="dashboards"
       className="mt-24 flex flex-col items-center gap-y-11"
       data-cy="dashboards-section"
     >

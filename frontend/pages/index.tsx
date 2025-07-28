@@ -9,6 +9,7 @@ import { DatasetsSection } from "@/components/home/DatasetsSection";
 import { Footer } from "@/components/_shared/Footer";
 import { Dataset } from "@/types/ckan";
 import { MapsSection } from "@/components/home/MapsSection";
+import { ChevronDownIcon } from "@heroicons/react/24/outline";
 
 export async function getStaticProps() {
   const dashboards = await searchDatasets({
@@ -53,17 +54,36 @@ export default function Home({
   maps,
   datasets,
 }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element {
+  function scrollToDashboards() {
+    const dashboardsSection = document.getElementById("dashboards");
+    dashboardsSection?.scrollIntoView({ behavior: "smooth" });
+  }
   return (
     <div className="">
       <Head>
         <title>City of Ann Arbor Open Data Portal</title>
-        <meta name="description" content="Find datasets, dashboards and maps in the City of Ann Arbor Open Data Portal" />
+        <meta
+          name="description"
+          content="Find datasets, dashboards and maps in the City of Ann Arbor Open Data Portal"
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="lg:min-h-screen bg-gradient-to-b from-[#E2F1E4] to-[#FFFFFF] to-65%">
         <NavBar />
         <HeroSection groups={groups} />
         <div className="lg:absolute lg:bottom-0 lg:left-0 w-full h-[222px] lg:bg-[url('/images/bg-image.png')] bg-contain"></div>
+        <div
+          className="lg:absolute lg:bottom-0 lg:left-0 w-full h-[70px] items-center justify-center hidden lg:flex"
+          style={{
+            background:
+              "linear-gradient(0deg,rgba(255, 255, 255, 0.75) 70%, rgba(237, 221, 83, 0) 100%)",
+          }}
+        >
+          <ChevronDownIcon
+            className="w-8 h-6 mt-10 cursor-pointer"
+            onClick={scrollToDashboards}
+          />
+        </div>
       </div>
 
       <DashboardsSection dashboards={dashboards} />
