@@ -3,12 +3,7 @@ import Head from "next/head";
 import { getDataset } from "@/lib/queries/dataset";
 import { getTypeBadgeClass, getFormatBadge, formatDate } from "@/lib/uiUtils";
 import type React from "react";
-import {
-  Clock,
-  Download,
-  DownloadIcon,
-  ExternalLinkIcon,
-} from "lucide-react";
+import { Clock, Download, DownloadIcon, ExternalLinkIcon } from "lucide-react";
 import { ArrowPathIcon, HashtagIcon } from "@heroicons/react/24/outline";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -154,7 +149,15 @@ function TitleSection({ dataset }: { dataset: Dataset }) {
             </Badge>
           </div>
           <p className="text-sm font-normal text-black mb-3 mt-2 prose max-w-none">
-            <Markdown>{dataset.notes}</Markdown>
+            <Markdown
+              components={{
+                a: ({ node, ...props }) => (
+                  <a {...props} target="_blank" rel="noopener noreferrer" />
+                ),
+              }}
+            >
+              {dataset.notes}
+            </Markdown>
           </p>
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm font-normal text-black mb-3">
             {dataset.metadata_created && (
@@ -459,6 +462,9 @@ function ResourcesContent({ dataset }: { dataset: Dataset }) {
                   `Updated ${formatDate(resource.last_modified)}`}
                 {resource.last_modified && resource.size && " | "}
                 {resource.size && formatFileSize(resource.size)}
+              </div>
+              <div className="self-stretch justify-center text-gray-600 text-md font-normal leading-tight">
+                {resource.description}
               </div>
             </div>
             <div className="flex items-center gap-x-4">

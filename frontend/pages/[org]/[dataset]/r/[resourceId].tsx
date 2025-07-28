@@ -354,47 +354,68 @@ export function ApiTab({ resource }: { resource: Resource }) {
   const url = process.env.NEXT_PUBLIC_CKAN_URL;
 
   const examples = {
-    curl: `# Get 5 results containing "jones" in any field:
-curl ${url}/api/action/datastore_search \\
-  -H"Authorization:$API_TOKEN" -d '
-{
+    curl: `
+# Get the top 5 records from the dataset:
+curl ${url}/api/action/datastore_search \
+  -d '{
   "resource_id": "${resource.id}",
   "limit": 5,
-  "q": "jones"
-}'`,
+  "offset": 0
+}'
+`,
 
-    python: `# Python example using requests
+    python: `
 import requests
 import json
-import os
 
 url = "${url}/api/action/datastore_search"
-headers = {"Authorization": os.getenv("API_TOKEN")}
 data = {
     "resource_id": "${resource.id}",
     "limit": 5,
-    "q": "jones"
+    "offset": 0
 }
 
-response = requests.post(url, headers=headers, json=data)
+response = requests.post(url, json=data)
 result = response.json()
-print(json.dumps(result, indent=2))`,
 
-    r: `# R example using httr
+if result.get('success'):
+    # Print just the records (actual data rows)
+    records = result['result']['records']
+    print(f"Found {len(records)} records:")
+    for i, record in enumerate(records, 1):
+        print(f"Row {i}: {record}")
+else:
+    print("API request failed")
+    print(json.dumps(result, indent=2))
+`,
+
+    r: `
+# R example using httr
 library(httr)
 library(jsonlite)
 
 url <- "${url}/api/action/datastore_search"
-headers <- add_headers(Authorization = Sys.getenv("API_TOKEN"))
 body <- list(
   resource_id = "${resource.id}",
   limit = 5,
-  q = "jones"
+  offset = 0
 )
 
-response <- POST(url, headers, body = body, encode = "json")
+response <- POST(url, body = body, encode = "json")
 result <- content(response, "parsed")
-print(toJSON(result, pretty = TRUE))`,
+
+if (result$success) {
+  # Convert records to data.frame
+  records <- result$result$records
+  df <- do.call(rbind, lapply(records, data.frame, stringsAsFactors = FALSE))
+  
+  cat("Found", nrow(df), "records:\n")
+  print(df)
+} else {
+  cat("API request failed\n")
+  print(toJSON(result, pretty = TRUE))
+}
+`,
   };
 
   return (
