@@ -36,6 +36,7 @@ import {
   ArrowLeftIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+import { cn } from "@/lib/utils";
 
 const ITEMS_PER_PAGE = 5;
 
@@ -43,7 +44,7 @@ export async function getServerSideProps({ query }) {
   const q = query?.q ?? "";
   const datasetType = query?.type?.split(",") ?? [];
   const topic = query?.topic ?? "";
-  const tags = query?.tags?.split(",") ?? []
+  const tags = query?.tags?.split(",") ?? [];
 
   const initialRequestOption = {
     query: "",
@@ -70,7 +71,7 @@ export async function getServerSideProps({ query }) {
       query: q,
       datasetType: datasetType ?? [],
       topic: topic,
-      tags: tags ?? []
+      tags: tags ?? [],
     },
   };
 }
@@ -146,7 +147,7 @@ export default function DatasetSearch({
   query,
   datasetType,
   topic,
-  tags: initialTags
+  tags: initialTags,
 }: InferGetServerSidePropsType<typeof getServerSideProps>): JSX.Element {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const form = useForm<SearchFormData>({
@@ -287,14 +288,17 @@ export default function DatasetSearch({
               {
                 name: "dataset",
                 display_name: "Dataset",
+                count: null,
               },
               {
                 name: "dashboard",
                 display_name: "Dashboard",
+                count: null,
               },
               {
                 name: "map",
                 display_name: "Map",
+                count: null,
               },
             ],
             formName: "type" as const,
@@ -347,6 +351,7 @@ export default function DatasetSearch({
               <AccordionContent className="space-y-2.5 pb-4">
                 {filterGroup.items
                   .filter((i) => i.name)
+                  .sort((a, b) => b.count - a.count)
                   .map((item) => (
                     <Controller
                       key={item.name}
@@ -371,9 +376,19 @@ export default function DatasetSearch({
                           />
                           <label
                             htmlFor={`${filterGroup.formName}-${item.name}`}
-                            className="text-base font-normal text-gray-600 hover:text-gray-900 cursor-pointer flex-grow"
+                            className="text-base font-normal text-gray-600 hover:text-gray-900 cursor-pointer flex-grow flex items-center gap-x-1.5"
                           >
                             {item.display_name ? item.display_name : item.name}
+                            {item.count && (
+                              <div
+                                className={cn(
+                                  "bg-teal-600 p-1 rounded-full flex items-center w-fit text-xs text-white px-1.5",
+                                  item.count < 10 && "px-2"
+                                )}
+                              >
+                                {item.count}
+                              </div>
+                            )}
                           </label>
                         </div>
                       )}
@@ -467,7 +482,10 @@ export default function DatasetSearch({
     <div className="">
       <Head>
         <title>Search Data - City of Ann Arbor Open Data Portal</title>
-        <meta name="description" content="Search datasets, dashboards and maps in the City of Ann Arbor Open Data Portal" />
+        <meta
+          name="description"
+          content="Search datasets, dashboards and maps in the City of Ann Arbor Open Data Portal"
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <FormProvider {...form}>
