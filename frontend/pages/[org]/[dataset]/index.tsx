@@ -234,7 +234,7 @@ function TabsSection({ dataset }: { dataset: Dataset }) {
         >
           Overview
         </TabsTrigger>
-        {dataset.type === 'dataset' &&
+        {dataset.ann_arbor_dataset_type === 'dataset' &&
           <TabsTrigger
             value="api"
             className="min-h-[60px] font-normal text-base block py-4 px-12 data-[state=active]:border-b-0 data-[state=active]:font-bold data-[state=active]:bg-white data-[state=active]:text-ann-arbor-gray-600 data-[state=active]:shadow-none data-[state=active]:border-t-[3px] data-[state=active]:border-t-ann-arbor-accent-green rounded-none rounded-t-[10px]"
@@ -254,7 +254,7 @@ function TabsSection({ dataset }: { dataset: Dataset }) {
       >
         <OverviewContent dataset={dataset} />
       </TabsContent>
-      {dataset.type === 'dataset' &&
+      {dataset.ann_arbor_dataset_type === 'dataset' &&
         <TabsContent
           value="api"
           className="bg-white p-12 border-none rounded-b-[10px] mt-0"
