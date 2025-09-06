@@ -2,6 +2,7 @@ import { Dataset } from "@/types/ckan";
 import { ArrowSmallRightIcon } from "@heroicons/react/20/solid";
 import Image from "next/image";
 import Link from "next/link";
+import Markdown from "react-markdown";
 
 export function PopularDashboardCard({ dashboard }: { dashboard: Dataset }) {
   return (
@@ -30,7 +31,15 @@ export function PopularDashboardCard({ dashboard }: { dashboard: Dataset }) {
         </h3>
         <p className="text-[#6E6E6E] text-sm leading-[20px] line-clamp-4 text-ellipsis h-[5.5em]">
           {dashboard.notes ? (
-            dashboard.notes
+            <Markdown
+              components={{
+                a: ({ node, ...props }) => (
+                  <a {...props} target="_blank" rel="noopener noreferrer" />
+                ),
+              }}
+            >
+              {dashboard.notes}
+            </Markdown>
           ) : (
             <span className="italic">N/A</span>
           )}

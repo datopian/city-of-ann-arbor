@@ -13,6 +13,7 @@
   --swiper-pagination-color: #3F3F3F;
   --swiper-pagination-bullet-inactive-color: #C7C7C7;
   --swiper-pagination-bullet-inactive-opacity: 1;
+  --swiper-pagination-bottom: 1px;
 }
 
 a {
@@ -119,14 +120,6 @@ snap-tabs {
 .react-datepicker__month-text{
   margin:0!important;
 }
-
-// Swiper
-
-.swiper-pagination-bullets.swiper-pagination-horizontal {
-  width: auto !important;
-}
-
-
 
 @layer base {
   :root {
