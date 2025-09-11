@@ -71,6 +71,7 @@ export function VisualizationsCarousel({
               slidesPerGroup: 3,
             },
           }}
+          loop={true}
           modules={[Pagination, Navigation]}
           pagination={{ clickable: true }}
           navigation={{

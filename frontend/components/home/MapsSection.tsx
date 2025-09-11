@@ -24,7 +24,7 @@ export function MapsSection({ maps }: { maps: Dataset[] }) {
           <ArrowSmallRightIcon className="inline w-6" />
         </Link>
       </div>
-      <VisualizationsCarousel visualizations={maps} />
+      <VisualizationsCarousel visualizations={maps} identifier="maps" />
     </section>
   );
 }
