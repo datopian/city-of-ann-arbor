@@ -234,12 +234,13 @@ function TabsSection({ dataset }: { dataset: Dataset }) {
         >
           Overview
         </TabsTrigger>
-        <TabsTrigger
-          value="api"
-          className="min-h-[60px] font-normal text-base block py-4 px-12 data-[state=active]:border-b-0 data-[state=active]:font-bold data-[state=active]:bg-white data-[state=active]:text-ann-arbor-gray-600 data-[state=active]:shadow-none data-[state=active]:border-t-[3px] data-[state=active]:border-t-ann-arbor-accent-green rounded-none rounded-t-[10px]"
-        >
-          API Documentation
-        </TabsTrigger>
+        {dataset.ann_arbor_dataset_type === 'dataset' &&
+          <TabsTrigger
+            value="api"
+            className="min-h-[60px] font-normal text-base block py-4 px-12 data-[state=active]:border-b-0 data-[state=active]:font-bold data-[state=active]:bg-white data-[state=active]:text-ann-arbor-gray-600 data-[state=active]:shadow-none data-[state=active]:border-t-[3px] data-[state=active]:border-t-ann-arbor-accent-green rounded-none rounded-t-[10px]"
+          >
+            API Documentation
+          </TabsTrigger>}
       </TabsList>
       <TabsContent
         value="resources"
@@ -253,15 +254,16 @@ function TabsSection({ dataset }: { dataset: Dataset }) {
       >
         <OverviewContent dataset={dataset} />
       </TabsContent>
-      <TabsContent
-        value="api"
-        className="bg-white p-12 border-none rounded-b-[10px] mt-0"
-      >
-        <ApiCodeTabs
-          url={process.env.NEXT_PUBLIC_CKAN_URL}
-          packageId={dataset.id}
-        />
-      </TabsContent>
+      {dataset.ann_arbor_dataset_type === 'dataset' &&
+        <TabsContent
+          value="api"
+          className="bg-white p-12 border-none rounded-b-[10px] mt-0"
+        >
+          <ApiCodeTabs
+            url={process.env.NEXT_PUBLIC_CKAN_URL}
+            packageId={dataset.id}
+          />
+        </TabsContent>}
     </Tabs>
   );
 }
@@ -332,10 +334,10 @@ function OverviewContent({ dataset }: { dataset: Dataset }) {
         </div>
       )}
       {dataset.version && detailItem("Version", dataset.version)}
-      {dataset.author && detailItem("Author", dataset.author)}
+      {dataset.author && detailItem("Technical Support", dataset.author)}
       {dataset.author_email &&
         detailItem(
-          "Author Email",
+          "Technical Support Email",
           <Link
             href={`mailto:${dataset.author_email}`}
             className="text-sm text-ann-arbor-primary-blue"
@@ -343,10 +345,10 @@ function OverviewContent({ dataset }: { dataset: Dataset }) {
             {dataset.author_email}
           </Link>
         )}
-      {dataset.maintainer && detailItem("Maintainer", dataset.maintainer)}
+      {dataset.maintainer && detailItem("Subject Matter Expert", dataset.maintainer)}
       {dataset.maintainer_email &&
         detailItem(
-          "Maintainer Email",
+          "Subject Matter Expert Email",
           <Link
             href={`mailto:${dataset.maintainer_email}`}
             className="text-sm text-ann-arbor-primary-blue"

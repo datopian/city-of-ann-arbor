@@ -13,6 +13,7 @@
   --swiper-pagination-color: #3F3F3F;
   --swiper-pagination-bullet-inactive-color: #C7C7C7;
   --swiper-pagination-bullet-inactive-opacity: 1;
+  --swiper-pagination-bottom: 1px;
 }
 
 a {
@@ -120,14 +121,6 @@ snap-tabs {
   margin:0!important;
 }
 
-// Swiper
-
-.swiper-pagination-bullets.swiper-pagination-horizontal {
-  width: auto !important;
-}
-
-
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -193,4 +186,26 @@ snap-tabs {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.swiper-wrapper {
+  height: 580px !important;
+}
+
+@media (min-width: 1024px) {
+.swiper-wrapper {
+  height: 520px !important;
+}
+}
+
+@media (min-width: 1240px) {
+.swiper-wrapper {
+  height: 600px !important;
+}
+}
+
+@media (min-width: 1600px) {
+.swiper-wrapper {
+  height: 680px !important;
+}
 }

@@ -17,6 +17,7 @@ import {
 import { Dataset } from "@/types/ckan";
 import Image from "next/image";
 import fallbackImage from "../../../public/images/dashboard-fallback.jpg";
+import Markdown from "react-markdown";
 
 interface SearchDatasetCardProps {
   dataset: Dataset;
@@ -34,9 +35,8 @@ export default function SearchDatasetCard({ dataset }: SearchDatasetCardProps) {
             <div
               className={`flex-shrink-0 w-14 h-14 ${getTypeIconBgColor(
                 dataset.ann_arbor_dataset_type
-              )} rounded-[5px] flex items-center justify-center mt-1 relative border-4 border-ann-arbor-dataset-type-accent-${
-                dataset.ann_arbor_dataset_type
-              }`}
+              )} rounded-[5px] flex items-center justify-center mt-1 relative border-4 border-ann-arbor-dataset-type-accent-${dataset.ann_arbor_dataset_type
+                }`}
             >
               {dataset.ann_arbor_dataset_type == "dataset" ? (
                 getTypeIcon(dataset.ann_arbor_dataset_type)
@@ -151,7 +151,15 @@ export default function SearchDatasetCard({ dataset }: SearchDatasetCardProps) {
                 </Badge>
               </div>
               <p className="text-sm font-normal text-black mb-3 mt-2 line-clamp-2">
-                {dataset.notes}
+                <Markdown
+                  components={{
+                    a: ({ node, ...props }) => (
+                      <a {...props} target="_blank" rel="noopener noreferrer" />
+                    ),
+                  }}
+                >
+                  {dataset.notes}
+                </Markdown>
               </p>
               <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm font-normal text-black mb-3">
                 <div className="flex items-center gap-1.5">

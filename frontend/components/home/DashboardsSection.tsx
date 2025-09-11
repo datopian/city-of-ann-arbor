@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowSmallRightIcon } from "@heroicons/react/20/solid";
 import { Dataset } from "@/types/ckan";
 import { VisualizationsCarousel } from "./VisualizationsCarousel";
+import CarouselNavButton from "./CarouselNavButton";
 
 export function DashboardsSection({ dashboards }: { dashboards: Dataset[] }) {
   return (
@@ -25,7 +26,7 @@ export function DashboardsSection({ dashboards }: { dashboards: Dataset[] }) {
           <ArrowSmallRightIcon className="inline w-6" />
         </Link>
       </div>
-      <VisualizationsCarousel visualizations={dashboards} />
+      <VisualizationsCarousel visualizations={dashboards} identifier="dashboards" />
     </section>
   );
 }

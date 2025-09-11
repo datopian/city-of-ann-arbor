@@ -2,6 +2,7 @@ import { Dataset } from "@/types/ckan";
 import { ArrowSmallRightIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
 import { tv } from "tailwind-variants";
+import Markdown from "react-markdown";
 
 export type RecentlyAddedCardVariant = 0 | 1 | 2 | 3 | 4 | 5;
 
@@ -56,7 +57,17 @@ export function RecentlyAddedCard({
           {dataset.title}
         </h3>
         <p className="text-[#3F3F3F] h-[6rem] line-clamp-4">
-          {dataset.notes ? dataset.notes : <span className="italic">N/A</span>}
+          {dataset.notes ?
+            <Markdown
+              components={{
+                a: ({ node, ...props }) => (
+                  <a {...props} target="_blank" rel="noopener noreferrer" />
+                ),
+              }}
+            >
+              {dataset.notes}
+            </Markdown>
+            : <span className="italic">N/A</span>}
         </p>
       </div>
       <div>
