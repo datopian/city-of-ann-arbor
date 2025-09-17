@@ -4,7 +4,7 @@ import { Dataset } from "@/types/ckan";
 import { VisualizationsCarousel } from "./VisualizationsCarousel";
 import CarouselNavButton from "./CarouselNavButton";
 
-export function DashboardsSection({ dashboards }: { dashboards: Dataset[] }) {
+export function DashboardsSection({ dashboards, count }: { dashboards: Dataset[], count: number }) {
   return (
     <section
       id="dashboards"
@@ -22,11 +22,11 @@ export function DashboardsSection({ dashboards }: { dashboards: Dataset[] }) {
           className="text-xl text-ann-arbor-primary-blue transition-all hover:opacity-80"
           data-cy="all-dashboards-link"
         >
-          <span className="underline">All dashboards</span>{" "}
+          <span className="underline">All dashboards ({count})</span>{" "}
           <ArrowSmallRightIcon className="inline w-6" />
         </Link>
       </div>
-      <VisualizationsCarousel visualizations={dashboards} identifier="dashboards" />
+      <VisualizationsCarousel visualizations={dashboards} identifier="dashboards" count={count} />
     </section>
   );
 }

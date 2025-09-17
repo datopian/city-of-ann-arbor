@@ -3,7 +3,7 @@ import { ArrowSmallRightIcon } from "@heroicons/react/20/solid";
 import { Dataset } from "@/types/ckan";
 import { VisualizationsCarousel } from "./VisualizationsCarousel";
 
-export function MapsSection({ maps }: { maps: Dataset[] }) {
+export function MapsSection({ maps, count }: { maps: Dataset[], count: number }) {
   return (
     <section
       className="flex flex-col items-center gap-y-11"
@@ -20,11 +20,11 @@ export function MapsSection({ maps }: { maps: Dataset[] }) {
           className="text-xl text-ann-arbor-primary-blue transition-all hover:opacity-80"
           data-cy="all-maps-link"
         >
-          <span className="underline">All maps</span>{" "}
+          <span className="underline">All maps ({count})</span>{" "}
           <ArrowSmallRightIcon className="inline w-6" />
         </Link>
       </div>
-      <VisualizationsCarousel visualizations={maps} identifier="maps" />
+      <VisualizationsCarousel visualizations={maps} identifier="maps" count={count} />
     </section>
   );
 }
