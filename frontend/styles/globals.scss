@@ -189,7 +189,18 @@ snap-tabs {
 }
 
 .swiper-wrapper {
-  height: 580px !important;
+  height: 540px !important;
+}
+
+@media (min-width: 540px) {
+.swiper-wrapper {
+  height: 640px !important;
+}
+}
+@media (min-width: 620px) {
+.swiper-wrapper {
+  height: 680px !important;
+}
 }
 
 @media (min-width: 1024px) {

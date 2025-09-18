@@ -19,7 +19,7 @@ const PrevButton = ({
 }) => (
   <div
     className={`nav-prev-button--${identifier} absolute top-[40%] z-50 ml-[-1.9rem] ${isVisible ? 'block' : 'hidden'
-      } -translate-y-2/4 opacity-0 transition-all hover:opacity-100 peer-hover:opacity-100 md:left-24 lg:block`}
+      } -translate-y-2/4 opacity-0 transition-all hover:opacity-100 peer-hover:opacity-100 md:left-24`}
   >
     <CarouselNavButton orientation="left" />
   </div>
@@ -68,7 +68,6 @@ export function VisualizationsCarousel({
 }) {
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
-  console.log(isBeginning, isEnd);
 
   const prevEl = `.nav-prev-button${identifier ? '--' + identifier : ''}`;
   const nextEl = `.nav-next-button${identifier ? '--' + identifier : ''}`;
