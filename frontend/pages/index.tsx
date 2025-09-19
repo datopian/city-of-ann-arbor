@@ -40,8 +40,10 @@ export async function getStaticProps() {
   return {
     props: {
       dashboards: dashboards.results as Dataset[],
+      numberOfDashboards: dashboards.count,
       datasets: datasets.results as Dataset[],
       maps: maps.results as Dataset[],
+      numberOfMaps: maps.count,
       groups: topics,
     },
     revalidate: 60,
@@ -50,7 +52,9 @@ export async function getStaticProps() {
 
 export default function Home({
   dashboards,
+  numberOfDashboards,
   groups,
+  numberOfMaps,
   maps,
   datasets,
 }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element {
@@ -86,8 +90,8 @@ export default function Home({
         </div>
       </div>
 
-      <DashboardsSection dashboards={dashboards} />
-      <MapsSection maps={maps} />
+      <DashboardsSection dashboards={dashboards} count={numberOfDashboards} />
+      <MapsSection maps={maps} count={numberOfMaps} />
 
       <div className="space-y-2 mt-4">
         <DatasetsSection datasets={datasets} />

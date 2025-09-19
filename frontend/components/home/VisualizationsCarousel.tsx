@@ -7,6 +7,8 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import CarouselNavButton from "./CarouselNavButton";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 const PrevButton = ({
   identifier,
@@ -17,7 +19,7 @@ const PrevButton = ({
 }) => (
   <div
     className={`nav-prev-button--${identifier} absolute top-[40%] z-50 ml-[-1.9rem] ${isVisible ? 'block' : 'hidden'
-      } -translate-y-2/4 opacity-0 transition-all hover:opacity-100 peer-hover:opacity-100 md:left-24 lg:block`}
+      } -translate-y-2/4 opacity-0 transition-all hover:opacity-100 peer-hover:opacity-100 md:left-24`}
   >
     <CarouselNavButton orientation="left" />
   </div>
@@ -25,25 +27,44 @@ const PrevButton = ({
 
 const NextButton = ({
   identifier,
-  isVisible
+  isEnd,
+  count
 }: {
   identifier: string;
-  isVisible: boolean;
-}) => (
-  <div
-    className={`nav-next-button--${identifier} right-[calc(0px + 10rem)] absolute top-[40%] z-50 ${isVisible ? 'block' : 'hidden'
-      } -translate-y-2/4 opacity-0 transition-all hover:opacity-100 peer-hover:opacity-100 md:right-16 lg:block`}
-  >
-    <CarouselNavButton orientation="right" />
-  </div>
-);
+  isEnd: boolean;
+  count: number;
+}) => {
+  const router = useRouter()
+  function goToSearch() {
+    router.push(`/search?type=${identifier === 'dashboards' ? 'dashboard' : 'map'}`)
+  }
+  return (
+    <>
+      <div
+        className={`nav-next-button--${identifier} right-[calc(0px + 10rem)] absolute top-[40%] z-50 bg-white shadow-sm text-xl rounded-full px-6 py-3 text-ann-arbor-primary-blue 
+          -translate-y-2/4 opacity-0 transition-all hover:opacity-100 peer-hover:opacity-100 md:right-16 ${isEnd ? 'block' : 'hidden'}`}
+      >
+        <span className="cursor-pointer"
+          onClick={() => goToSearch()}>
+          See all {identifier} ({count}) {'>'}</span>
+      </div>
+      <div
+        className={`nav-next-button--${identifier} right-[calc(0px + 10rem)] absolute top-[40%] z-50 ${isEnd ? 'hidden' : 'block'} -translate-y-2/4 opacity-0 transition-all hover:opacity-100 peer-hover:opacity-100 md:right-16`}
+      >
+        <CarouselNavButton orientation="right" />
+      </div>
+    </>
+  )
+}
 
 export function VisualizationsCarousel({
   visualizations,
   identifier = '',
+  count,
 }: {
   visualizations: Dataset[];
   identifier?: string;
+  count: number;
 }) {
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
@@ -71,7 +92,6 @@ export function VisualizationsCarousel({
               slidesPerGroup: 3,
             },
           }}
-          loop={true}
           modules={[Pagination, Navigation]}
           pagination={{ clickable: true }}
           navigation={{
@@ -100,7 +120,7 @@ export function VisualizationsCarousel({
         </Swiper>
       </div>
       <PrevButton identifier={identifier} isVisible={!isBeginning} />
-      <NextButton identifier={identifier} isVisible={!isEnd} />
+      <NextButton identifier={identifier} isEnd={isEnd} count={count} />
     </div>
   );
 }
