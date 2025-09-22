@@ -5,8 +5,11 @@ from ckanext.ann_arbor.logic.action.create import package_create as ann_arbor_cr
 from ckanext.ann_arbor.logic.action.update import package_update as ann_arbor_update_package
 from ckanext.ann_arbor.views.dataset import dataset as dataset_bp
 import ckanext.ann_arbor.logic.auth as auth_fn
-
+from ckanext.ann_arbor.logic import fix_lowercase_tags
 import ckanext.ann_arbor.logic.validators as validators
+import logging
+
+log = logging.getLogger(__name__)
 
 
 class AnnArborPlugin(plugins.SingletonPlugin):
@@ -15,6 +18,7 @@ class AnnArborPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IBlueprint)
     plugins.implements(plugins.IValidators)
     plugins.implements(plugins.IAuthFunctions)
+    plugins.implements(plugins.IPackageController, inherit=True)
 
     # IConfigurer
 
@@ -46,3 +50,10 @@ class AnnArborPlugin(plugins.SingletonPlugin):
         return {
             "group_show": auth_fn.group_show
         }
+
+    # IPackageController
+    def before_dataset_index(self, data_dict):
+        tags = data_dict.get("tags", [])
+        lowercase_tags = map(lambda t: t.lower(), tags)
+        data_dict["tags"] = list(lowercase_tags)
+        return data_dict
