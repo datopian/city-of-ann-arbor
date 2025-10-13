@@ -235,11 +235,10 @@ function MainContent({
         <div className="w-full gap-4 grid grid-cols-1 lg:grid-cols-6 xl:grid-cols-8 lg:relative">
           {/* Sidebar */}
           <div
-            className={`col-span-1 lg:col-span-2 xl:col-span-2 bg-white rounded-lg shadow-lg transition-all duration-300 ease-in-out ${
-              isSidebarCollapsed
+            className={`col-span-1 lg:col-span-2 xl:col-span-2 bg-white rounded-lg shadow-lg transition-all duration-300 ease-in-out ${isSidebarCollapsed
                 ? "lg:absolute lg:-left-full lg:opacity-0 lg:pointer-events-none"
                 : "lg:relative lg:left-0 lg:opacity-100"
-            }`}
+              }`}
           >
             <div className="flex items-center w-full justify-between px-8 pt-8 pb-4">
               <h3 className="text-primary-black text-sm font-medium leading-tight">
@@ -263,11 +262,10 @@ function MainContent({
 
           {/* Main Content */}
           <div
-            className={`col-span-1 bg-white p-6 sm:p-8 lg:px-12 rounded-lg shadow-lg transition-all duration-300 ease-in-out lg:relative ${
-              isSidebarCollapsed
+            className={`col-span-1 bg-white p-6 sm:p-8 lg:px-12 rounded-lg shadow-lg transition-all duration-300 ease-in-out lg:relative ${isSidebarCollapsed
                 ? "lg:col-span-6 xl:col-span-8"
                 : "lg:col-span-4 xl:col-span-6"
-            }`}
+              }`}
           >
             {/* Floating Toggle Button */}
             {isSidebarCollapsed && (
@@ -291,6 +289,7 @@ function MainContent({
                     </h1>
                     <Link href={resource.url}>
                       <ArrowDownTrayIcon className="w-6 h-6 mt-1.5" />
+                      <span className="sr-only">Download</span>
                     </Link>
                   </div>
                   <p className="text-sm font-normal text-black mb-3 mt-2">
