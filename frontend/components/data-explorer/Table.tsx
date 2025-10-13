@@ -86,22 +86,24 @@ export function TopBar({
             {numOfRows}
           </span>
           <button
-            className={`h-4 w-4 ${
-              !table.getCanPreviousPage() ? "opacity-25" : "opacity-100"
-            }`}
+            className={`h-4 w-4 ${!table.getCanPreviousPage() ? "opacity-25" : "opacity-100"
+              }`}
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
+            aria-label="Go to previous page"
           >
             <ChevronLeftIcon />
+            <span className="sr-only">Previous page</span>
           </button>
           <button
-            className={`h-4 w-4 ${
-              !table.getCanNextPage() ? "opacity-25" : "opacity-100"
-            }`}
+            className={`h-4 w-4 ${!table.getCanNextPage() ? "opacity-25" : "opacity-100"
+              }`}
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
+            aria-label="Go to next page"
           >
             <ChevronRightIcon />
+            <span className="sr-only">Next page</span>
           </button>
         </div>
       </div>
@@ -120,12 +122,12 @@ export function ToggleColumns({ table }: { table: TableType<any> }) {
     q === ""
       ? table.getAllLeafColumns()
       : table.getAllLeafColumns().filter((column) => {
-          return (
-            column.id.toLowerCase().includes(q.toLowerCase()) ||
-            (typeof column.columnDef.header === "string" &&
-              column.columnDef.header.toLowerCase().includes(q.toLowerCase()))
-          );
-        });
+        return (
+          column.id.toLowerCase().includes(q.toLowerCase()) ||
+          (typeof column.columnDef.header === "string" &&
+            column.columnDef.header.toLowerCase().includes(q.toLowerCase()))
+        );
+      });
   return (
     <Popover as="div" className="relative inline-block text-left">
       <Popover.Button
@@ -157,11 +159,18 @@ export function ToggleColumns({ table }: { table: TableType<any> }) {
                 className="shadow block w-full min-w-0 rounded-md border-0 px-3 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-b-2 focus:border-accent focus:bg-slate-100 focus:ring-0 focus:ring-offset-0 disabled:bg-gray-100 sm:text-sm"
                 onChange={(e) => setQ(e.target.value)}
                 value={q}
+                aria-label="Search columns"
+                placeholder="Search columns"
               />
               <div className="absolute inset-y-0 right-0 z-10 flex items-center pr-3">
                 <Tooltip content="Clear input" side="left">
-                  <button onClick={() => setQ("")} className="h-4 w-4">
+                  <button
+                    onClick={() => setQ("")}
+                    className="h-4 w-4"
+                    aria-label="Clear search input"
+                  >
                     <XCircleIcon className="h-4 w-4 text-gray-400" />
+                    <span className="sr-only">Clear search</span>
                   </button>
                 </Tooltip>
               </div>
@@ -175,6 +184,7 @@ export function ToggleColumns({ table }: { table: TableType<any> }) {
                   onCheckedChange={(v) => {
                     table.getToggleAllColumnsVisibilityHandler()(v as boolean);
                   }}
+                  aria-label="Toggle all columns visibility"
                 />
               </div>
               <div className="ml-3 text-sm leading-6">
@@ -195,6 +205,10 @@ export function ToggleColumns({ table }: { table: TableType<any> }) {
                   onCheckedChange={(v) => {
                     column.toggleVisibility(v as boolean);
                   }}
+                  aria-label={`Toggle ${typeof column.columnDef.header === "string"
+                      ? column.columnDef.header.replace("unsafe_", "")
+                      : column.id
+                    } column visibility`}
                 />
               </div>
               <div className="ml-3 text-sm leading-6">
@@ -299,6 +313,11 @@ export function Table({ table, isLoading }: TableProps) {
 }
 
 function Column({ h }: { h: Header<any, unknown> }) {
+  const columnName =
+    typeof h.column.columnDef.header === "string"
+      ? h.column.columnDef.header?.replace("unsafe_", "")
+      : h.column.id;
+
   return (
     <div className="relative flex items-center gap-x-2 pr-4">
       {flexRender(
@@ -310,29 +329,45 @@ function Column({ h }: { h: Header<any, unknown> }) {
       {match(h.column.getIsSorted())
         .with(false, () => (
           <Tooltip content="Sort by this column">
-            <button onClick={() => h.column.toggleSorting(false, true)}>
+            <button
+              onClick={() => h.column.toggleSorting(false, true)}
+              aria-label={`Sort ${columnName} column`}
+            >
               <ChevronsUpDownIcon className="h-4 w-4 opacity-75" />
+              <span className="sr-only">Sort {columnName}</span>
             </button>
           </Tooltip>
         ))
         .with("asc", () => (
           <Tooltip content="Sorting asc">
-            <button onClick={() => h.column.toggleSorting(true, true)}>
+            <button
+              onClick={() => h.column.toggleSorting(true, true)}
+              aria-label={`${columnName} sorted ascending, click to sort descending`}
+            >
               <ChevronUp className="h-4 w-4" />
+              <span className="sr-only">
+                Sorted ascending, click to sort descending
+              </span>
             </button>
           </Tooltip>
         ))
         .with("desc", () => (
           <Tooltip content="Sorting desc">
-            <button onClick={() => h.column.clearSorting()}>
+            <button
+              onClick={() => h.column.clearSorting()}
+              aria-label={`${columnName} sorted descending, click to clear sorting`}
+            >
               <ChevronDown className="h-4 w-4" />
+              <span className="sr-only">
+                Sorted descending, click to clear sorting
+              </span>
             </button>
           </Tooltip>
         ))
         .otherwise(() => (
           <></>
         ))}
-      <FilterColumn column={h.column} />
+      <FilterColumn column={h.column} columnName={columnName} />
       {!h.isPlaceholder && h.column.getCanPin() && (
         <div className="flex justify-center gap-1">
           {h.column.getIsPinned() !== "left" ? (
@@ -341,8 +376,10 @@ function Column({ h }: { h: Header<any, unknown> }) {
                 onClick={() => {
                   h.column.pin("left");
                 }}
+                aria-label={`Pin ${columnName} column to left`}
               >
                 <Pin className="h-4 w-4" />
+                <span className="sr-only">Pin {columnName} to left</span>
               </button>
             </Tooltip>
           ) : (
@@ -351,8 +388,10 @@ function Column({ h }: { h: Header<any, unknown> }) {
                 onClick={() => {
                   h.column.pin(false);
                 }}
+                aria-label={`Unpin ${columnName} column`}
               >
                 <PinOff className="h-4 w-4" />
+                <span className="sr-only">Unpin {columnName}</span>
               </button>
             </Tooltip>
           )}
@@ -362,15 +401,22 @@ function Column({ h }: { h: Header<any, unknown> }) {
   );
 }
 
-function FilterColumn({ column }: { column: ColumnType<any, unknown> }) {
+function FilterColumn({
+  column,
+  columnName,
+}: {
+  column: ColumnType<any, unknown>;
+  columnName: string;
+}) {
   return (
     <Popover as={Fragment}>
       {({ open }) => (
         <>
-          <Popover.Button>
+          <Popover.Button aria-label={`Filter ${columnName} column`}>
             <DefaultTooltip content="Filter">
               <ListFilter className="h-4 w-4" />
             </DefaultTooltip>
+            <span className="sr-only">Filter {columnName}</span>
           </Popover.Button>
           <Transition
             as={Fragment}
@@ -518,21 +564,9 @@ export default function Filters({
                 <DatePicker date={value} setDate={onChange} />
               ) : (
                 <DebouncedInput
-                  onChange={onChange} // send value to hook form
-                  onBlur={onBlur} // notify when input is touched/blur
+                  onChange={onChange}
+                  onBlur={onBlur}
                   value={value}
-                  //icon={
-                  //  fields.length > 1 && (
-                  //    <Tooltip content="Remove filter">
-                  //      <button
-                  //        onClick={() => removeFilter(index)}
-                  //        className="w-4 h-4"
-                  //      >
-                  //        <XCircleIcon className="text-red-600" />
-                  //      </button>
-                  //    </Tooltip>
-                  //  )
-                  //}
                 />
               )
             }
@@ -549,15 +583,19 @@ export default function Filters({
           type="button"
           onClick={() => addFilter("and")}
           className="flex h-8 w-full items-center justify-center rounded-md bg-accent text-xs text-accent-foreground hover:bg-accent/90 hover:text-white "
+          aria-label="Add AND filter condition"
         >
           AND
+          <span className="sr-only">Add AND filter condition</span>
         </Button>
         <Button
           type="button"
           onClick={() => addFilter("or")}
           className="flex h-8 w-full items-center justify-center rounded-md bg-accent text-xs text-accent-foreground hover:bg-accent/90 hover:text-white "
+          aria-label="Add OR filter condition"
         >
           OR
+          <span className="sr-only">Add OR filter condition</span>
         </Button>
       </div>
     </>
@@ -592,8 +630,14 @@ export function ListOfFilters({
               {f.id.replace("unsafe_", "")}
             </div>
             <Tooltip content="Remove filter">
-              <button onClick={() => removeFilter(i)}>
+              <button
+                onClick={() => removeFilter(i)}
+                aria-label={`Remove ${f.id.replace("unsafe_", "")} filter`}
+              >
                 <XCircleIcon className="h-4 w-4 cursor-pointer text-red-600" />
+                <span className="sr-only">
+                  Remove {f.id.replace("unsafe_", "")} filter
+                </span>
               </button>
             </Tooltip>
           </div>
@@ -603,8 +647,10 @@ export function ListOfFilters({
         <button
           onClick={() => setFilters([])}
           className="font-['Acumin Pro SemiCondensed'] text-sm font-normal text-black underline"
+          aria-label="Clear all filters"
         >
           Clear all filters
+          <span className="sr-only">Clear all active filters</span>
         </button>
       ) : null}
     </>
