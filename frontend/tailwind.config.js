@@ -39,7 +39,7 @@ module.exports = {
         "accent-foreground": "#ffffff",
         "ann-arbor": {
           "accent-green": "#079A6D",
-          "primary-blue": "#0787AD",
+          "primary-blue": "#0080A5",
           "primary-gray": "#534F5D",
           "dashboard-badge": "#d2eaef",
           "dataset-badge": "#d1f1ea",

@@ -28,14 +28,14 @@ export function RecentlyAddedCard({
   });
 
   const button = tv({
-    base: "w-fit px-3 py-2 rounded-[5px] flex items-center transition-all hover:bg-opacity-80",
+    base: "w-fit px-3 py-2 rounded-[5px] flex items-center transition-all hover:bg-opacity-80 text-bold",
     variants: {
       colors: {
-        0: "bg-[#B2CDAA] text-[#3F3F3F]",
+        0: "bg-[#437932] text-[#3F3F3F]",
         1: "bg-[#0B9A6D] text-white",
         2: "bg-[#1D3557] text-white",
-        3: "bg-[#B7CB6A] text-white",
-        4: "bg-[#5F99A5] text-white",
+        3: "bg-[#688500] text-white",
+        4: "bg-[#22859A] text-white",
         5: "bg-[#4180AB] text-white",
       },
     },
