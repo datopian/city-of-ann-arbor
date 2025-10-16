@@ -13,14 +13,16 @@ import ckan.lib.helpers as h
 log = logging.getLogger(__name__)
 
 def get_featured_groups():
-    group = h.get_featured_groups()
+    _group = h.get_featured_groups()
+    group = _group[0]
     group['packages'] = [package for package in group['packages'] if package['private'] == False]
-    return group
+    return [group]
 
 def get_featured_organizations():
-    organization = h.get_featured_organizations()
+    _organization = h.get_featured_organizations()
+    organization = _organization[0]
     organization['packages'] = [package for package in organization['packages'] if package['private'] == False]
-    return organization
+    return [organization]
 
 class AnnArborPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
