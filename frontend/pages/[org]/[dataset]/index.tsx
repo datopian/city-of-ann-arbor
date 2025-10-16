@@ -484,6 +484,7 @@ function ResourcesContent({ dataset }: { dataset: Dataset }) {
               )}
               <Link href={`${resource.url}`}>
                 <DownloadIcon className="text-gray-700 w-5 h-5" />
+                <span className="ml-2 sr-only">Download resource</span>
               </Link>
             </div>
           </div>

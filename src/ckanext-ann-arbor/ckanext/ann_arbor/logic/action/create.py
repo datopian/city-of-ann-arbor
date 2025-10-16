@@ -3,6 +3,7 @@ import ckan.logic as logic
 from ckan.common import request
 import ckan.plugins.toolkit as tk
 import ckan.lib.uploader as uploader
+from ckanext.ann_arbor.logic import fix_lowercase_tags
 
 @tk.chained_action
 def package_create(up_func, context, data_dict):
@@ -26,6 +27,8 @@ def package_create(up_func, context, data_dict):
     if dashboard_thumbnail and not dashboard_thumbnail.startswith("http"):
         data_dict['dashboard_thumbnail'] = tk.h.url_for_static(
         'uploads/group/%s' % dashboard_thumbnail, qualified=True)
+
+    fix_lowercase_tags(data_dict)
     result = up_func(context, data_dict)
 
     return result
