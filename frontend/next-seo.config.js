@@ -1,19 +1,19 @@
 export default {
-  titleTemplate: "%s | Ckan Homepage",
-  description: "Ckan Homepage",
-  canonical: "https://datahub-enterprise.vercel.app/",
+  titleTemplate: "%s | City of Ann Arbor Open Data Portal",
+  description: "City of Ann Arbor Open Data Portal",
+  canonical: "https://data.a2gov.org/",
   openGraph: {
-    title: "Ckan Homepage",
+    title: "City of Ann Arbor Open Data Portal",
     type: "website",
-    url: "https://datahub-enterprise.vercel.app/",
-    site_name: "Ckan Homepage",
+    url: "https://data.a2gov.org/",
+    site_name: "City of Ann Arbor Open Data Portal",
     images: [
       {
-        url: "https://datahub-enterprise.vercel.app/images/datahub_enterprise_frontend.png",
-        alt: "Ckan Homepage",
+        url: "https://data.a2gov.org/images/logos/MainLogo.svg",
+        alt: "City of Ann Arbor Open Data Portal",
         width: 1200,
         height: 627,
-        type: "image/jpg",
+        type: "image/svg+xml",
       },
     ],
   },
