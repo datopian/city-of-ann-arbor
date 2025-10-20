@@ -69,11 +69,11 @@ export default function DatasetPage({ dataset }: DatasetPageProps) {
   // Fallback to default logo if no image_url
   if (openGraphImages.length === 0) {
     openGraphImages.push({
-      url: "https://data.a2gov.org/images/logos/MainLogo.svg",
+      url: "https://data.a2gov.org/images/screenshot-homepage.png",
       alt: "City of Ann Arbor Open Data Portal",
       width: 1200,
       height: 627,
-      type: "image/svg+xml",
+      type: "image/png",
     });
   }
 
