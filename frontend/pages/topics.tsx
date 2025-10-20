@@ -1,5 +1,6 @@
 import type { InferGetServerSidePropsType } from "next";
 import Head from "next/head";
+import { NextSeo } from "next-seo";
 import { unstable_serialize } from "swr";
 import NavBar from "@/components/_shared/NavBar";
 import { Footer } from "@/components/_shared/Footer";
@@ -42,7 +43,8 @@ export function SearchHero({ query }: { query: string }) {
             <h1 className="lg:max-w-[478px] font-bold text-3xl mx-auto text-[40px] lg:text-6xl flex flex-col text-center !leading-snug pb-8 lg:pb-[120px]">
               Topics
             </h1>
-            <div className="hidden md:block h-[97px]"></div> {/* NOTE: this compensates the height of the search input commeneted below */}
+            <div className="hidden md:block h-[97px]"></div>{" "}
+            {/* NOTE: this compensates the height of the search input commeneted below */}
             {/*<div className="w-full p-4 bg-white rounded-lg">
               <form
                 onSubmit={(e) => handleSubmit(e)}
@@ -101,9 +103,27 @@ export default function TopicsSearch({
 
   return (
     <div className="">
+      <NextSeo
+        title="Topics - City of Ann Arbor Open Data Portal"
+        description="Browse topics and categories in the City of Ann Arbor Open Data Portal"
+        openGraph={{
+          title: "Topics - City of Ann Arbor Open Data Portal",
+          description:
+            "Browse topics and categories in the City of Ann Arbor Open Data Portal",
+          url: "https://data.a2gov.org/topics",
+          type: "website",
+          images: [
+            {
+              url: "https://data.a2gov.org/images/screenshot-homepage.png",
+              alt: "City of Ann Arbor Open Data Portal",
+              width: 1200,
+              height: 630,
+              type: "image/png",
+            },
+          ],
+        }}
+      />
       <Head>
-        <title>Topics - City of Ann Arbor Open Data Portal</title>
-        <meta name="description" content="Topics in the City of Ann Arbor Open Data Portal" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <FormProvider {...form}>

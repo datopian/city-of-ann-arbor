@@ -1,5 +1,6 @@
 import type { InferGetStaticPropsType } from "next";
 import Head from "next/head";
+import { NextSeo } from "next-seo";
 import { searchDatasets } from "@/lib/queries/dataset";
 import { getAllGroups } from "@/lib/queries/groups";
 import HeroSection from "@/components/home/Hero";
@@ -64,12 +65,30 @@ export default function Home({
   }
   return (
     <div className="">
+      <NextSeo
+        title="City of Ann Arbor Open Data Portal"
+        description="Find datasets, dashboards and maps in the City of Ann Arbor Open Data Portal"
+        openGraph={{
+          title: "City of Ann Arbor Open Data Portal",
+          description:
+            "Find datasets, dashboards and maps in the City of Ann Arbor Open Data Portal",
+          url: "https://data.a2gov.org/",
+          type: "website",
+          images: [
+            {
+              url: "https://data.a2gov.org/images/screenshot-homepage.png",
+              alt: "City of Ann Arbor Open Data Portal Homepage",
+              width: 1200,
+              height: 630,
+              type: "image/png",
+            },
+          ],
+        }}
+        twitter={{
+          cardType: "summary_large_image",
+        }}
+      />
       <Head>
-        <title>City of Ann Arbor Open Data Portal</title>
-        <meta
-          name="description"
-          content="Find datasets, dashboards and maps in the City of Ann Arbor Open Data Portal"
-        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="lg:min-h-screen bg-gradient-to-b from-[#E2F1E4] to-[#FFFFFF] to-65%">

@@ -9,11 +9,11 @@ export default {
     site_name: "City of Ann Arbor Open Data Portal",
     images: [
       {
-        url: "https://data.a2gov.org/images/logos/MainLogo.svg",
-        alt: "City of Ann Arbor Open Data Portal",
+        url: "https://data.a2gov.org/images/screenshot-homepage.png",
+        alt: "City of Ann Arbor Open Data Portal Homepage",
         width: 1200,
-        height: 627,
-        type: "image/svg+xml",
+        height: 630,
+        type: "image/png",
       },
     ],
   },

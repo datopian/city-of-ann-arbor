@@ -1,5 +1,6 @@
 import { GetServerSideProps } from "next";
 import Head from "next/head";
+import { NextSeo } from "next-seo";
 import { getDataset } from "@/lib/queries/dataset";
 import { getTypeBadgeClass, getFormatBadge, formatDate } from "@/lib/uiUtils";
 import type React from "react";
@@ -53,11 +54,51 @@ export const getServerSideProps: GetServerSideProps<DatasetPageProps> = async (
 };
 
 export default function DatasetPage({ dataset }: DatasetPageProps) {
+  const openGraphImages = [];
+
+  if (dataset.image_url) {
+    openGraphImages.push({
+      url: dataset.image_url,
+      width: 1200,
+      height: 630,
+      alt: dataset.title || "Dataset preview",
+      type: "image/jpeg",
+    });
+  }
+
+  // Fallback to default logo if no image_url
+  if (openGraphImages.length === 0) {
+    openGraphImages.push({
+      url: "https://data.a2gov.org/images/logos/MainLogo.svg",
+      alt: "City of Ann Arbor Open Data Portal",
+      width: 1200,
+      height: 627,
+      type: "image/svg+xml",
+    });
+  }
+
   return (
     <div className="">
+      <NextSeo
+        title={`${dataset.title} - City of Ann Arbor Open Data Portal`}
+        description={
+          dataset.notes ||
+          `${dataset.ann_arbor_dataset_type} from City of Ann Arbor Open Data Portal`
+        }
+        openGraph={{
+          title: dataset.title,
+          description:
+            dataset.notes ||
+            `${dataset.ann_arbor_dataset_type} from City of Ann Arbor Open Data Portal`,
+          url: `https://data.a2gov.org/${dataset.organization?.name}/${dataset.name}`,
+          type: "website",
+          images: openGraphImages,
+        }}
+        twitter={{
+          cardType: "summary_large_image",
+        }}
+      />
       <Head>
-        <title>{dataset.title} - City of Ann Arbor Open Data Portal</title>
-        <meta name="description" content={dataset.notes} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="lg:min-h-[1250px] bg-gradient-to-t from-[#E2F1E4] to-[#FFFFFF] to-65% pb-28">
@@ -234,13 +275,14 @@ function TabsSection({ dataset }: { dataset: Dataset }) {
         >
           Overview
         </TabsTrigger>
-        {dataset.ann_arbor_dataset_type === 'dataset' &&
+        {dataset.ann_arbor_dataset_type === "dataset" && (
           <TabsTrigger
             value="api"
             className="min-h-[60px] font-normal text-base block py-4 px-12 data-[state=active]:border-b-0 data-[state=active]:font-bold data-[state=active]:bg-white data-[state=active]:text-ann-arbor-gray-600 data-[state=active]:shadow-none data-[state=active]:border-t-[3px] data-[state=active]:border-t-ann-arbor-accent-green rounded-none rounded-t-[10px]"
           >
             API Documentation
-          </TabsTrigger>}
+          </TabsTrigger>
+        )}
       </TabsList>
       <TabsContent
         value="resources"
@@ -254,7 +296,7 @@ function TabsSection({ dataset }: { dataset: Dataset }) {
       >
         <OverviewContent dataset={dataset} />
       </TabsContent>
-      {dataset.ann_arbor_dataset_type === 'dataset' &&
+      {dataset.ann_arbor_dataset_type === "dataset" && (
         <TabsContent
           value="api"
           className="bg-white p-12 border-none rounded-b-[10px] mt-0"
@@ -263,7 +305,8 @@ function TabsSection({ dataset }: { dataset: Dataset }) {
             url={process.env.NEXT_PUBLIC_CKAN_URL}
             packageId={dataset.id}
           />
-        </TabsContent>}
+        </TabsContent>
+      )}
     </Tabs>
   );
 }
@@ -345,7 +388,8 @@ function OverviewContent({ dataset }: { dataset: Dataset }) {
             {dataset.author_email}
           </Link>
         )}
-      {dataset.maintainer && detailItem("Subject Matter Expert", dataset.maintainer)}
+      {dataset.maintainer &&
+        detailItem("Subject Matter Expert", dataset.maintainer)}
       {dataset.maintainer_email &&
         detailItem(
           "Subject Matter Expert Email",
