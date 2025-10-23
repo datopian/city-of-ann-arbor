@@ -39,7 +39,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { cn } from "@/lib/utils";
 
-const ITEMS_PER_PAGE = 5;
+const ITEMS_PER_PAGE = 10;
 
 export async function getServerSideProps({ query }) {
   const q = query?.q ?? "";
@@ -160,7 +160,7 @@ export default function DatasetSearch({
       type: datasetType ? datasetType : [],
       tags: initialTags ? initialTags : [],
       offset: 0,
-      limit: 5,
+      limit: 10,
     },
   });
   const { control, watch, setValue, handleSubmit, resetField } = form;
@@ -170,12 +170,6 @@ export default function DatasetSearch({
     queryKey: ["datasets", formData],
     queryFn: () => searchDatasets(formData),
   });
-
-  const onSubmit = (data: SearchFormData) => {
-    setValue("limit", 5); // Reset to first page on new search
-    setValue("offset", 0);
-    // Query will refetch due to formData change
-  };
 
   const topics = searchFacets?.groups?.items || [];
   const resFormat = searchFacets?.res_format?.items || [];
