@@ -1,5 +1,6 @@
 import type { InferGetServerSidePropsType } from "next";
 import Head from "next/head";
+import { NextSeo } from "next-seo";
 import { unstable_serialize } from "swr";
 import SearchDatasetCard from "@/components/dataset/search/SearchDatasetCard";
 import { searchDatasets } from "@/lib/queries/dataset";
@@ -480,12 +481,27 @@ export default function DatasetSearch({
   };
   return (
     <div className="">
+      <NextSeo
+        title="Search Data - City of Ann Arbor Open Data Portal"
+        description="Search datasets, dashboards and maps in the City of Ann Arbor Open Data Portal"
+        openGraph={{
+          title: "Search Data - City of Ann Arbor Open Data Portal",
+          description:
+            "Search datasets, dashboards and maps in the City of Ann Arbor Open Data Portal",
+          url: "https://data.a2gov.org/search",
+          type: "website",
+          images: [
+            {
+              url: "https://data.a2gov.org/images/screenshot-homepage.png",
+              alt: "City of Ann Arbor Open Data Portal",
+              width: 1200,
+              height: 630,
+              type: "image/png",
+            },
+          ],
+        }}
+      />
       <Head>
-        <title>Search Data - City of Ann Arbor Open Data Portal</title>
-        <meta
-          name="description"
-          content="Search datasets, dashboards and maps in the City of Ann Arbor Open Data Portal"
-        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <FormProvider {...form}>

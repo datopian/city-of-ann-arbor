@@ -8,9 +8,21 @@ import ckanext.ann_arbor.logic.auth as auth_fn
 from ckanext.ann_arbor.logic import fix_lowercase_tags
 import ckanext.ann_arbor.logic.validators as validators
 import logging
+import ckan.lib.helpers as h
 
 log = logging.getLogger(__name__)
 
+def get_featured_groups():
+    _group = h.get_featured_groups()
+    group = _group[0]
+    group['packages'] = [package for package in group['packages'] if package['private'] == False]
+    return [group]
+
+def get_featured_organizations():
+    _organization = h.get_featured_organizations()
+    organization = _organization[0]
+    organization['packages'] = [package for package in organization['packages'] if package['private'] == False]
+    return [organization]
 
 class AnnArborPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
@@ -19,6 +31,15 @@ class AnnArborPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IValidators)
     plugins.implements(plugins.IAuthFunctions)
     plugins.implements(plugins.IPackageController, inherit=True)
+    plugins.implements(plugins.ITemplateHelpers)
+
+    # ITemplateHelpers
+
+    def get_helpers(self):
+        return {
+            'get_featured_groups': get_featured_groups,
+            'get_featured_organizations': get_featured_organizations,
+        }
 
     # IConfigurer
 
