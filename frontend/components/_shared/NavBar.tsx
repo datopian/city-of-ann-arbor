@@ -68,17 +68,24 @@ export default function NavBar() {
   }, [hasScrolled]);
 
   return (
-    <header
-      className={`${
-        !hasScrolled ? "bg-transparent" : "bg-white drop-shadow"
-      } fixed w-full z-20 transition-all`}
-    >
-      <nav
-        className={`mx-auto ${
-          !hasScrolled ? "pb-9 pt-5" : "pb-3 pt-3"
-        } px-9 flex flex-nowrap justify-between transition-all`}
-        aria-label="Global"
+    <>
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:bg-white focus:px-4 focus:py-2 focus:rounded focus:shadow-lg focus:text-ann-arbor-accent-green focus:font-semibold focus:outline-none focus:ring-2 focus:ring-ann-arbor-accent-green"
       >
+        Skip to main content
+      </a>
+      <header
+        className={`${
+          !hasScrolled ? "bg-transparent" : "bg-white drop-shadow"
+        } fixed w-full z-20 transition-all`}
+      >
+        <nav
+          className={`mx-auto ${
+            !hasScrolled ? "pb-9 pt-5" : "pb-3 pt-3"
+          } px-9 flex flex-nowrap justify-between transition-all`}
+          aria-label="Global"
+        >
         <Brand size={hasScrolled ? "sm" : "lg"} />
         <div className="hidden lg:flex lg:gap-x-12">
           <div
@@ -108,6 +115,7 @@ export default function NavBar() {
             type="button"
             className="inline-flex items-center justify-center rounded-md p-2.5 text-gray-700 bg-white"
             onClick={() => setMobileMenuOpen(true)}
+            aria-label="Open navigation menu"
           >
             <span className="sr-only">Open main menu</span>
             <Bars3Icon className="h-6 w-6" aria-hidden="true" />
@@ -161,5 +169,6 @@ export default function NavBar() {
         </Dialog.Panel>
       </Dialog>
     </header>
+    </>
   );
 }

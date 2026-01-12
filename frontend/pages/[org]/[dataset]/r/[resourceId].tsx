@@ -421,7 +421,7 @@ if (result$success) {
     <div className="space-y-6">
       {Object.entries(examples).map(([lang, code]) => (
         <div key={lang} className="space-y-2">
-          <h4 className="font-medium text-gray-900 capitalize">{lang}</h4>
+          <h2 className="font-medium text-gray-900 capitalize">{lang}</h2>
           <pre className="text-sm overflow-x-auto p-4 text-gray-800 rounded-md bg-[#f7fbff]">
             <code>{code.trim()}</code>
           </pre>

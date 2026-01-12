@@ -37,7 +37,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <main className={`${FiraSans.className}`}>
+      <main id="main-content" className={`${FiraSans.className}`}>
         <DefaultSeo {...SEO} />
         <Loader />
         <FeedbackFloatingButton />
