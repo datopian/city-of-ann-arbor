@@ -1,0 +1,28 @@
+{
+  "dependencies": {
+    "@axe-core/playwright": "^4.11.0",
+    "@playwright/test": "^1.57.0",
+    "playwright": "^1.57.0"
+  },
+  "name": "city-of-ann-arbor",
+  "version": "1.0.0",
+  "description": "<!-- START doctoc generated TOC please keep comment here to allow auto update --> <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->",
+  "main": "explore.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/datopian/city-of-ann-arbor.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/datopian/city-of-ann-arbor/issues"
+  },
+  "homepage": "https://github.com/datopian/city-of-ann-arbor#readme"
+}
