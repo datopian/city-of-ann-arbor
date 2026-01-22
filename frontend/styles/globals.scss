@@ -216,7 +216,118 @@ snap-tabs {
 }
 
 @media (min-width: 1600px) {
-.swiper-wrapper {
-  height: 680px !important;
+  .swiper-wrapper {
+    height: 680px !important;
+  }
 }
+
+/* Accessibility: Skip Navigation Link */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  z-index: 999;
+  padding: 1em;
+  background-color: white;
+  color: #0056b3;
+  text-decoration: none;
+  font-weight: 600;
 }
+
+.skip-link:focus {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 99999;
+  outline: 3px solid #0056b3;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+
+/* WCAG 1.4.10 Reflow - Prevent horizontal scroll at narrow viewports */
+@media (max-width: 320px) {
+  html,
+  body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+  
+  .overflow-auto,
+  .overflow-x-auto {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  [class*="flex"]:not(.flex-nowrap) {
+    flex-wrap: wrap !important;
+  }
+  
+  .hidden\:lg\:block {
+    display: none !important;
+  }
+  
+  .lg\:min-h-screen {
+    min-height: auto !important;
+  }
+  
+  .lg\:absolute {
+    position: static !important;
+  }
+}
+
+/* Ensure all containers can shrink properly */
+* {
+  min-width: 0;
+  min-height: 0;
+}
+
+/* Prevent fixed-width containers from causing horizontal scroll */
+img, video, canvas, svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Ensure flex items don't overflow */
+.flex {
+  min-width: 0;
+}
+
+/* WCAG 2.4.7 Focus Visible - Visible keyboard focus indicators */
+:focus-visible {
+  outline: 3px solid #0056b3;
+  outline-offset: 2px;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid #0056b3;
+  outline-offset: 2px;
+}
+
+button:focus-visible:not(:has(span)) {
+  outline: 3px solid #0056b3;
+  outline-offset: 2px;
+}
+
+a[class*="btn"]:focus-visible,
+button[class*="btn"]:focus-visible {
+  outline: 3px solid #0056b3;
+  outline-offset: 2px;
+}
+
+input[type="checkbox"]:focus-visible,
+input[type="radio"]:focus-visible {
+  outline: 3px solid #0056b3;
+  outline-offset: 2px;
+}
+
+select:focus-visible {
+  outline: 3px solid #0056b3;
+  outline-offset: 2px;
+}
+
+/* Skip link focus is already defined above with high contrast blue */

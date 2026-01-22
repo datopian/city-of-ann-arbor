@@ -21,6 +21,8 @@ const TooltipContent = React.forwardRef<
         "z-50 overflow-hidden rounded-md bg-primary px-3 py-1.5 text-xs text-primary-foreground animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 origin-[--radix-tooltip-content-transform-origin]",
         className
       )}
+      onEscapeKeyDown={() => {}}
+      onPointerDownOutside={() => {}}
       {...props}
     />
   </TooltipPrimitive.Portal>
@@ -45,8 +47,22 @@ const DefaultTooltip = ({
     <TooltipProvider delayDuration={100}>
       <Tooltip>
         <TooltipTrigger asChild>{children}</TooltipTrigger>
-        <TooltipContent className={`z-[10000] ${contentClassName}`} side={side}>
+        <TooltipContent
+          className={`z-[10000] flex items-center gap-2 ${contentClassName}`}
+          side={side}
+          onEscapeKeyDown={() => {}}
+          onPointerDownOutside={() => {}}
+        >
           <p>{content}</p>
+          <button
+            className="ml-1 rounded p-0.5 hover:bg-primary/80"
+            aria-label="Dismiss tooltip"
+            onClick={() => document.body.click()}
+          >
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 1L11 11M1 11L11 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+          </button>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
